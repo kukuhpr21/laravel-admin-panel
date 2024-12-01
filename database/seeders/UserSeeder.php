@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
                 'status_id' => 'active',
                 'name' => 'The Super Admin',
                 'email' => 'superadmin@gmail.com',
-                'password' => Hash::make('password'),
+                'password' => Hash::make('password1!'),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
@@ -30,7 +30,7 @@ class UserSeeder extends Seeder
                 'status_id' => 'active',
                 'name' => 'The Admin',
                 'email' => 'admin@gmail.com',
-                'password' => Hash::make('password'),
+                'password' => Hash::make('password1!'),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]

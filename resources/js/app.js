@@ -5,7 +5,7 @@ import 'select2/dist/css/select2.min.css';
 
 //js
 import './bootstrap';
-import 'preline'
+import 'preline';
 import Chart from 'chart.js/auto';
 import L from 'leaflet';
 import $ from 'jquery';
