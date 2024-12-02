@@ -2,39 +2,58 @@
 
 namespace App\Services\Impl;
 
+use Exception;
 use App\Models\User;
-use App\Services\AuthService;
-use App\Http\Requests\LoginRequest;
 use App\Utils\SessionUtils;
+use App\Utils\ResponseUtils;
+use App\Services\AuthService;
+use App\Services\MenuService;
 use Illuminate\Support\Facades\Hash;
+use App\DataTransferObjects\Auth\LoginPostDto;
 
 class AuthServiceImpl implements AuthService
 {
+    use ResponseUtils;
+
     private SessionUtils $sessionUtils;
+    private MenuService $menuService;
 
-    public function __construct(SessionUtils $sessionUtils) {
+    public function __construct(SessionUtils $sessionUtils, MenuService $menuService) {
         $this->sessionUtils = $sessionUtils;
+        $this->menuService = $menuService;
     }
-    public function login(LoginRequest $request)
+
+    public function login(LoginPostDto $dto)
     {
-        $data = $request->validated();
+        try {
+            // find user by email
+            $user = User::with('roles')
+                    ->where('email', $dto->email)
+                    ->first();
 
-        // find user by email
-        $user = User::with('roles')
-                ->where('email', $data['email'])
-                ->first();
+            if ($user) {
+                // checking password
+                $passwordMatch = Hash::check($dto->password, $user->password);
 
-        if ($user) {
-            // checking password
-            $passwordMatch = Hash::check($data['password'], $user->password);
+                if ($passwordMatch) {
+                    // build tree menu
+                    $menus = $this->menuService->findAllByUser((int)$user->id);
 
-            if ($passwordMatch) {
-                // build tree menu
-                // $menus = $this->menuService->allByUser($user->id);
+                    if (ResponseUtils::isSuccess($menus)) {
 
-                // $this->saveProfileToSession($user, $menus);
-                return true;
+                        $this->saveProfileToSession($user, $menus['data']);
+
+                        return ResponseUtils::success('Login success');
+                    }
+
+                    return ResponseUtils::failed('Login failed', `Not yet prepare data for email $dto->email`);
+                }
+
+                return ResponseUtils::failed('Invalid email or password');
+
             }
+        } catch(Exception $e) {
+            return ResponseUtils::internalServerError(`Failed login : $e`);
         }
     }
 

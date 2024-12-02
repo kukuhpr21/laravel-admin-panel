@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
-use App\Http\Requests\LoginRequest;
+use App\DataTransferObjects\Auth\LoginPostDto;
 
 interface AuthService
 {
-    public function login(LoginRequest $request);
+    public function login(LoginPostDto $dto);
 }

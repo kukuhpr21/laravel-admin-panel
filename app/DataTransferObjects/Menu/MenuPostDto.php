@@ -20,11 +20,11 @@ class MenuPostDto
     {
         return new self(
             name: $request->validated('name'),
-            link: $request->validated('name'),
-            linkAlias: $request->validated('name'),
-            icon: $request->validated('name'),
-            parent: $request->validated('name'),
-            order: $request->validated('name'),
+            link: $request->validated('link'),
+            linkAlias: $request->validated('link_alias'),
+            icon: $request->validated('icon'),
+            parent: $request->validated('parent'),
+            order: $request->validated('order'),
         );
     }
 }

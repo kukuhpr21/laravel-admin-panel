@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTransferObjects\Auth\LoginPostDto;
 use App\Http\Requests\LoginRequest;
 use App\Services\AuthService;
+use App\Utils\ResponseUtils;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
+    use ResponseUtils;
 
     private AuthService $authService;
 
@@ -22,6 +25,8 @@ class AuthController extends Controller
 
     public function doLogin(LoginRequest $request)
     {
-        $this->authService->login($request);
+        $response = $this->authService->login(LoginPostDto::fromRequest($request));
+        dd($response);
+        ResponseUtils::showToast($response);
     }
 }

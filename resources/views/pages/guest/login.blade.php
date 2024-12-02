@@ -1,7 +1,7 @@
 @extends('layouts.guest')
 @section('title', 'Log In')
 @section('content')
-<x-form routeName="login" class="lg:w-1/4">
+<x-form routeName="login" class="lg:w-1/4 mx-3 sm:mx-0">
     <div class="flex justify-center w-full">
         <x-logo :showDesc="false" />
     </div>

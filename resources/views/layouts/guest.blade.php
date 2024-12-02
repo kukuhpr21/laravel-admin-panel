@@ -20,8 +20,9 @@
         @vite(['resources/css/app.css', 'resources/js/guest.js'])
 
     </head>
-    <body class="font-sans antialiased">
-        <div class="flex h-screen w-screen items-center justify-center bg-slate-200 scrollbar-hide">
+    <body class="relative font-sans antialiased bg-slate-200">
+        <x-toast/>
+        <div class="flex h-screen w-screen items-center justify-center scrollbar-hide">
             @yield('content')
         </div>
         @stack('scripts')
