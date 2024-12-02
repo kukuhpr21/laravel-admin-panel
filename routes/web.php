@@ -18,7 +18,11 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
         Route::post('/', [AuthController::class, 'doLogin'])->name('login');
     });
 
-    Route::get('/choose-role', [AuthController::class, 'chooseRole'])->name('choose-role');
+    Route::prefix('choose-role')->group(function () {
+
+        Route::get('/', [AuthController::class, 'chooseRole'])->name('choose-role');
+        Route::post('/', [AuthController::class, 'doChooseRole'])->name('choose-role');
+    });
 
     Route::get('/', function() {
         return redirect()->route('dashboard');

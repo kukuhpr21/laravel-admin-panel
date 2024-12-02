@@ -26,7 +26,19 @@ class AuthController extends Controller
     public function doLogin(LoginRequest $request)
     {
         $response = $this->authService->login(LoginPostDto::fromRequest($request));
-        dd($response);
         ResponseUtils::showToast($response);
+        if (ResponseUtils::isSuccess($response)) {
+            return redirect()->route('dashboard');
+        }
+    }
+
+    public function chooseRole()
+    {
+        return view('pages.guest.choose-role');
+    }
+
+    public function doChooseRole()
+    {
+
     }
 }
