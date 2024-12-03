@@ -25,7 +25,11 @@ class EnsureSessionIsValid
                 return redirect()->route("dashboard");
             }
 
-            if (!empty($sessionUtils->get('temp_role'))) {
+            $tempRoleIsNotEmpty = !empty($sessionUtils->get('temp_role'));
+
+            $isMultiRole = count(json_decode($sessionUtils->get('temp_role'))) > 1;
+
+            if ($tempRoleIsNotEmpty && $isMultiRole) {
 
                 if ($request->path() != 'choose-role') {
 
