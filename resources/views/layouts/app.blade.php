@@ -20,7 +20,8 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     </head>
-    <body class="font-sans antialiased">
+    <body class="relative font-sans antialiased">
+        <x-toast/>
         <div class="flex h-screen w-screen items-center justify-center bg-slate-200 scrollbar-hide">
             {{ $slot }}
         </div>
