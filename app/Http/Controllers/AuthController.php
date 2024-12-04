@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTransferObjects\Auth\LoginPostDto;
-use App\Http\Requests\LoginRequest;
-use App\Services\AuthService;
+use App\Utils\ArrayUtils;
+use App\Utils\SessionUtils;
 use App\Utils\ResponseUtils;
-use Illuminate\Http\Request;
+use App\Services\AuthService;
+use App\Http\Requests\LoginRequest;
+use App\DataTransferObjects\Auth\LoginPostDto;
 
 class AuthController extends Controller
 {
     use ResponseUtils;
+    use ArrayUtils;
 
     private AuthService $authService;
 
@@ -34,7 +36,7 @@ class AuthController extends Controller
 
     public function chooseRole()
     {
-
+        $sessionUtils = new SessionUtils();
         return view('pages.guest.choose-role');
     }
 
