@@ -6,10 +6,26 @@ trait ArrayUtils
 {
     public static function mapping($source, $maps)
     {
-        $keys = array_keys($maps);
+        $result = [];
 
-        foreach ($source as $item) {
-            # code...
+        foreach ($source as $keySource => $valueSource) {
+
+            $items = [];
+
+            foreach ($maps as $keyMap => $valueMap) {
+
+                if ($keySource == $keyMap) {
+
+                    array_push($items, [$valueMap => $valueSource]);
+
+                }
+            }
+
+            array_push($result, $items);
+
         }
+
+        return $result;
+
     }
 }

@@ -34,6 +34,7 @@ class AuthController extends Controller
 
     public function chooseRole()
     {
+
         return view('pages.guest.choose-role');
     }
 
