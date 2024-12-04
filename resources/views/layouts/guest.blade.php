@@ -17,7 +17,7 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
         <!-- Styles / Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/guest.js'])
+        @vite(['resources/css/guest.css', 'resources/js/guest.js'])
 
     </head>
     <body class="relative font-sans antialiased bg-slate-200">
