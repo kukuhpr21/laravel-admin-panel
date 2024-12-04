@@ -23,7 +23,14 @@
     <body class="relative font-sans antialiased">
         <x-toast/>
         <div class="flex h-screen w-screen items-center justify-center bg-slate-200 scrollbar-hide">
-            {{ $slot }}
+            <x-sidebar />
+            <div class="flex flex-col w-full lg:pl-[270px] transition-all">
+                <x-navbar />
+
+                <div class="py-4 m-2 rounded-lg h-screen overflow-auto scrollbar-hide">
+                    {{ $slot }}
+                </div>
+            </div>
         </div>
         @stack('scripts')
     </body>
