@@ -8,6 +8,7 @@ use App\Utils\ResponseUtils;
 use App\Services\AuthService;
 use App\Http\Requests\LoginRequest;
 use App\DataTransferObjects\Auth\LoginPostDto;
+use App\Http\Requests\ChooseRolePostRequest;
 
 class AuthController extends Controller
 {
@@ -43,9 +44,23 @@ class AuthController extends Controller
         return view('pages.guest.choose-role', compact('roles'));
     }
 
-    public function doChooseRole()
+    public function doChooseRole(ChooseRolePostRequest $request)
     {
+        if ($request->validated()) {
+            $sessionUtils = new SessionUtils();
+            $tempRole = $sessionUtils->get('temp_role');
 
+            $tempRoleDecode = json_decode($tempRole, true);
+
+            foreach ($tempRoleDecode as $item) {
+                if ($item['id'] == $request['role']) {
+                    $sessionUtils->save('role', json_encode($item));
+                    $sessionUtils->delete('temp_role');
+                    break;
+                }
+            }
+            return redirect()->route('dashboard');
+        }
     }
 
     private function parsingTempRole($tempRole)
