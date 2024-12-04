@@ -4,28 +4,17 @@ namespace App\Utils;
 
 trait ArrayUtils
 {
-    public static function mapping($source, $maps)
+    public static function transform($items, $maps)
     {
-        $result = [];
-
-        foreach ($source as $keySource => $valueSource) {
-
-            $items = [];
-
-            foreach ($maps as $keyMap => $valueMap) {
-
-                if ($keySource == $keyMap) {
-
-                    array_push($items, [$valueMap => $valueSource]);
-
+        return array_map(function ($item) use ($maps) {
+            $transformed = [];
+            foreach ($maps as $key => $newKey) {
+                if (isset($item[$key])) {
+                    $transformed[$newKey] = $item[$key];
                 }
             }
-
-            array_push($result, $items);
-
-        }
-
-        return $result;
+            return $transformed;
+        }, $items);
 
     }
 }
