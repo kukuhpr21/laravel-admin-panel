@@ -1,0 +1,47 @@
+
+/* Override the Select2 container style */
+.select2-container .select2-selection--single {
+    @apply bg-gray-50 border border-gray-300 rounded-2xl shadow-sm text-gray-900 w-full focus:outline-none focus:ring-0 hover:drop-shadow-xl focus:drop-shadow-xl;
+    height: 3rem; /* Match Tailwind's default height */
+    padding-left: 0.75rem;
+}
+
+/* Customize dropdown options */
+.select2-container .select2-results__option {
+    @apply bg-white text-gray-800 hover:bg-blue-100 cursor-pointer px-4 py-2;
+}
+
+/* Highlighted option */
+.select2-container .select2-results__option--highlighted {
+    @apply bg-blue-500 text-white;
+}
+
+/* Dropdown */
+.select2-container .select2-dropdown {
+    @apply bg-white border border-gray-300 rounded-2xl shadow-lg mt-1;
+}
+
+/* Clear button */
+.select2-container .select2-selection__clear {
+    @apply text-gray-500 hover:text-red-500;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow  {
+    @apply pt-[3rem] pl-[3rem];
+}
+
+.select2-container--default .select2-search--dropdown {
+    @apply p-3 rounded-lg;
+}
+
+.select2-container--default .select2-search--dropdown .select2-search__field  {
+    @apply border-0 outline-none bg-slate-200 rounded-md py-3;
+}
+
+.select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
+    @apply bg-slate-400 text-slate-800;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    @apply pt-2;
+}
