@@ -37,11 +37,28 @@ class AuthController extends Controller
     public function chooseRole()
     {
         $sessionUtils = new SessionUtils();
-        return view('pages.guest.choose-role');
+        $maps         = ['id' => 'value', 'name' => 'text'];
+        $tempRole     = $this->parsingTempRole(json_decode($sessionUtils->get('temp_role')));
+        $roles        = ArrayUtils::transform($tempRole, $maps);
+        return view('pages.guest.choose-role', compact('roles'));
     }
 
     public function doChooseRole()
     {
 
+    }
+
+    private function parsingTempRole($tempRole)
+    {
+        $result = [];
+
+        foreach ($tempRole as $key => $value) {
+            array_push($result, [
+                'id' => $value->id,
+                'name' => $value->name,
+            ]);
+        }
+
+        return $result;
     }
 }
