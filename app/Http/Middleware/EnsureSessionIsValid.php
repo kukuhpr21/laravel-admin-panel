@@ -25,16 +25,23 @@ class EnsureSessionIsValid
                 return redirect()->route("dashboard");
             }
 
-            $tempRoleIsNotEmpty = !empty($sessionUtils->get('temp_role'));
+            $tempRole = $sessionUtils->get('temp_role');
 
-            $isMultiRole = count(json_decode($sessionUtils->get('temp_role'))) > 1;
+            $tempRoleIsNotEmpty = !empty($tempRole);
 
-            if ($tempRoleIsNotEmpty && $isMultiRole) {
+            if ($tempRoleIsNotEmpty) {
 
-                if ($request->path() != 'choose-role') {
+                $isMultiRole = count(json_decode($tempRole, true)) > 1;
 
-                    return redirect()->route('choose-role');
+                if ($isMultiRole) {
+
+                    if ($request->path() != 'choose-role') {
+
+                        return redirect()->route('choose-role');
+                    }
                 }
+
+                return $next($request);
             }
 
             return $next($request);
