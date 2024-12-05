@@ -26,13 +26,6 @@ class Navbar extends Component
         $this->sessionUtils = new SessionUtils();
         $name =  $this->sessionUtils->get('name');
         $role =  json_decode($this->sessionUtils->get('role'), true)['name'];
-
-        $data = [
-            $name,
-            $role
-        ];
-
-        dd($data);
-        return view('components.navbar');
+        return view('components.navbar', compact('name', 'role'));
     }
 }

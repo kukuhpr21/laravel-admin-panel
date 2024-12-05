@@ -20,15 +20,15 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     </head>
-    <body class="relative font-sans antialiased">
+    <body class="relative h-screen w-screen bg-slate-200 font-sans antialiased scrollbar-hide">
         <x-toast/>
-        <div class="flex h-screen w-screen items-center justify-center bg-slate-200 scrollbar-hide">
+        <div class="flex items-center justify-center">
             <x-sidebar />
-            <div class="flex flex-col w-full lg:pl-[270px] transition-all">
+            <div class="flex flex-col w-full lg:pl-[270px] transition-all scrollbar-hide">
                 <x-navbar />
 
                 <div class="py-4 m-2 rounded-lg h-screen overflow-auto scrollbar-hide">
-                    {{ $slot }}
+                    @yield('content')
                 </div>
             </div>
         </div>
