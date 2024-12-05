@@ -1,5 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Dashboard')
 @section('content')
-dashboard
+<x-page title="Dashboard">
+
+</x-page>
 @endsection
