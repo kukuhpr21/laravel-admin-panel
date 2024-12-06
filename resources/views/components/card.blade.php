@@ -3,7 +3,7 @@
     'type' => 'default', //default|custom
     'title' => 'Title',
     'body' => 'Body',
-    'description' => 'Description'
+    'description' => ''
 ])
 @php
     $baseClasses = "flex flex-col gap-3 py-7 px-5 rounded-lg hover:drop-shadow-xl";
