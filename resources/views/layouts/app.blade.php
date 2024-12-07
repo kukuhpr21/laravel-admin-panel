@@ -18,7 +18,7 @@
 
         <!-- Styles / Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-
+        @stack('head')
     </head>
     <body class="relative h-screen w-screen bg-slate-200 font-sans antialiased scrollbar-hide">
         <x-toast/>

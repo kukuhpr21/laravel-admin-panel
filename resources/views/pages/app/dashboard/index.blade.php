@@ -2,6 +2,9 @@
 @section('title', 'Dashboard')
 @section('content')
 <x-page title="Dashboard">
-    <x-card color="teal" title="Total Pemasukan" body="100" description=""/>
+    <div class="flex flex-col gap-4">
+        @include('pages.app.dashboard.section1')
+        @include('pages.app.dashboard.section2')
+    </div>
 </x-page>
 @endsection
