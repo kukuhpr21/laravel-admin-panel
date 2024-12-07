@@ -1,4 +1,5 @@
 import { generateChart} from '../../utils/chart';
+import { generateMap } from '../../utils/leaflet';
 
 const chartData = {
     labels: ['January', 'February', 'March', 'April', 'May'],
@@ -12,4 +13,23 @@ const chartData = {
         },
     ],
 };
+
 generateChart('myChart', 'bar', chartData);
+
+const mapConfig = {
+    center: [51.505, -0.09], // Latitude and Longitude
+    zoom: 13, // Zoom level
+};
+
+const mapMarkers = [
+    {
+        coords: [51.505, -0.09],
+        popup: "I am a marker at the center!",
+    },
+    {
+        coords: [51.515, -0.1],
+        popup: "I am another marker!",
+    },
+];
+
+generateMap('map', mapConfig, mapMarkers);

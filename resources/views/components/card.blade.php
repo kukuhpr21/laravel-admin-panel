@@ -6,7 +6,7 @@
     'description' => ''
 ])
 @php
-    $baseClasses = "flex flex-col gap-3 py-7 px-5 rounded-lg hover:drop-shadow-xl";
+    $baseClasses = "flex flex-col gap-3 py-7 px-5  rounded-lg hover:drop-shadow-xl";
     $colorClasses = "bg-$color-100";
 @endphp
 <div {{ $attributes->merge(['class' => "{$baseClasses} {$colorClasses}"])}}>
