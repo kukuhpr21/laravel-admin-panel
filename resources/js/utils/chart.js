@@ -1,7 +1,7 @@
 import Chart from 'chart.js/auto';
 
 
-// example data
+// example usage
 // const chartData = {
 //     labels: ['January', 'February', 'March', 'April', 'May'],
 //     datasets: [
@@ -14,6 +14,7 @@ import Chart from 'chart.js/auto';
 //         },
 //     ],
 // };
+// generateChart('myChart', 'bar', chartData);
 
 
 export const generateChart = (canvasID, type, data) => {
