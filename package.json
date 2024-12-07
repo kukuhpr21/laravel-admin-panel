@@ -16,7 +16,6 @@
     },
     "dependencies": {
         "chart.js": "^4.4.6",
-        "datatables.net-dt": "^2.1.8",
         "jquery": "^3.7.1",
         "leaflet": "^1.9.4",
         "preline": "^2.5.1",
