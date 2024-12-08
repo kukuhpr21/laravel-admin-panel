@@ -2,7 +2,7 @@
 @section('title', 'Daftar Role')
 @section('content')
 <x-page title="Daftar Role">
-    <x-card color="slate" title="" type="custom">
+    <x-card color="gray" title="" type="custom">
         {{ $dataTable->table() }}
     </x-card>
 </x-page>

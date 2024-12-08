@@ -23,7 +23,12 @@ class RolesDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'roles.action')
+            // ->addColumn('action', 'roles.action')
+            ->addColumn('action', function($row) {
+                return '<a href="'.route('roles-edit', ['id' => $row->id]).'" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent hover:bg-slate-200 hover:rounded-lg p-3 focus:outline-none disabled:opacity-50 disabled:pointer-events-none text-green-600 hover:text-green-800 focus:text-green-800">Edit</a>';
+            })
+            // ->rawColumns(columns: ['action'])
+            // ->make(true)
             ->setRowId('id');
     }
 
@@ -64,11 +69,8 @@ class RolesDataTable extends DataTable
     {
         return [
             Column::make('name'),
-            // Column::computed('action')
-            //       ->exportable(true)
-            //       ->printable(true)
-            //       ->width(60)
-            //       ->addClass('text-center'),
+            Column::computed('action')
+                  ->addClass('text-center'),
         ];
     }
 
