@@ -54,6 +54,28 @@ var DataTable = $.fn.dataTable;
 
 // Set the defaults for DataTables initialisation
 $.extend( true, DataTable.defaults, {
+        buttons: [
+            {
+                extend: 'csv',
+                text: 'Export CSV',
+                className: 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded',
+            },
+            {
+                extend: 'excel',
+                text: 'Export Excel',
+                className: 'bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded',
+            },
+            {
+                extend: 'print',
+                text: 'Print',
+                className: 'bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded',
+            },
+            {
+                extend: 'add',
+                text: 'New',
+                className: 'bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded',
+            },
+        ],
 	renderer: 'tailwindcss'
 } );
 
