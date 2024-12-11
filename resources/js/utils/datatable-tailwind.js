@@ -82,7 +82,7 @@ $.extend( true, DataTable.defaults, {
 
 // Default class modification
 $.extend( true, DataTable.ext.classes, {
-	container: "dt-container dt-tailwindcss",
+	container: "dt-container dt-tailwindcss overflow-x-auto",
 	search: {
 		input: "border placeholder-gray-500 ml-2 px-3 py-2 rounded-lg border-gray-200 focus:border-slate-500 focus:ring focus:ring-gray-500 focus:ring-opacity-50 focus:outline-none"
 	},
@@ -101,7 +101,7 @@ $.extend( true, DataTable.ext.classes, {
 		enabled: 'text-gray-800 hover:text-gray-900 hover:border-gray-300 hover:shadow-sm focus:ring focus:ring-gray-300 focus:ring-opacity-25',
 		notEnabled: 'text-gray-300'
 	},
-	table: 'dataTable min-w-full text-sm align-middle whitespace-nowrap bg-white rounded-2xl border-2 border-slate-200',
+	table: 'dataTable min-w-screen text-sm align-middle whitespace-nowrap bg-white rounded-2xl border-2 border-slate-200',
 	thead: {
 		row: 'border-b border-gray-100 rounded-md',
 		cell: 'px-3 py-4 text-gray-900 bg-gray-100/75 font-semibold text-left'
@@ -145,10 +145,21 @@ DataTable.ext.renderer.pagingContainer.tailwindcss = function (settings, buttonE
 };
 
 DataTable.ext.renderer.layout.tailwindcss = function ( settings, container, items ) {
-	var row = $( '<div/>', {
-			"class": items.full ?
-				'grid grid-cols-1 gap-4 mb-4' :
-				'grid grid-cols-2 gap-4 mb-4'
+    // unused temporary
+	// var row = $( '<div/>', {
+	// 		"class": items.full ?
+	// 			'grid grid-cols-1 gap-4 mb-4' :
+	// 			'grid grid-cols-2 gap-4 mb-4'
+	// 	} )
+	// 	.appendTo( container );
+
+    // var row = $( '<div/>', {
+    //     "class": 'flex flex-col sm:flex-row justify-center sm:justify-between py-3 gap-4'
+    // } )
+    // .appendTo( container );
+
+    var row = $( '<div/>', {
+			"class": 'flex w-full flex-col lg:flex-row lg:justify-between items-center py-3 gap-4'
 		} )
 		.appendTo( container );
 
@@ -157,7 +168,7 @@ DataTable.ext.renderer.layout.tailwindcss = function ( settings, container, item
 
 		// Apply start / end (left / right when ltr) margins
 		if (val.table) {
-			klass = 'col-span-2';
+			klass = 'col-span-2 w-full';
 		}
 		else if (key === 'start') {
 			klass = 'justify-self-start';
