@@ -11,4 +11,9 @@ class RoleController extends Controller
     {
         return $dataTable->render('pages.app.roles.list');
     }
+
+    public function create()
+    {
+        return view('pages.app.roles.create');
+    }
 }

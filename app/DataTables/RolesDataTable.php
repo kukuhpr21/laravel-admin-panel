@@ -23,12 +23,16 @@ class RolesDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            // ->addColumn('action', 'roles.action')
             ->addColumn('action', function($row) {
-                return '<a href="'.route('roles-edit', ['id' => $row->id]).'" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent hover:bg-slate-200 hover:rounded-lg p-3 focus:outline-none disabled:opacity-50 disabled:pointer-events-none text-green-600 hover:text-green-800 focus:text-green-800">Edit</a>';
+                $linkEdit = route('roles-edit', ['id' => $row->id]);
+                $linkDelete = route('roles-delete', ['id' => $row->id]);
+                return '
+                    <div class="flex flex-row gap-2">
+                        <a href="'.$linkEdit.'" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent hover:bg-slate-200 hover:rounded-lg p-3 focus:outline-none disabled:opacity-50 disabled:pointer-events-none text-green-600 hover:text-green-800 focus:text-green-800">Edit</a>
+                        <button type="button" onclick="dialogConfirm('.$linkDelete.')" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent hover:bg-slate-200 hover:rounded-lg p-3 focus:outline-none disabled:opacity-50 disabled:pointer-events-none text-red-600 hover:text-red-800 focus:text-red-800">Delete</button>
+                    </div>
+                ';
             })
-            // ->rawColumns(columns: ['action'])
-            // ->make(true)
             ->setRowId('id');
     }
 
@@ -50,16 +54,7 @@ class RolesDataTable extends DataTable
         ->columns($this->getColumns())
         ->minifiedAjax()
         ->orderBy(1)
-        ->selectStyleSingle()
-        ->buttons([
-            Button::make('add'),
-            Button::make('excel'),
-            Button::make('csv'),
-            Button::make('pdf'),
-            Button::make('print'),
-            Button::make('reset'),
-            Button::make('reload'),
-        ]);
+        ->selectStyleSingle();
     }
 
     /**
@@ -70,7 +65,6 @@ class RolesDataTable extends DataTable
         return [
             Column::make('name'),
             Column::computed('action')
-                  ->addClass('text-center'),
         ];
     }
 
