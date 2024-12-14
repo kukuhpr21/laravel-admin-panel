@@ -29,10 +29,17 @@
                 </a>
             </div>
             <div class="p-1 space-y-0.5">
-                <button type="button" class="flex w-full items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
+                <button type="button" onclick="logout('{{ route('logout') }}')" class="flex w-full items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
                     Log Out
                 </button>
             </div>
         </div>
     </div>
 </nav>
+@push('scripts')
+<script>
+    const logout = (link) => {
+        modal.showModalConfirm('Log Out', 'Anda ingin kekuar aplikasi ?', 'Log Out', link)
+    }
+</script>
+@endpush

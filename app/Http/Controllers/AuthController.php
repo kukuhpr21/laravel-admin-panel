@@ -76,4 +76,10 @@ class AuthController extends Controller
 
         return $result;
     }
+
+    public function doLogout()
+    {
+        session()->flush();
+        return redirect()->route('login');
+    }
 }
