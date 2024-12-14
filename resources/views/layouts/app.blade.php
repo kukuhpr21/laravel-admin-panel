@@ -21,7 +21,7 @@
         @stack('head')
     </head>
     <body class="relative h-screen w-screen bg-slate-200 font-sans antialiased scrollbar-hide">
-        <x-toast/>
+        <x-toast position="br"/>
         <div class="flex items-center justify-center">
             <x-sidebar />
             <div class="flex flex-col w-full lg:pl-[270px] transition-all scrollbar-hide">
