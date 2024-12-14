@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Utils\ResponseUtils;
-use Illuminate\Http\Request;
 use App\Services\RoleService;
 use App\DataTables\RolesDataTable;
 use App\Http\Requests\StoreRoleRequest;
