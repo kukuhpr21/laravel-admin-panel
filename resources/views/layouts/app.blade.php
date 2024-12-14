@@ -32,6 +32,7 @@
                 </div>
             </div>
         </div>
+        <x-modal/>
         @stack('scripts')
     </body>
 </html>
