@@ -1,3 +1,4 @@
+@props(['position' => 'tr'])
 @php
     $theme = match(session('toast.status')) {
         'success' => 'border border-teal-300 bg-teal-100',
@@ -27,19 +28,30 @@
         default   => 'text-blue-800',
     };
 
-    $baseClasses = "absolute top-2 right-2 hs-removing:translate-x-5 hs-removing:opacity-0 transition duration-300 max-w-xs rounded-xl shadow-lg";
+    $toastPosition = match ($position) {
+        'tl' => 'absolute top-4 left-4',
+        'br' => 'absolute bottom-4 right-4',
+        'bl' => 'absolute bottom-4 left-4',
+        default => 'absolute top-4 right-4',
+    };
+
+    $baseClasses = "z-10 hs-removing:translate-x-5 hs-removing:opacity-0 transition duration-300 max-w-xs rounded-xl shadow-lg";
 @endphp
 @if (session()->has('toast'))
-    <div id="dismiss-toast" {{ $attributes->merge(['class' => "{$baseClasses} {$theme}"])}} role="alert" tabindex="-1" aria-labelledby="hs-toast-dismiss-button-label">
+    <div id="dismiss-toast" {{ $attributes->merge(['class' => "{$toastPosition} {$baseClasses} {$theme}"])}} role="alert" tabindex="-1" aria-labelledby="hs-toast-dismiss-button-label">
         <div class="flex p-4 gap-2">
 
-            <span {{ $attributes->merge(['class' => "inline-flex justify-center items-center size-[46px] rounded-full text-white {$bgIcon}"])}}>
-                {!! $icon !!}
-            </span>
+            <div class="flex items-center gap-2 pt-3">
 
-            <p id="hs-toast-dismiss-button-label"  {{ $attributes->merge(['class' => "text-sm {$text}"])}}>
-                {{ session('toast.message') }}
-            </p>
+                <span {{ $attributes->merge(['class' => "inline-flex justify-center items-center size-[46px] rounded-full text-white {$bgIcon}"])}}>
+                    {!! $icon !!}
+                </span>
+
+                <p id="hs-toast-dismiss-button-label"  {{ $attributes->merge(['class' => "text-sm {$text}"])}}>
+                    {{ session('toast.message') }}
+                </p>
+
+            </div>
 
             <div class="ms-auto">
                 <button type="button" class="inline-flex shrink-0 justify-center items-center size-5 rounded-lg text-gray-800 opacity-50 hover:opacity-100 focus:outline-none focus:opacity-100" aria-label="Close" data-hs-remove-element="#dismiss-toast">
