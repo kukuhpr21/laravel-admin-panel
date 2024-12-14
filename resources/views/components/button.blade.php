@@ -9,7 +9,12 @@
 @php
 $baseClasses = 'hover:shadow-xl my-3';
 
-$colorClasses = "bg-$color-500 text-white hover:bg-$color-600";
+$colorClasses = match ($color) {
+    'gray' => "bg-gray-500 text-white hover:bg-gray-600",
+    'red' => "bg-red-500 text-white hover:bg-red-600",
+    'yellow' => "bg-yellow-500 text-white hover:bg-yellow-600",
+    default => "bg-blue-500 text-white hover:bg-blue-600",
+};
 
 $sizeClasses = match ($size) {
     'sm' => 'px-3 py-2 text-sm font-normal rounded-md',
