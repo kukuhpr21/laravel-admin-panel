@@ -23,6 +23,7 @@ class RolesDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+            ->addIndexColumn()
             ->addColumn('action', function($row) {
                 $linkEdit = route('roles-edit', ['id' => $row->id]);
                 $linkDelete = route('roles-delete', ['id' => $row->id]);
@@ -63,6 +64,7 @@ class RolesDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+            Column::computed('DT_RowIndex', '#'),
             Column::make('name'),
             Column::computed('action')
         ];
