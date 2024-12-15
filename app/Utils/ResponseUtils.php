@@ -28,6 +28,17 @@ trait ResponseUtils
         );
     }
 
+    public static function warning(string $message, array|string $data = [])
+    {
+        Log::info($data);
+
+        return self::composeResponse(
+            status: 'warning',
+            message: $message,
+            data: $data,
+        );
+    }
+
     public static function failed(string $message, array|string $data = [])
     {
         Log::info($data);
@@ -55,6 +66,11 @@ trait ResponseUtils
         return $response['status'] == 'success';
     }
 
+    public static function isWarning(array $response): bool
+    {
+        return $response['status'] == 'warning';
+    }
+
     public static function isFailed(array $response): bool
     {
         return $response['status'] == 'failed';
@@ -72,8 +88,11 @@ trait ResponseUtils
             case 'success':
                 ToastUtils::successToast($response['message']);
                 break;
-            case 'failed':
+            case 'warning':
                 ToastUtils::warningToast($response['message']);
+                break;
+            case 'failed':
+                ToastUtils::errorToast($response['message']);
                 break;
             default:
                 ToastUtils::errorToast($response['message']);
