@@ -15,10 +15,10 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
     Route::prefix('login')->group(function () {
 
         Route::get('/', [AuthController::class, 'login'])->name('login');
-        Route::post('/', [AuthController::class, 'doLogout'])->name('logout');
+        Route::post('/', [AuthController::class, 'doLogin'])->name('logout');
     });
 
-    Route::get('/logout', [AuthController::class, 'login'])->name('login');
+    Route::get('/logout', [AuthController::class, 'doLogout'])->name('login');
 
     Route::prefix('choose-role')->group(function () {
 
