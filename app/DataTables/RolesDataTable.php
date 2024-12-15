@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\Role;
+use App\Utils\CryptUtils;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -25,8 +26,9 @@ class RolesDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addIndexColumn()
             ->addColumn('action', function($row) {
-                $linkEdit = route('roles-edit', ['id' => $row->id]);
-                $linkDelete = route('roles-delete', ['id' => $row->id]);
+                $id         = CryptUtils::enc($row->id);
+                $linkEdit   = route('roles-edit', ['id' => $id]);
+                $linkDelete = route('roles-delete', ['id' => $id]);
                 return '
                     <div class="flex flex-row gap-2">
                         <a href="'.$linkEdit.'" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent hover:bg-slate-200 hover:rounded-lg p-3 focus:outline-none disabled:opacity-50 disabled:pointer-events-none text-green-600 hover:text-green-800 focus:text-green-800">Edit</a>
