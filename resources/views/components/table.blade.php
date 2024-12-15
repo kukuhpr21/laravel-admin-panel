@@ -9,7 +9,7 @@
 <x-card color="gray" title="" type="custom">
     @if ($showButtonAdd)
         <div class="flex w-full justify-start p-2">
-            <x-button color="gray" size="md" :buttonLink="true" :link="$routeButtonAdd">{{ $buttonAddText }}</x-button>
+            <x-button color="gray" size="md" :buttonLink="true" :link="route($routeButtonAdd)">{{ $buttonAddText }}</x-button>
         </div>
     @endif
 
