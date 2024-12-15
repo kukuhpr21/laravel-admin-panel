@@ -58,4 +58,12 @@ class RoleController extends Controller
         }
         return redirect()->back();
     }
+
+    public function delete($id)
+    {
+        $id       = CryptUtils::dec($id);
+        $response = $this->roleService->delete($id);
+        ResponseUtils::showToast($response);
+        return redirect()->route('roles');
+    }
 }

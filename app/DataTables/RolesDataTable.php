@@ -26,13 +26,14 @@ class RolesDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addIndexColumn()
             ->addColumn('action', function($row) {
-                $id         = CryptUtils::enc($row->id);
-                $linkEdit   = route('roles-edit', ['id' => $id]);
-                $linkDelete = route('roles-delete', ['id' => $id]);
+                $id           = CryptUtils::enc($row->id);
+                $linkEdit     = route('roles-edit', ['id' => $id]);
+                $linkDelete   = route('roles-delete', ['id' => $id]);
+                $actionDelete = "modal.showModalConfirm('Delete Role', 'Role $row->name akan dihapus ?', 'Delete', '$linkDelete')";
                 return '
                     <div class="flex flex-row gap-2">
                         <a href="'.$linkEdit.'" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent hover:bg-slate-200 hover:rounded-lg p-3 focus:outline-none disabled:opacity-50 disabled:pointer-events-none text-green-600 hover:text-green-800 focus:text-green-800">Edit</a>
-                        <button type="button" onclick="dialogConfirm('.$linkDelete.')" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent hover:bg-slate-200 hover:rounded-lg p-3 focus:outline-none disabled:opacity-50 disabled:pointer-events-none text-red-600 hover:text-red-800 focus:text-red-800">Delete</button>
+                        <button type="button" onclick="'.$actionDelete.'" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent hover:bg-slate-200 hover:rounded-lg p-3 focus:outline-none disabled:opacity-50 disabled:pointer-events-none text-red-600 hover:text-red-800 focus:text-red-800">Delete</button>
                     </div>
                 ';
             })

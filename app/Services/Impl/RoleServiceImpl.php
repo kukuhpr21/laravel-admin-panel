@@ -90,6 +90,23 @@ class RoleServiceImpl implements RoleService
         }
     }
 
+    public function delete(string $id)
+    {
+        try {
+            if ($this->roleIsNotUsed($id)) {
+                $result = Role::where('id', $id)->delete();
+
+                if ($result) {
+                    return ResponseUtils::success( 'Success deleting role', $result);
+                }
+                return ResponseUtils::failed( 'Failed deleting role');
+            }
+            return ResponseUtils::warning('Role has been used');
+
+        } catch(Exception $e) {
+            return ResponseUtils::internalServerError(`Failed delete role : $e`);
+        }
+    }
     private static function getID(string $name): string
     {
         return  strtolower(str_replace(" ", "_", $name));
