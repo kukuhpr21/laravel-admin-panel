@@ -33,6 +33,7 @@ class AuthController extends Controller
         if (ResponseUtils::isSuccess($response)) {
             return redirect()->route('dashboard');
         }
+        return redirect()->back();
     }
 
     public function chooseRole()
