@@ -29,5 +29,5 @@ $widthClasses = $full ? 'w-full' : 'w-fit';
 @if (!$buttonLink)
     <button type="{{ $type }}" {{ $attributes->merge(['class' => "{$baseClasses} {$colorClasses} {$sizeClasses} {$widthClasses}"]) }}>{{ $slot }}</button>
 @else
-    <a href="{{ route($link) }}" {{ $attributes->merge(['class' => "{$baseClasses} {$colorClasses} {$sizeClasses} {$widthClasses}"]) }}>{{ $slot }}</a>
+    <a href="{{ $link }}" {{ $attributes->merge(['class' => "{$baseClasses} {$colorClasses} {$sizeClasses} {$widthClasses}"]) }}>{{ $slot }}</a>
 @endif
