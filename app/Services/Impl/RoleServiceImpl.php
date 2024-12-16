@@ -32,7 +32,8 @@ class RoleServiceImpl implements RoleService
             return ResponseUtils::failed('Failed create role');
 
         } catch (Exception $e) {
-            return ResponseUtils::internalServerError(`Failed create role : $e`);
+            $errorMessage = $e->getMessage();
+            return ResponseUtils::internalServerError(`Failed create role : $errorMessage`);
         }
 
     }
@@ -49,7 +50,8 @@ class RoleServiceImpl implements RoleService
             }
 
         } catch(Exception $e) {
-            return ResponseUtils::internalServerError(`Failed find one role : $e`);
+            $errorMessage = $e->getMessage();
+            return ResponseUtils::internalServerError(`Failed find one role : $errorMessage`);
         }
     }
 
@@ -86,7 +88,8 @@ class RoleServiceImpl implements RoleService
 
             return ResponseUtils::warning('No data change');
         } catch(Exception $e) {
-            return ResponseUtils::internalServerError(`Failed update role : $e`);
+            $errorMessage = $e->getMessage();
+            return ResponseUtils::internalServerError(`Failed update role : $errorMessage`);
         }
     }
 
@@ -104,7 +107,8 @@ class RoleServiceImpl implements RoleService
             return ResponseUtils::warning('Role has been used');
 
         } catch(Exception $e) {
-            return ResponseUtils::internalServerError(`Failed delete role : $e`);
+            $errorMessage = $e->getMessage();
+            return ResponseUtils::internalServerError(`Failed delete role : $errorMessage`);
         }
     }
     private static function getID(string $name): string

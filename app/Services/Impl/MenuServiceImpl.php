@@ -40,7 +40,8 @@ class MenuServiceImpl implements MenuService
             }
 
         } catch (Exception $e) {
-            return ResponseUtils::internalServerError(`Failed create menu : $e`);
+            $errorMessage = $e->getMessage();
+            return ResponseUtils::internalServerError(`Failed create menu : $errorMessage`);
         }
     }
 
@@ -56,7 +57,8 @@ class MenuServiceImpl implements MenuService
             }
 
         } catch(Exception $e) {
-            return ResponseUtils::internalServerError(`Failed find one menu : $e`);
+            $errorMessage = $e->getMessage();
+            return ResponseUtils::internalServerError(`Failed find one menu : $errorMessage`);
         }
     }
 
@@ -76,7 +78,8 @@ class MenuServiceImpl implements MenuService
             return ResponseUtils::success('Menu is exist', $menus);
 
         } catch(Exception $e) {
-            return ResponseUtils::internalServerError(`Failed find all menu : $e`);
+            $errorMessage = $e->getMessage();
+            return ResponseUtils::internalServerError(`Failed find all menu : $errorMessage`);
         }
     }
 
@@ -96,7 +99,8 @@ class MenuServiceImpl implements MenuService
             return ResponseUtils::success('Menu is exist', $menus);
 
         } catch(Exception $e) {
-            return ResponseUtils::internalServerError(`Failed find all menu by user : $e`);
+            $errorMessage = $e->getMessage();
+            return ResponseUtils::internalServerError(`Failed find all menu by user : $errorMessage`);
         }
     }
 
@@ -116,7 +120,8 @@ class MenuServiceImpl implements MenuService
             return ResponseUtils::success('Menu is exist', $menus);
 
         } catch(Exception $e) {
-            return ResponseUtils::internalServerError(`Failed find all menu parent : $e`);
+            $errorMessage = $e->getMessage();
+            return ResponseUtils::internalServerError(`Failed find all menu parent : $errorMessage`);
         }
     }
 
@@ -137,7 +142,8 @@ class MenuServiceImpl implements MenuService
             return ResponseUtils::failed('Failed delete menu, menu is used', ['id' => $id]);
 
         } catch(Exception $e) {
-            return ResponseUtils::internalServerError(`Failed delete menu : $e`);
+            $errorMessage = $e->getMessage();
+            return ResponseUtils::internalServerError(`Failed delete menu : $errorMessage`);
         }
     }
 
@@ -160,7 +166,8 @@ class MenuServiceImpl implements MenuService
             return ResponseUtils::success('Success update menu', $menu);
 
         } catch(Exception $e) {
-            return ResponseUtils::internalServerError(`Failed update menu : $e`);
+            $errorMessage = $e->getMessage();
+            return ResponseUtils::internalServerError(`Failed update menu : $errorMessage`);
         }
     }
 
