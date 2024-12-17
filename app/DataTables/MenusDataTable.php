@@ -22,10 +22,6 @@ class MenusDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
         ->addIndexColumn()
-        ->addColumn('icon', function($row) {
-            $icon = $row->icon;
-            return $icon == '#' ? '#' : '<i class="'.$icon.'"></i>';
-        })
         ->addColumn('action', function($row) {
             $id           = CryptUtils::enc($row->id);
             $linkEdit     = route('menus-edit', ['id' => $id]);
@@ -73,7 +69,7 @@ class MenusDataTable extends DataTable
             Column::make('name'),
             Column::make('link'),
             Column::make('link_alias'),
-            Column::computed('icon'),
+            Column::make('icon'),
             Column::make('parent'),
             Column::make('order'),
             Column::computed('action')
