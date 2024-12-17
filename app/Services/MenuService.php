@@ -14,4 +14,5 @@ interface MenuService
     public function findAllParent();
     public function delete(int $id);
     public function update(int $id, MenuPostDto $dto);
+    public function makeHTMLMenu(array $menus): string;
 }
