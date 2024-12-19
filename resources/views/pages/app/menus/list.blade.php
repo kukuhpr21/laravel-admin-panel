@@ -9,10 +9,9 @@
               <path d="m6 9 6 6 6-6"></path>
             </svg>
         </button>
-        <div id="hs-basic-collapse-heading" class="hs-collapse hidden w-full overflow-hidden transition-[height] duration-300 border border-dashed border-1 border-gray-400 mt-2 drop-shadow-md rounded-lg" aria-labelledby="hs-basic-collapse">
-            <div class="mt-5 bg-white rounded-lg py-3 px-4">
-                {!! $menus !!}
-            </div>
+        <div id="hs-basic-collapse-heading" class="hs-collapse hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-basic-collapse">
+            <x-preview-menu class="w-full">{!! $menus !!}</x-preview-menu>
+
         </div>
     </div>
     <x-table :showButtonAdd="true" routeButtonAdd="{{ route('menus-add') }}" :data="$dataTable"/>

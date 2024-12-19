@@ -26,9 +26,7 @@
                 <x-button type="submit" color="gray" size="md" :full="false">Submit</x-button>
             </div>
         </x-form>
-        <div class="w-full sm:w-1/2">
-            {!! $menus !!}
-        </div>
+        <x-preview-menu>{!! $menus !!}</x-preview-menu>
     </div>
 </x-page>
 @endsection
