@@ -24,7 +24,8 @@ class MenuController extends Controller
 
     public function index(MenusDataTable $dataTable)
     {
-        return $dataTable->render('pages.app.menus.list');
+        $menus    = self::getTreeMenuHtml();
+        return $dataTable->render('pages.app.menus.list', compact('menus'));
     }
 
     public function create()
