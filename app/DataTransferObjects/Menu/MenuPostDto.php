@@ -18,13 +18,14 @@ class MenuPostDto
 
     public static function fromRequest(MenuPostRequest $request)
     {
+        $parent = $request->validated('parent');
         return new self(
             name: $request->validated('name'),
-            link: $request->validated('link'),
-            linkAlias: $request->validated('link_alias'),
-            icon: $request->validated('icon'),
-            parent: $request->validated('parent'),
-            order: $request->validated('order'),
+            link: $request->validated('link') && '#',
+            linkAlias: $request->validated('link_alias') && '#',
+            icon: $request->validated('icon') && '#',
+            parent: $parent != '#' ? $parent : 0,
+            order: $request->validated('order') && 0,
         );
     }
 }
