@@ -254,8 +254,9 @@ class MenuServiceImpl implements MenuService
 
             }
 
-            $tree .= '</div></div>';
+            $tree .= '</div>';
         }
+        $tree .= '</div>';
 
         return $tree;
     }
