@@ -67,6 +67,14 @@ class MenuController extends Controller
         return redirect()->back();
     }
 
+    public function delete($id)
+    {
+        $id       = CryptUtils::dec($id);
+        $response = $this->menuService->delete($id);
+        ResponseUtils::showToast($response);
+        return redirect()->route('menus');
+    }
+
     private function getParents()
     {
         $mapParent = ['id' => 'value', 'name' => 'text'];
