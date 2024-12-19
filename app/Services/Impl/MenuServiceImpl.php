@@ -41,7 +41,7 @@ class MenuServiceImpl implements MenuService
 
         } catch (Exception $e) {
             $errorMessage = $e->getMessage();
-            return ResponseUtils::internalServerError(`Failed create menu : $errorMessage`);
+            return ResponseUtils::internalServerError('Failed create menu : '.$errorMessage);
         }
     }
 

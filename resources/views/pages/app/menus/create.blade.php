@@ -5,6 +5,7 @@
     <div class="flex flex-col sm:flex-row gap-3">
         <x-form routeName="{{ route('menus-add') }}" class="sm:w-1/2" shadow="drop-shadow-md">
             <x-select name="Parent" :data="$parents"/>
+            <x-input type="text" name="Name"/>
             <div class="flex flex-col sm:flex-row gap-4">
                 <div class="flex flex-col w-full sm:w-1/2">
                     <x-input type="text" name="Link" desc="Default value '#'"/>
