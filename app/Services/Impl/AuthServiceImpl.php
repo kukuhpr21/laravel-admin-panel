@@ -54,7 +54,7 @@ class AuthServiceImpl implements AuthService
             }
         } catch(Exception $e) {
             $errorMessage = $e->getMessage();
-            return ResponseUtils::internalServerError(`Failed login : $errorMessage`);
+            return ResponseUtils::internalServerError('Failed login : '.$errorMessage);
         }
     }
 

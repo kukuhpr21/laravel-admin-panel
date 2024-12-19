@@ -32,7 +32,7 @@ class PermissionServiceImpl implements PermissionService
 
         } catch (Exception $e) {
             $errorMessage = $e->getMessage();
-            return ResponseUtils::internalServerError(`Failed create permission : $errorMessage`);
+            return ResponseUtils::internalServerError('Failed create permission : '.$errorMessage);
         }
 
     }
@@ -50,7 +50,7 @@ class PermissionServiceImpl implements PermissionService
 
         } catch(Exception $e) {
             $errorMessage = $e->getMessage();
-            return ResponseUtils::internalServerError(`Failed find one permission : $errorMessage`);
+            return ResponseUtils::internalServerError('Failed find one permission : '.$errorMessage);
         }
     }
 
@@ -88,7 +88,7 @@ class PermissionServiceImpl implements PermissionService
             return ResponseUtils::warning('No data change');
         } catch(Exception $e) {
             $errorMessage = $e->getMessage();
-            return ResponseUtils::internalServerError(`Failed update permission : $errorMessage`);
+            return ResponseUtils::internalServerError('Failed update permission : '.$errorMessage);
         }
     }
 
@@ -107,7 +107,7 @@ class PermissionServiceImpl implements PermissionService
 
         } catch(Exception $e) {
             $errorMessage = $e->getMessage();
-            return ResponseUtils::internalServerError(`Failed delete permission : $errorMessage`);
+            return ResponseUtils::internalServerError('Failed delete permission : '.$errorMessage);
         }
     }
     private static function getID(string $name): string

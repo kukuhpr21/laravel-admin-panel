@@ -58,7 +58,7 @@ class MenuServiceImpl implements MenuService
 
         } catch(Exception $e) {
             $errorMessage = $e->getMessage();
-            return ResponseUtils::internalServerError(`Failed find one menu : $errorMessage`);
+            return ResponseUtils::internalServerError('Failed find one menu : '.$errorMessage);
         }
     }
 
@@ -79,7 +79,7 @@ class MenuServiceImpl implements MenuService
 
         } catch(Exception $e) {
             $errorMessage = $e->getMessage();
-            return ResponseUtils::internalServerError(`Failed find all menu : $errorMessage`);
+            return ResponseUtils::internalServerError('Failed find all menu : '.$errorMessage);
         }
     }
 
@@ -100,7 +100,7 @@ class MenuServiceImpl implements MenuService
 
         } catch(Exception $e) {
             $errorMessage = $e->getMessage();
-            return ResponseUtils::internalServerError(`Failed find all menu by user : $errorMessage`);
+            return ResponseUtils::internalServerError('Failed find all menu by user : '.$errorMessage);
         }
     }
 
@@ -121,7 +121,7 @@ class MenuServiceImpl implements MenuService
 
         } catch(Exception $e) {
             $errorMessage = $e->getMessage();
-            return ResponseUtils::internalServerError(`Failed find all menu parent : $errorMessage`);
+            return ResponseUtils::internalServerError('Failed find all menu parent : '.$errorMessage);
         }
     }
 
@@ -143,7 +143,7 @@ class MenuServiceImpl implements MenuService
 
         } catch(Exception $e) {
             $errorMessage = $e->getMessage();
-            return ResponseUtils::internalServerError(`Failed delete menu : $errorMessage`);
+            return ResponseUtils::internalServerError('Failed delete menu : '.$errorMessage);
         }
     }
 
@@ -167,7 +167,7 @@ class MenuServiceImpl implements MenuService
 
         } catch(Exception $e) {
             $errorMessage = $e->getMessage();
-            return ResponseUtils::internalServerError(`Failed update menu : $errorMessage`);
+            return ResponseUtils::internalServerError('Failed update menu : '.$errorMessage);
         }
     }
 
