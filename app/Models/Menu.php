@@ -13,6 +13,7 @@ class Menu extends Model
     public $timestamps = false;
     public $incrementing = true;
     protected $hidden = ['pivot'];
+    protected $guarded = [];
 
     public function roles(): BelongsToMany
     {
