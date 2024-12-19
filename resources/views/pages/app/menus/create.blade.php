@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Tambah Menu')
 @section('content')
-<x-page title="Tambah Menu" :back="true" routeBack="permissions">
+<x-page title="Tambah Menu" :back="true" routeBack="menus">
     <div class="flex flex-col sm:flex-row gap-3">
         <x-form routeName="{{ route('menus-add') }}" class="sm:w-1/2" shadow="drop-shadow-md">
             <x-select name="Parent" :data="$parents"/>
