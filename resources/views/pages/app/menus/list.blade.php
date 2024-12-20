@@ -11,7 +11,6 @@
         </button>
         <div id="hs-basic-collapse-heading" class="hs-collapse hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-basic-collapse">
             <x-preview-menu class="w-full">{!! $menus !!}</x-preview-menu>
-
         </div>
     </div>
     <x-table :showButtonAdd="true" routeButtonAdd="{{ route('menus-add') }}" :data="$dataTable"/>
