@@ -4,9 +4,11 @@ namespace App\Providers;
 
 use App\Services\AuthService;
 use App\Services\Impl\AuthServiceImpl;
+use App\Services\Impl\MappingMenuPermissionServiceImpl;
 use App\Services\Impl\MenuServiceImpl;
 use App\Services\Impl\PermissionServiceImpl;
 use App\Services\Impl\RoleServiceImpl;
+use App\Services\MappingMenuPermissionService;
 use App\Services\MenuService;
 use App\Services\PermissionService;
 use App\Services\RoleService;
@@ -20,6 +22,7 @@ class UserServiceProvider extends ServiceProvider implements DeferrableProvider
         MenuService::class => MenuServiceImpl::class,
         RoleService::class => RoleServiceImpl::class,
         PermissionService::class => PermissionServiceImpl::class,
+        MappingMenuPermissionService::class => MappingMenuPermissionServiceImpl::class,
     ];
 
     public function provides()
@@ -29,6 +32,7 @@ class UserServiceProvider extends ServiceProvider implements DeferrableProvider
             MenuService::class,
             RoleService::class,
             PermissionService::class,
+            MappingMenuPermissionService::class,
         ];
     }
 
