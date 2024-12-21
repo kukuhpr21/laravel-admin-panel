@@ -3,6 +3,10 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MappingController;
+use App\Http\Controllers\MappingMenuPermissionController;
+use App\Http\Controllers\MappingRoleMenuController;
+use App\Http\Controllers\MappingUserMenuController;
+use App\Http\Controllers\MappingUserRoleController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
@@ -111,40 +115,71 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
 
             Route::prefix('menus-permissions')->group(function () {
 
-                Route::get('/', [MappingController::class, 'menuPermission'])->name('menus-permissions');
+                Route::get('/', [MappingMenuPermissionController::class, 'index'])->name('menus-permissions');
 
-                Route::post('/', [MappingController::class, 'mappingMenuPermission'])->name('menus-permissions');
+                Route::prefix('edit')->group(function () {
+
+                    Route::get('{menu_id}', [MappingMenuPermissionController::class, 'edit'])->name('menus-permissions-edit');
+
+                    Route::post('{menu_id}', [MappingMenuPermissionController::class, 'update'])->name('menus-permissions-edit');
+
+                });
+
+                Route::post('delete/{menu_id}', [MappingMenuPermissionController::class, 'delete'])->name('menus-permissions-delete');
 
             });
 
             Route::prefix('roles-menus')->group(function () {
 
-                Route::get('/', [MappingController::class, 'roleMenu'])->name('roles-menus');
+                Route::get('/', [MappingRoleMenuController::class, 'index'])->name('roles-menus');
 
-                Route::post('/', [MappingController::class, 'mappingRoleMenu'])->name('roles-menus');
+                Route::prefix('edit')->group(function () {
+
+                    Route::get('{role_id}', [MappingRoleMenuController::class, 'edit'])->name('roles-menus-edit');
+
+                    Route::post('{role_id}', [MappingRoleMenuController::class, 'update'])->name('roles-menus-edit');
+
+                });
+
+                Route::post('delete/{role_id}', [MappingRoleMenuController::class, 'delete'])->name('roles-menus-delete');
 
             });
 
             Route::prefix('users-roles')->group(function () {
 
-                Route::get('/', [MappingController::class, 'userRole'])->name('users-roles');
+                Route::get('/', [MappingUserRoleController::class, 'index'])->name('users-roles');
 
-                Route::post('/', [MappingController::class, 'mappingUserRole'])->name('users-roles');
+                Route::prefix('edit')->group(function () {
+
+                    Route::get('{user_id}', [MappingUserRoleController::class, 'edit'])->name('users-roles-edit');
+
+                    Route::post('{user_id}', [MappingUserRoleController::class, 'update'])->name('users-roles-edit');
+
+                });
+
+                Route::post('delete/{user_id}', [MappingUserRoleController::class, 'delete'])->name('users-roles-delete');
 
             });
 
             Route::prefix('users-menus')->group(function () {
 
-                Route::get('/', [MappingController::class, 'userMenu'])->name('users-menus');
+                Route::get('/', [MappingUserMenuController::class, 'index'])->name('users-menus');
 
-                Route::post('/', [MappingController::class, 'mappingUserMenu'])->name('users-menus');
+                Route::prefix('edit')->group(function () {
+
+                    Route::get('{user_id}', [MappingUserMenuController::class, 'edit'])->name('users-menus-edit');
+
+                    Route::post('{user_id}', [MappingUserMenuController::class, 'update'])->name('users-menus-edit');
+
+                });
+
+                Route::post('delete/{user_id}', [MappingUserMenuController::class, 'delete'])->name('users-menus-delete');
 
             });
 
         });
 
     });
-
 
     Route::get('/logout', function () {
         $sessionUtils = new SessionUtils();
