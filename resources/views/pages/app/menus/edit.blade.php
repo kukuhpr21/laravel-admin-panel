@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Edit Menu')
 @section('content')
-<x-page title="Edit Menu" :back="true" routeBack="menus">
+<x-page title="Edit Menu" :back="true" routeBack="{{ route('menus') }}">
     <div class="flex flex-col sm:flex-row gap-3">
         <x-form routeName="{{ route('menus-edit', ['id' => $data->id]) }}" class="sm:w-1/2" shadow="drop-shadow-md">
             <x-select name="Parent" :data="$parents" valueSelected="{{ $data->parent }}"/>

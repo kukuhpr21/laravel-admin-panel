@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Tambah Permission')
 @section('content')
-<x-page title="Tambah Permission" :back="true" routeBack="permissions">
+<x-page title="Tambah Permission" :back="true" routeBack="{{ route('permissions') }}">
     <x-form routeName="{{ route('permissions-add') }}" class="sm:w-1/2" shadow="drop-shadow-md">
         <x-input type="text" name="Name"/>
         <div class="flex w-full justify-end">
