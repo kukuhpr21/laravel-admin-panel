@@ -117,6 +117,14 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
 
                 Route::get('/', [MappingMenuPermissionController::class, 'index'])->name('menus-permissions');
 
+                Route::prefix('add')->group(function () {
+
+                    Route::get('/', [MappingMenuPermissionController::class, 'create'])->name('menus-permissions-add');
+
+                    Route::post('/', [MappingMenuPermissionController::class, 'store'])->name('menus-permissions-add');
+
+                });
+
                 Route::prefix('edit')->group(function () {
 
                     Route::get('{menu_id}', [MappingMenuPermissionController::class, 'edit'])->name('menus-permissions-edit');
@@ -132,6 +140,14 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
             Route::prefix('roles-menus')->group(function () {
 
                 Route::get('/', [MappingRoleMenuController::class, 'index'])->name('roles-menus');
+
+                Route::prefix('add')->group(function () {
+
+                    Route::get('/', [MappingRoleMenuController::class, 'create'])->name('roles-menus-add');
+
+                    Route::post('/', [MappingRoleMenuController::class, 'store'])->name('roles-menus-add');
+
+                });
 
                 Route::prefix('edit')->group(function () {
 
@@ -149,6 +165,14 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
 
                 Route::get('/', [MappingUserRoleController::class, 'index'])->name('users-roles');
 
+                Route::prefix('add')->group(function () {
+
+                    Route::get('/', [MappingUserRoleController::class, 'create'])->name('users-roles-add');
+
+                    Route::post('/', [MappingUserRoleController::class, 'store'])->name('users-roles-add');
+
+                });
+
                 Route::prefix('edit')->group(function () {
 
                     Route::get('{user_id}', [MappingUserRoleController::class, 'edit'])->name('users-roles-edit');
@@ -164,6 +188,14 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
             Route::prefix('users-menus')->group(function () {
 
                 Route::get('/', [MappingUserMenuController::class, 'index'])->name('users-menus');
+
+                Route::prefix('add')->group(function () {
+
+                    Route::get('/', [MappingUserMenuController::class, 'create'])->name('users-menus-add');
+
+                    Route::post('/', [MappingUserMenuController::class, 'store'])->name('users-menus-add');
+
+                });
 
                 Route::prefix('edit')->group(function () {
 
