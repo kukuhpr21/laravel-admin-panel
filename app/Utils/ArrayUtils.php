@@ -17,4 +17,13 @@ trait ArrayUtils
         }, $items);
 
     }
+
+    public static function hasOnlyKeys(array $array, array $allowedKeys): bool
+    {
+        $keys = array_keys($array);
+        sort($keys);
+        sort($allowedKeys);
+
+        return $keys === $allowedKeys;
+    }
 }
