@@ -20,9 +20,11 @@
     @endif
 
     <select name="{{ $lowerName }}" id="{{ $lowerName }}" class="{{ $classes }}">
-        @foreach ($data as $item)
-            <option value="{{ $item['value'] }}" {{ (!empty($valueSelected) && $item['value'] == $valueSelected) ? 'selected' : '' }}>{{ $item['text'] }}</option>
-        @endforeach
+        @if (count($data) > 0)
+            @foreach ($data as $item)
+                <option value="{{ $item['value'] }}" {{ (!empty($valueSelected) && $item['value'] == $valueSelected) ? 'selected' : '' }}>{{ $item['text'] }}</option>
+            @endforeach
+        @endif
     </select>
 
     @if (!empty($desc))
