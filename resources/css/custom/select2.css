@@ -2,7 +2,7 @@
 /* Override the Select2 container style */
 .select2-container .select2-selection--single {
     @apply bg-gray-50 border border-gray-300 rounded-2xl shadow-sm text-gray-900 w-full focus:outline-none focus:ring-0 hover:drop-shadow-xl focus:drop-shadow-xl;
-    height: 3rem; /* Match Tailwind's default height */
+    height: 3rem;
     padding-left: 0.75rem;
 }
 
@@ -44,4 +44,23 @@
 
 .select2-container--default .select2-selection--single .select2-selection__rendered {
     @apply pt-2;
+}
+
+/* multiple */
+.select2-container--default .select2-selection--multiple {
+    @apply bg-gray-50 border border-gray-300 rounded-2xl shadow-sm text-gray-900 w-full focus:outline-none focus:ring-0 hover:drop-shadow-xl focus:drop-shadow-xl;
+    height: 3.5rem;
+    padding-left: 0.75rem;
+}
+
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+    @apply border-none outline-none;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    @apply border-none bg-slate-300 rounded-lg p-1 pl-5;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    @apply h-full border-none hover:bg-slate-400;
 }
