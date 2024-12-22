@@ -9,9 +9,16 @@ trait ArrayUtils
         return array_map(function ($item) use ($maps) {
             $transformed = [];
             foreach ($maps as $key => $newKey) {
-                if (isset($item[$key])) {
-                    $transformed[$newKey] = $item[$key];
+                if (is_array($item)) {
+                    if (isset($item[$key])) {
+                        $transformed[$newKey] = $item[$key];
+                    }
+                } else {
+                    if (isset($item->$key)) {
+                        $transformed[$newKey] = $item->$key;
+                    }
                 }
+
             }
             return $transformed;
         }, $items);
