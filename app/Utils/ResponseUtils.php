@@ -101,4 +101,24 @@ trait ResponseUtils
 
     }
 
+    public static function showToasts(array $responses)
+    {
+
+        $toasts = [];
+
+        foreach ($responses as $response) {
+
+            $toast = match ($response['status']) {
+                'success' => ToastUtils::successToast($response['message'], true),
+                'warning' => ToastUtils::warningToast($response['message'], true),
+                'failed' => ToastUtils::errorToast($response['message'], true),
+                default => ToastUtils::errorToast($response['message'], true),
+            };
+
+            array_push($toasts, $toast);
+        }
+
+        ToastUtils::toasts($toasts);
+    }
+
 }
