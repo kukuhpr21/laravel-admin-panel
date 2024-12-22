@@ -14,7 +14,7 @@ class MappingMenuPermissionServiceImpl implements MappingMenuPermissionService
     public function findAllMenuNotMapped()
     {
         try {
-            $menus = DB::table('menu as m')
+            $menus = DB::table('menus as m')
                     ->select('m.id', 'm.name')
                     ->where('m.link', '!=', '#')
                     ->distinct()
@@ -23,7 +23,7 @@ class MappingMenuPermissionServiceImpl implements MappingMenuPermissionService
                             ->from('menu_has_permissions as mp');
                     })
                     ->get();
-            if ($menus) {
+            if (count($menus) > 0) {
                 return ResponseUtils::success(
                     message: 'Success find all menu not mapped',
                     data: $menus,
