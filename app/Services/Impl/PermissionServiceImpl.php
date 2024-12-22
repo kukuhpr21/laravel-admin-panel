@@ -40,7 +40,7 @@ class PermissionServiceImpl implements PermissionService
     public function findOne(string $id)
     {
         try {
-            $permission = permission::where('id', $id)->first();
+            $permission = Permission::where('id', $id)->first();
 
             if ($permission) {
                 return ResponseUtils::success('permission is exist', $permission);
@@ -51,6 +51,22 @@ class PermissionServiceImpl implements PermissionService
         } catch(Exception $e) {
             $errorMessage = $e->getMessage();
             return ResponseUtils::internalServerError('Failed find one permission : '.$errorMessage);
+        }
+    }
+
+    public function findAll()
+    {
+        try {
+            $permission = Permission::all();
+
+            if (count($permission) > 0) {
+                return ResponseUtils::success('permission is exist', $permission);
+            } else {
+                return ResponseUtils::failed('permission not found');
+            }
+        } catch(Exception $e) {
+            $errorMessage = $e->getMessage();
+            return ResponseUtils::internalServerError('Failed find all permission : '.$errorMessage);
         }
     }
 
