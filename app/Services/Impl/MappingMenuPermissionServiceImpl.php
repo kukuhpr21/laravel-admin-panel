@@ -6,6 +6,8 @@ use Exception;
 use App\Utils\ResponseUtils;
 use Illuminate\Support\Facades\DB;
 use App\Services\MappingMenuPermissionService;
+use App\DataTransferObjects\Mapping\MenuPermission\MenuPermissionDto;
+use App\Models\MenuHasPermission;
 
 class MappingMenuPermissionServiceImpl implements MappingMenuPermissionService
 {
@@ -36,6 +38,44 @@ class MappingMenuPermissionServiceImpl implements MappingMenuPermissionService
         } catch(Exception $e) {
             $errorMessage = $e->getMessage();
             return ResponseUtils::internalServerError('Failed find all menu not mapped : '.$errorMessage);
+        }
+    }
+
+    public function store(MenuPermissionDto $dto)
+    {
+        try {
+            $data = [];
+            if (is_array($dto->permissions)) {
+                foreach ($dto->permissions as $permission) {
+                    array_push($data, [
+                        'menu_id' => $dto->menu,
+                        'permission_id' => $permission,
+                    ]);
+                }
+            } else {
+                array_push($data, [
+                    'menu_id' => $dto->menu,
+                    'permission_id' => $dto->permissions,
+                ]);
+            }
+
+            $result = MenuHasPermission::insert($data);
+
+            if ($result) {
+                return ResponseUtils::success(
+                    message: 'Success mapping menu permission',
+                    data: $result,
+                );
+            }
+
+            return ResponseUtils::failed(
+                message: 'Failed mapping menu permission',
+                data: $result,
+            );
+
+        } catch(Exception $e) {
+            $errorMessage = $e->getMessage();
+            return ResponseUtils::internalServerError('Failed store mapping menu permission : '.$errorMessage);
         }
     }
 }

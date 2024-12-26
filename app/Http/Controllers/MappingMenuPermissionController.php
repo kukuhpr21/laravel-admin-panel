@@ -6,6 +6,8 @@ use App\Utils\ArrayUtils;
 use App\Utils\ResponseUtils;
 use App\Services\PermissionService;
 use App\DataTables\MenuHasPermissionDataTable;
+use App\DataTransferObjects\Mapping\MenuPermission\MenuPermissionDto;
+use App\Http\Requests\StoreMappingMenuPermissionRequest;
 use App\Services\MappingMenuPermissionService;
 
 class MappingMenuPermissionController extends Controller
@@ -34,10 +36,22 @@ class MappingMenuPermissionController extends Controller
         $responses          = [];
         $menuResponse       = $this->mappingMenuPermissionService->findAllMenuNotMapped();
         $permissionResponse = $this->permissionService->findAll();
-        $menus              = count(json_decode($menuResponse['data'])) > 0 ? self::getMenuSelect2($menuResponse) : json_decode($menuResponse['data']);
-        $permissions        = count(json_decode( $permissionResponse['data'])) > 0 ? self::getPermissionSelect2($permissionResponse) : json_decode($permissionResponse['data']);
 
-        array_push($responses, $menuResponse, $permissionResponse);
+        $dataMenu           = json_decode($menuResponse['data']);
+        $dataPermission     = json_decode($permissionResponse['data']);
+
+        $sizeMenu           = count($dataMenu);
+        $sizePermission     = count($dataPermission);
+
+        $menus              = $sizeMenu > 0 ? self::transformToSelect2($dataMenu) : $dataMenu;
+        $permissions        = $sizePermission > 0 ? self::transformToSelect2($dataPermission) : $dataPermission;
+        if ($sizeMenu == 0) {
+            array_push($responses, $menuResponse);
+        }
+
+        if ($sizePermission == 0) {
+            array_push($responses, $permissionResponse);
+        }
 
         ResponseUtils::showToasts($responses);
 
@@ -45,39 +59,33 @@ class MappingMenuPermissionController extends Controller
         compact(
             'menus',
             'permissions',
+            'sizeMenu',
+            'sizePermission',
         ));
     }
 
-    public function store()
+    public function store(StoreMappingMenuPermissionRequest $request)
     {
+        $response = $this->mappingMenuPermissionService->store(MenuPermissionDto::fromRequest($request));
+        ResponseUtils::showToast($response);
 
-    }
-
-    private function getMenuSelect2($menus)
-    {
-        $map  = ['id' => 'value', 'name' => 'text'];
-        $data = [];
-        $menus = json_decode($menus['data']);
-        if (count($menus) > 0) {
-            $transforms = ArrayUtils::transform($menus, $map);
-
-            foreach ($transforms as $item) {
-                array_push($data, $item);
-            }
+        if ($response['status'] == 'success') {
+            return redirect()->route('menus-permissions');
         }
 
-        return $data;
+        return redirect()->route('menus-permissions-add');
     }
 
-    private function getPermissionSelect2($permissions)
+
+
+    private function transformToSelect2($items)
     {
         $map  = ['id' => 'value', 'name' => 'text'];
         $data = [];
-        $permissions = json_decode($permissions['data']);
 
-        if (count($permissions) > 0) {
+        if (count($items) > 0) {
 
-            $transforms = ArrayUtils::transform( $permissions, $map);
+            $transforms = ArrayUtils::transform( $items, $map);
 
             foreach ($transforms as $item) {
                 array_push($data, $item);
