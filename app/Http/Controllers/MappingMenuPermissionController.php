@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Utils\ArrayUtils;
+use App\Utils\CryptUtils;
 use App\Utils\ResponseUtils;
 use App\Services\PermissionService;
 use App\DataTables\MenuHasPermissionDataTable;
-use App\DataTransferObjects\Mapping\MenuPermission\MenuPermissionDto;
-use App\Http\Requests\StoreMappingMenuPermissionRequest;
 use App\Services\MappingMenuPermissionService;
+use App\Http\Requests\StoreMappingMenuPermissionRequest;
+use App\DataTransferObjects\Mapping\MenuPermission\MenuPermissionDto;
+use App\Http\Requests\UpdateMappingMenuPermissionRequest;
+use App\Services\MenuService;
 
 class MappingMenuPermissionController extends Controller
 {
@@ -17,13 +20,16 @@ class MappingMenuPermissionController extends Controller
 
     private MappingMenuPermissionService $mappingMenuPermissionService;
     private PermissionService $permissionService;
+    private MenuService $menuService;
 
     public function __construct(
         MappingMenuPermissionService $mappingMenuPermissionService,
-        PermissionService $permissionService
+        PermissionService $permissionService,
+        MenuService $menuService,
         ) {
         $this->mappingMenuPermissionService = $mappingMenuPermissionService;
         $this->permissionService = $permissionService;
+        $this->menuService = $menuService;
     }
 
     public function index(MenuHasPermissionDataTable $dataTable)
@@ -43,8 +49,9 @@ class MappingMenuPermissionController extends Controller
         $sizeMenu           = count($dataMenu);
         $sizePermission     = count($dataPermission);
 
-        $menus              = $sizeMenu > 0 ? self::transformToSelect2($dataMenu) : $dataMenu;
-        $permissions        = $sizePermission > 0 ? self::transformToSelect2($dataPermission) : $dataPermission;
+        $map                = ['id' => 'value', 'name' => 'text'];
+        $menus              = $sizeMenu > 0 ? ArrayUtils::transformToSelect2($dataMenu, $map) : $dataMenu;
+        $permissions        = $sizePermission > 0 ? ArrayUtils::transformToSelect2($dataPermission, $map) : $dataPermission;
         if ($sizeMenu == 0) {
             array_push($responses, $menuResponse);
         }
@@ -76,22 +83,51 @@ class MappingMenuPermissionController extends Controller
         return redirect()->route('menus-permissions-add');
     }
 
-
-
-    private function transformToSelect2($items)
+    public function edit($menu_id)
     {
-        $map  = ['id' => 'value', 'name' => 'text'];
-        $data = [];
+        $menuID             = CryptUtils::dec($menu_id);
+        $menu               = $this->menuService->findOne((int) $menuID);
+        $response           = $this->mappingMenuPermissionService->findAllPermissionByMenu($menuID);
+        $permissionResponse = $this->permissionService->findAll();
 
-        if (count($items) > 0) {
+        $permissionsSelected = json_decode($response['data']);
+        $dataPermission      = json_decode($permissionResponse['data']);
 
-            $transforms = ArrayUtils::transform( $items, $map);
+        $sizePermission     = count($dataPermission);
 
-            foreach ($transforms as $item) {
-                array_push($data, $item);
-            }
+        $map                = ['id' => 'value', 'name' => 'text'];
+        $permissions        = $sizePermission > 0 ? ArrayUtils::transformToSelect2($dataPermission, $map) : $dataPermission;
+
+        $responses = [];
+
+        if ($sizePermission == 0) {
+            array_push($responses, $permissionResponse);
         }
 
-        return $data;
+        $menuName = '';
+
+        if ($menu['status'] == 'success') {
+            $menuName = json_decode($menu['data'])->name;
+        }
+
+        ResponseUtils::showToasts($responses);
+
+        return view('pages.app.mappings.menuspermissions.edit', compact(
+            'permissions',
+            'sizePermission',
+            'permissionsSelected',
+            'menuName',
+            'menu_id',
+            'permissions',
+        ));
     }
+
+    public function update($menu_id, StoreMappingMenuPermissionRequest $request)
+    {
+        $menuID   = CryptUtils::dec($menu_id);
+        $response = $this->mappingMenuPermissionService->update($menuID, MenuPermissionDto::fromRequest($request));
+        ResponseUtils::showToast($response);
+        return redirect()->route('menus-permissions');
+    }
+
 }

@@ -33,4 +33,20 @@ trait ArrayUtils
 
         return $keys === $allowedKeys;
     }
+
+    public static function transformToSelect2($items, $map)
+    {
+        $data = [];
+
+        if (count($items) > 0) {
+
+            $transforms = ArrayUtils::transform( $items, $map);
+
+            foreach ($transforms as $item) {
+                array_push($data, $item);
+            }
+        }
+
+        return $data;
+    }
 }

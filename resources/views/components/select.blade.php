@@ -10,11 +10,11 @@
 ])
 
 @php
-    $lowerName  = str_replace(" ", "_", strtolower($name));
-    $baseColor  = "bg-".$color."-50 focus:bg-".$color."-50";
-    $classes    = $baseColor.' select2';
-    $multiple   = $multiple ? 'multiple' : '';
-    $nameSelect = $multiple ? $lowerName.'[]' : $lowerName;
+    $lowerName    = str_replace(" ", "_", strtolower($name));
+    $baseColor    = "bg-".$color."-50 focus:bg-".$color."-50";
+    $classes      = $baseColor.' select2';
+    $isMultiple   = $multiple ? 'multiple' : '';
+    $nameSelect   = $multiple ? $lowerName.'[]' : $lowerName;
 @endphp
 
 <div class="flex flex-col">
@@ -22,11 +22,33 @@
         <x-label :name="$name" />
     @endif
 
-    <select name="{{ $nameSelect }}" id="{{ $lowerName }}" class="{{ $classes }}" {{ $multiple }}>
+    <select name="{{ $nameSelect }}" id="{{ $lowerName }}" class="{{ $classes }}" {{ $isMultiple }}>
         @if (count($data) > 0)
-            @foreach ($data as $item)
-                <option value="{{ $item['value'] }}" {{ (!empty($valueSelected) && $item['value'] == $valueSelected) ? 'selected' : '' }}>{{ $item['text'] }}</option>
-            @endforeach
+
+            @php
+                $valueSelectedItem = $valueSelected;
+            @endphp
+            @if ($multiple)
+                @foreach ($data as $item)
+                    @php
+                        $isSelected = '';
+                    @endphp
+                    @foreach ($valueSelected as $vs)
+                        @php
+                            $isSelected = (!empty($vs) && $item['value'] == $vs->id) ? 'selected' : '';
+                        @endphp
+                        @if ($isSelected == 'selected')
+                            @break;
+                        @endif
+                    @endforeach
+                    <option value="{{ $item['value'] }}" {{ $isSelected }}>{{ $item['text'] }}</option>
+                @endforeach
+            @else
+                @foreach ($data as $item)
+                    <option value="{{ $item['value'] }}" {{ (!empty($valueSelected) && $item['value'] == $valueSelected) ? 'selected' : '' }}>{{ $item['text'] }}</option>
+                @endforeach
+            @endif
+
         @endif
     </select>
 
