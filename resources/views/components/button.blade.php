@@ -7,13 +7,13 @@
     'link' => '',
 ])
 @php
-$baseClasses = 'hover:shadow-xl my-3';
+$baseClasses = 'hover:shadow-xl my-3 disabled:hover:shadow-none';
 
 $colorClasses = match ($color) {
-    'gray' => "bg-gray-500 text-white hover:bg-gray-600",
-    'red' => "bg-red-500 text-white hover:bg-red-600",
-    'yellow' => "bg-yellow-500 text-white hover:bg-yellow-600",
-    default => "bg-blue-500 text-white hover:bg-blue-600",
+    'gray' => "bg-gray-500 text-white hover:bg-gray-600 disabled:hover:bg-gray-500",
+    'red' => "bg-red-500 text-white hover:bg-red-600 disabled:hover:bg-red-500",
+    'yellow' => "bg-yellow-500 text-white hover:bg-yellow-600 disabled:hover:bg-yellow-500",
+    default => "bg-blue-500 text-white hover:bg-blue-600 disabled:hover:bg-blue-500",
 };
 
 $sizeClasses = match ($size) {
