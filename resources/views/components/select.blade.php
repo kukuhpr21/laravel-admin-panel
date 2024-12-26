@@ -10,10 +10,11 @@
 ])
 
 @php
-    $lowerName = str_replace(" ", "_", strtolower($name));
-    $baseColor = "bg-".$color."-50 focus:bg-".$color."-50";
-    $classes   = $baseColor.' select2';
-    $multiple  = $multiple ? 'multiple' : '';
+    $lowerName  = str_replace(" ", "_", strtolower($name));
+    $baseColor  = "bg-".$color."-50 focus:bg-".$color."-50";
+    $classes    = $baseColor.' select2';
+    $multiple   = $multiple ? 'multiple' : '';
+    $nameSelect = $multiple ? $lowerName.'[]' : $lowerName;
 @endphp
 
 <div class="flex flex-col">
@@ -21,7 +22,7 @@
         <x-label :name="$name" />
     @endif
 
-    <select name="{{ $lowerName }}" id="{{ $lowerName }}" class="{{ $classes }}" {{ $multiple }}>
+    <select name="{{ $nameSelect }}" id="{{ $lowerName }}" class="{{ $classes }}" {{ $multiple }}>
         @if (count($data) > 0)
             @foreach ($data as $item)
                 <option value="{{ $item['value'] }}" {{ (!empty($valueSelected) && $item['value'] == $valueSelected) ? 'selected' : '' }}>{{ $item['text'] }}</option>
