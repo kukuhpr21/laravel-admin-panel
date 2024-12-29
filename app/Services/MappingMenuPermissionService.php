@@ -10,4 +10,5 @@ interface MappingMenuPermissionService
     public function findAllPermissionByMenu($menuID);
     public function store(MenuPermissionDto $dto);
     public function update($menuID, MenuPermissionDto $dto);
+    public function delete($menuID);
 }

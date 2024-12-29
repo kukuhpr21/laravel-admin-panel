@@ -133,7 +133,7 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
 
                 });
 
-                Route::post('delete/{menu_id}', [MappingMenuPermissionController::class, 'delete'])->name('menus-permissions-delete');
+                Route::get('delete/{menu_id}', [MappingMenuPermissionController::class, 'delete'])->name('menus-permissions-delete');
 
             });
 

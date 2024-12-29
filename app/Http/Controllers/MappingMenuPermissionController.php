@@ -127,6 +127,18 @@ class MappingMenuPermissionController extends Controller
         $menuID   = CryptUtils::dec($menu_id);
         $response = $this->mappingMenuPermissionService->update($menuID, MenuPermissionDto::fromRequestUpdate($request));
         ResponseUtils::showToast($response);
+
+        if ($response['status'] == 'success') {
+            return redirect()->route('menus-permissions');
+        }
+        return redirect()->route('menus-permissions-edit', ['menu_id' => $menu_id]);
+    }
+
+    public function delete($menu_id)
+    {
+        $menuID   = CryptUtils::dec($menu_id);
+        $response = $this->mappingMenuPermissionService->delete($menuID);
+        ResponseUtils::showToast($response);
         return redirect()->route('menus-permissions');
     }
 

@@ -143,4 +143,21 @@ class MappingMenuPermissionServiceImpl implements MappingMenuPermissionService
             return ResponseUtils::internalServerError('Failed update mapping menu permission : '.$errorMessage);
         }
     }
+
+    public function delete($menuID)
+    {
+        try {
+            $result = MenuHasPermission::where('menu_id', $menuID)->delete();
+
+            if ($result) {
+                return ResponseUtils::success('Success delete mapping menu permission');
+            }
+
+            return ResponseUtils::warning('Failed delete mapping menu permission');
+
+        } catch(Exception $e) {
+            $errorMessage = $e->getMessage();
+            return ResponseUtils::internalServerError('Failed delete mapping menu permission : '.$errorMessage);
+        }
+    }
 }
