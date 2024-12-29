@@ -157,7 +157,7 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
 
                 });
 
-                Route::post('delete/{role_id}', [MappingRoleMenuController::class, 'delete'])->name('roles-menus-delete');
+                Route::get('delete/{role_id}', [MappingRoleMenuController::class, 'delete'])->name('roles-menus-delete');
 
             });
 
@@ -181,7 +181,7 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
 
                 });
 
-                Route::post('delete/{user_id}', [MappingUserRoleController::class, 'delete'])->name('users-roles-delete');
+                Route::get('delete/{user_id}', [MappingUserRoleController::class, 'delete'])->name('users-roles-delete');
 
             });
 
@@ -205,7 +205,7 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
 
                 });
 
-                Route::post('delete/{user_id}', [MappingUserMenuController::class, 'delete'])->name('users-menus-delete');
+                Route::get('delete/{user_id}', [MappingUserMenuController::class, 'delete'])->name('users-menus-delete');
 
             });
 
