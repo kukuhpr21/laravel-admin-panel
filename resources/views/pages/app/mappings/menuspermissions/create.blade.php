@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Tambah Role')
+@section('title', 'Tambah Mapping Menu Permission')
 @section('content')
 <x-page title="Tambah Mapping Menu Permission" :back="true" routeBack="{{ route('menus-permissions') }}">
     <x-form routeName="{{ route('menus-permissions-add') }}" class="sm:w-1/2" shadow="drop-shadow-md">

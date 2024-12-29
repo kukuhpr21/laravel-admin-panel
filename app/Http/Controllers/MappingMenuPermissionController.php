@@ -118,7 +118,6 @@ class MappingMenuPermissionController extends Controller
             'permissionsSelected',
             'menuName',
             'menu_id',
-            'permissions',
         ));
     }
 
