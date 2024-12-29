@@ -3,6 +3,7 @@
 namespace App\DataTransferObjects\Mapping\MenuPermission;
 
 use App\Http\Requests\StoreMappingMenuPermissionRequest;
+use App\Http\Requests\UpdateMappingMenuPermissionRequest;
 
 class MenuPermissionDto
 {
@@ -17,6 +18,14 @@ class MenuPermissionDto
         return new self(
             menu: $request->validated('menu'),
             permissions: $request->validated('permissions'),
+        );
+    }
+
+    public static function fromRequestUpdate(UpdateMappingMenuPermissionRequest $request)
+    {
+        return new self(
+            menu: '',
+            permissions: $request->validated('permissions')
         );
     }
 }

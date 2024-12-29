@@ -122,10 +122,10 @@ class MappingMenuPermissionController extends Controller
         ));
     }
 
-    public function update($menu_id, StoreMappingMenuPermissionRequest $request)
+    public function update($menu_id, UpdateMappingMenuPermissionRequest $request)
     {
         $menuID   = CryptUtils::dec($menu_id);
-        $response = $this->mappingMenuPermissionService->update($menuID, MenuPermissionDto::fromRequest($request));
+        $response = $this->mappingMenuPermissionService->update($menuID, MenuPermissionDto::fromRequestUpdate($request));
         ResponseUtils::showToast($response);
         return redirect()->route('menus-permissions');
     }
