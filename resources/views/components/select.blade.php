@@ -33,14 +33,19 @@
                     @php
                         $isSelected = '';
                     @endphp
-                    @foreach ($valueSelected as $vs)
-                        @php
-                            $isSelected = (!empty($vs) && $item['value'] == $vs->id) ? 'selected' : '';
-                        @endphp
-                        @if ($isSelected == 'selected')
-                            @break;
-                        @endif
-                    @endforeach
+
+                    @if (!empty($valueSelected))
+
+                        @foreach ($valueSelected as $vs)
+                            @php
+                                $isSelected = (!empty($vs) && $item['value'] == $vs->id) ? 'selected' : '';
+                            @endphp
+                            @if ($isSelected == 'selected')
+                                @break;
+                            @endif
+                        @endforeach
+
+                    @endif
                     <option value="{{ $item['value'] }}" {{ $isSelected }}>{{ $item['text'] }}</option>
                 @endforeach
             @else
