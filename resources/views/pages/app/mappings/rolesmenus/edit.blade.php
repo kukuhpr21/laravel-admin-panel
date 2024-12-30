@@ -8,7 +8,7 @@
         @if ($sizeMenu > 0)
             <x-select name="menus" :data="$menus" :multiple="true" :valueSelected="$menusSelected"/>
         @else
-            <x-description-input>menu is empty, please create new menu</x-description-input>
+            <x-description-input>Menu is empty, please create new menu</x-description-input>
         @endif
         <div class="flex w-full justify-end">
             <x-button type="submit" color="gray" size="md">Submit</x-button>

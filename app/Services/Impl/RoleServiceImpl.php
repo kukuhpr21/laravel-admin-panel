@@ -38,6 +38,22 @@ class RoleServiceImpl implements RoleService
 
     }
 
+    public function findAll()
+    {
+        try {
+            $roles = Role::all();
+
+            if ($roles) {
+                return ResponseUtils::success('Role is exist', $roles);
+            }
+
+            return ResponseUtils::failed('Role not found');
+        } catch(Exception $e) {
+            $errorMessage = $e->getMessage();
+            return ResponseUtils::internalServerError('Failed find all role : '.$errorMessage);
+        }
+    }
+
     public function findOne(string $id)
     {
         try {
