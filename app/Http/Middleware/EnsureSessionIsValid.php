@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use App\Services\Session\SessionService;
 use App\Utils\SessionUtils;
 use Symfony\Component\HttpFoundation\Response;
 
