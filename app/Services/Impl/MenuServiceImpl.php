@@ -80,7 +80,7 @@ class MenuServiceImpl implements MenuService
         }
     }
 
-    public function findAllByUser(int $userID, bool $buildTree = true)
+    public function findAllByUser(string $userID, bool $buildTree = true)
     {
         try {
             $menus = UserHasMenu::select('id', 'name', 'link', 'link_alias', 'icon', 'parent', 'order')
