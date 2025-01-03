@@ -10,6 +10,8 @@ use App\Services\AuthService;
 use App\Services\MenuService;
 use Illuminate\Support\Facades\Hash;
 use App\DataTransferObjects\Auth\LoginPostDto;
+use App\Models\UserHasMenu;
+use Illuminate\Support\Facades\DB;
 
 class AuthServiceImpl implements AuthService
 {
@@ -37,11 +39,14 @@ class AuthServiceImpl implements AuthService
 
                 if ($passwordMatch) {
                     // build tree menu
-                    $menus = $this->menuService->findAllByUser((int)$user->id);
+                    $menus = $this->menuService->findAllByUser($user->id);
+
+                    // get menu permission
+                     $menuPermissions = $this->getMenuPermissionByUser($user->id);
 
                     if (ResponseUtils::isSuccess($menus)) {
 
-                        $this->saveProfileToSession($user, $menus['data']);
+                        $this->saveProfileToSession($user, $menus['data'], $menuPermissions);
 
                         return ResponseUtils::success('Login success');
                     }
@@ -58,12 +63,34 @@ class AuthServiceImpl implements AuthService
         }
     }
 
-    private function saveProfileToSession($user, $menus): void
+    private function saveProfileToSession($user, $menus, $menuPermissions): void
     {
         $this->sessionUtils->save('id', $user->id);
         $this->sessionUtils->save('name', $user->name);
         $this->sessionUtils->save('email', $user->email);
         $this->sessionUtils->save('temp_role', $user->roles);
         $this->sessionUtils->save('menus', json_encode($menus));
+        $this->sessionUtils->save('menuPermissions', json_encode($menuPermissions));
+    }
+
+    private function getMenuPermissionByUser($useID)
+    {
+        $response = DB::table('user_has_menus')
+                ->select('menus.link', DB::raw('GROUP_CONCAT(menu_has_permissions.permission_id ORDER BY menu_has_permissions.permission_id ASC) as permissions'))
+                ->leftJoin('menu_has_permissions', 'menu_has_permissions.menu_id', '=', 'user_has_menus.menu_id')
+                ->leftJoin('menus', 'menus.id', '=', 'user_has_menus.menu_id')
+                ->where('user_has_menus.user_id', $useID)
+                ->whereNotNull('menu_has_permissions.permission_id')
+                ->groupBy('user_has_menus.menu_id')
+                ->get()->toArray();
+
+        $result = [];
+
+        foreach ($response as $item) {
+            $data['link'] = $item->link;
+            $data['permissions'] = explode(',', $item->permissions);
+            array_push($result, $data);
+        }dd($result);
+        return $result;
     }
 }
