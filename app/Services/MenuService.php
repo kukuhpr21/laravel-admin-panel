@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use Illuminate\Http\JsonResponse;
 use App\DataTransferObjects\Menu\MenuPostDto;
 
 interface MenuService
