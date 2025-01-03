@@ -12,4 +12,9 @@ class UserHasMenu extends Pivot
     public $timestamps = false;
     public $incrementing = false;
     protected $hidden = ['pivot'];
+
+    public function menuPermissions()
+    {
+        return $this->hasMany(MenuHasPermission::class, 'menu_id', 'menu_id');
+    }
 }
