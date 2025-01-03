@@ -12,4 +12,9 @@ class MenuHasPermission extends Model
     protected $keyType = "string";
     public $timestamps = false;
     public $incrementing = false;
+
+    public function userMenu()
+    {
+        return $this->belongsTo(UserHasMenu::class, 'menu_id', 'menu_id');
+    }
 }
