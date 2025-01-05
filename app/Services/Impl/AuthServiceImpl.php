@@ -90,7 +90,7 @@ class AuthServiceImpl implements AuthService
             $data['link'] = $item->link;
             $data['permissions'] = explode(',', $item->permissions);
             array_push($result, $data);
-        }dd($result);
+        }
         return $result;
     }
 }
