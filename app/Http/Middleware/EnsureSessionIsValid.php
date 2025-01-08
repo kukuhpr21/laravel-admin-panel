@@ -29,8 +29,8 @@ class EnsureSessionIsValid
             $tempRoleIsNotEmpty = !empty($tempRole);
 
             if ($tempRoleIsNotEmpty) {
-
-                $isMultiRole = count(json_decode($tempRole, true)) > 1;
+                $tempRole = json_decode($tempRole, true);
+                $isMultiRole = count($tempRole) > 1;
 
                 if ($isMultiRole) {
 
@@ -40,6 +40,8 @@ class EnsureSessionIsValid
                     }
                 }
 
+                $sessionUtils->save('role', json_encode($tempRole[0]));
+                $sessionUtils->delete('temp_role');
                 return $next($request);
             }
 
