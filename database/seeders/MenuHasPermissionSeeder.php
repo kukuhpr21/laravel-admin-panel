@@ -33,11 +33,51 @@ class MenuHasPermissionSeeder extends Seeder
                 'permission_id' => 'view',
             ],
             [
+                'menu_id' => $role->id,
+                'permission_id' => 'create',
+            ],
+            [
+                'menu_id' => $role->id,
+                'permission_id' => 'update',
+            ],
+            [
+                'menu_id' => $role->id,
+                'permission_id' => 'delete',
+            ],
+            [
                 'menu_id' => $menu->id,
                 'permission_id' => 'view',
             ],
             [
+                'menu_id' => $menu->id,
+                'permission_id' => 'create',
+            ],
+            [
+                'menu_id' => $menu->id,
+                'permission_id' => 'update',
+            ],
+            [
+                'menu_id' => $menu->id,
+                'permission_id' => 'delete',
+            ],
+            [
                 'menu_id' => $permission->id,
+                'permission_id' => 'view',
+            ],
+            [
+                'menu_id' => $permission->id,
+                'permission_id' => 'create',
+            ],
+            [
+                'menu_id' => $permission->id,
+                'permission_id' => 'update',
+            ],
+            [
+                'menu_id' => $permission->id,
+                'permission_id' => 'delete',
+            ],
+            [
+                'menu_id' => $menuWithPermission->id,
                 'permission_id' => 'view',
             ],
             [
@@ -45,16 +85,60 @@ class MenuHasPermissionSeeder extends Seeder
                 'permission_id' => 'create',
             ],
             [
+                'menu_id' => $menuWithPermission->id,
+                'permission_id' => 'update',
+            ],
+            [
+                'menu_id' => $menuWithPermission->id,
+                'permission_id' => 'delete',
+            ],
+            [
+                'menu_id' => $roleWithMenu->id,
+                'permission_id' => 'view',
+            ],
+            [
                 'menu_id' => $roleWithMenu->id,
                 'permission_id' => 'create',
+            ],
+            [
+                'menu_id' => $roleWithMenu->id,
+                'permission_id' => 'update',
+            ],
+            [
+                'menu_id' => $roleWithMenu->id,
+                'permission_id' => 'delete',
+            ],
+            [
+                'menu_id' => $userWithRole->id,
+                'permission_id' => 'view',
             ],
             [
                 'menu_id' => $userWithRole->id,
                 'permission_id' => 'create',
             ],
             [
+                'menu_id' => $userWithRole->id,
+                'permission_id' => 'update',
+            ],
+            [
+                'menu_id' => $userWithRole->id,
+                'permission_id' => 'delete',
+            ],
+            [
+                'menu_id' => $userWithMenu->id,
+                'permission_id' => 'view',
+            ],
+            [
                 'menu_id' => $userWithMenu->id,
                 'permission_id' => 'create',
+            ],
+            [
+                'menu_id' => $userWithMenu->id,
+                'permission_id' => 'update',
+            ],
+            [
+                'menu_id' => $userWithMenu->id,
+                'permission_id' => 'delete',
             ],
         ];
 
