@@ -52,7 +52,7 @@ class Sidebar extends Component
                 $id                  = $item['id'].'-accordion';
 
                 $tree .= '<li class="hs-accordion '.$hsAccordionIsActive.'" id="'.$id.'">';
-                $tree .= '<button type="button" aria-expanded="'.$ariaExpanded.'" class="hs-accordion-toggle '. $bgSelectMenu .' hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent w-full text-start flex items-center gap-x-3.5 py-2 px-3 text-sm text-gray-700 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100" aria-expanded="true" aria-controls="'.$id.'">';
+                $tree .= '<button type="button" aria-expanded="'.$ariaExpanded.'" class="hs-accordion-toggle '. $bgSelectMenu .' hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent w-full text-start flex items-center gap-x-3.5 py-2 px-3 text-sm text-gray-700 rounded-lg hover:bg-gray-200 focus:outline-none focus:bg-gray-200" aria-expanded="true" aria-controls="'.$id.'">';
                 $tree .= $icon;
                 $tree .= $item['name'];
                 $tree .= '<svg class="hs-accordion-active:block ms-auto hidden size-4 text-gray-600 group-hover:text-gray-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>';
@@ -64,7 +64,7 @@ class Sidebar extends Component
                 $tree .= '</ul>';
             } else {
                 $tree .= '<li class="my-2">';
-                $tree .= '<a class="flex items-center gap-x-3.5 py-2 px-3 '. $bgSelectMenu .' text-sm text-gray-700 rounded-lg hover:bg-gray-100" href="'.route($item['link_alias']).'">';
+                $tree .= '<a class="flex items-center gap-x-3.5 py-2 px-3 '. $bgSelectMenu .' text-sm text-gray-700 rounded-lg hover:bg-gray-200" href="'.route($item['link_alias']).'">';
                 $tree .= $icon;
                 $tree .= $item['name'];
                 $tree .= '</a>';
