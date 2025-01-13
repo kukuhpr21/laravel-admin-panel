@@ -48,7 +48,8 @@ class RoleHasMenuHasPermissionDataTable extends DataTable
         ->leftJoin('roles', 'roles.id', '=', 'role_has_menu_has_permission.role_id')
         ->leftJoin('menus', 'menus.id', '=', 'role_has_menu_has_permission.menu_id')
         ->leftJoin('permissions', 'permissions.id', '=', 'role_has_menu_has_permission.permission_id')
-        ->groupBy('role_id' , 'menu_id');
+        ->groupBy('role_id' , 'menu_id')
+        ->orderBy('role_id', 'asc');
     }
 
     /**
