@@ -21,7 +21,7 @@ class PermissionCheckUtils
         $menuPermissions = json_decode($menuPermissions);
 
         return !empty(array_filter($menuPermissions, function ($item) use ($link, $permission) {
-            if ($item->link === $link) {
+            if (str_starts_with($link, $item->link)) {
                 return in_array($permission, $item->permissions);
             }
         }));
