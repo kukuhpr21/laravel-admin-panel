@@ -10,6 +10,7 @@ use App\Utils\ResponseUtils;
 use App\Services\MenuService;
 use App\Models\MenuHasPermission;
 use App\DataTransferObjects\Menu\MenuPostDto;
+use App\Models\UserHasRole;
 
 class MenuServiceImpl implements MenuService
 {
@@ -83,9 +84,11 @@ class MenuServiceImpl implements MenuService
     public function findAllByUser(string $userID, bool $buildTree = true)
     {
         try {
-            $menus = UserHasMenu::select('id', 'name', 'link', 'link_alias', 'icon', 'parent', 'order')
+            $menus = UserHasRole::select('id', 'name', 'link', 'link_alias', 'icon', 'parent', 'order')
                 ->where('user_id', $userID)
-                ->leftJoin('menus', 'menus.id', '=', 'user_has_menus.menu_id')
+                ->leftJoin('role_has_menu_has_permission', 'role_has_menu_has_permission.role_id', '=', 'user_has_roles.role_id')
+                ->leftJoin('menus', 'menus.id', '=', 'role_has_menu_has_permission.menu_id')
+                ->groupBy('role_has_menu_has_permission.menu_id')
                 ->orderBy('order', 'asc')
                 ->get()->toArray();
 

@@ -75,13 +75,13 @@ class AuthServiceImpl implements AuthService
 
     private function getMenuPermissionByUser($useID)
     {
-        $response = DB::table('user_has_menus')
-                ->select('menus.link', DB::raw('GROUP_CONCAT(menu_has_permissions.permission_id ORDER BY menu_has_permissions.permission_id ASC) as permissions'))
-                ->leftJoin('menu_has_permissions', 'menu_has_permissions.menu_id', '=', 'user_has_menus.menu_id')
-                ->leftJoin('menus', 'menus.id', '=', 'user_has_menus.menu_id')
-                ->where('user_has_menus.user_id', $useID)
-                ->whereNotNull('menu_has_permissions.permission_id')
-                ->groupBy('user_has_menus.menu_id')
+        $response = DB::table('user_has_roles')
+                ->select('menus.link', DB::raw('GROUP_CONCAT(role_has_menu_has_permission.permission_id ORDER BY role_has_menu_has_permission.permission_id ASC) as permissions'))
+                ->leftJoin('role_has_menu_has_permission', 'role_has_menu_has_permission.role_id', '=', 'user_has_roles.role_id')
+                ->leftJoin('menus', 'menus.id', '=', 'role_has_menu_has_permission.menu_id')
+                ->where('user_has_roles.user_id', $useID)
+                ->where('menus.link', '!=', '#')
+                ->groupBy('user_has_roles.user_id', 'role_has_menu_has_permission.role_id', 'role_has_menu_has_permission.menu_id')
                 ->get()->toArray();
 
         $result = [];

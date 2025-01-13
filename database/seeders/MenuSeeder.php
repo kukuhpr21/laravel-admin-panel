@@ -63,32 +63,39 @@ class MenuSeeder extends Seeder
 
         $subMenuMapping = [
             [
+                'name' => 'Role Menu Permission',
+                'link' => 'settings/mapping/roles-menus-permissions',
+                'link_alias' => 'roles-menus-permissions',
+                'parent' => $menumapping->id,
+                'order' => 1,
+            ],
+            [
                 'name' => 'Menu Permission',
                 'link' => 'settings/mapping/menus-permissions',
                 'link_alias' => 'menus-permissions',
                 'parent' => $menumapping->id,
-                'order' => 1,
+                'order' => 2,
             ],
             [
                 'name' => 'Role Menu',
                 'link' => 'settings/mapping/roles-menus',
                 'link_alias' => 'roles-menus',
                 'parent' => $menumapping->id,
-                'order' => 2,
+                'order' => 3,
             ],
             [
                 'name' => 'User Role',
                 'link' => 'settings/mapping/users-roles',
                 'link_alias' => 'users-roles',
                 'parent' => $menumapping->id,
-                'order' => 3,
+                'order' => 4,
             ],
             [
                 'name' => 'User Menu',
                 'link' => 'settings/mapping/users-menus',
                 'link_alias' => 'users-menus',
                 'parent' => $menumapping->id,
-                'order' => 4,
+                'order' => 5,
             ]
         ];
 

@@ -18,11 +18,12 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             MenuSeeder::class,
             PermissionSeeder::class,
-            MenuHasPermissionSeeder::class,
-            RoleHasMenuSeeder::class,
+            RoleHasMenuHasPermissionSeeder::class,
+            // MenuHasPermissionSeeder::class,
+            // RoleHasMenuSeeder::class,
             UserSeeder::class,
             UserHasRoleSeeder::class,
-            UserHasMenuSeeder::class,
+            // UserHasMenuSeeder::class,
         ]);
     }
 }

@@ -1,17 +1,18 @@
 <?php
 
+use App\Utils\SessionUtils;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MenuController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\MappingMenuPermissionController;
+use App\Http\Middleware\EnsureSessionIsValid;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\MappingRoleMenuController;
 use App\Http\Controllers\MappingUserMenuController;
 use App\Http\Controllers\MappingUserRoleController;
-use App\Http\Controllers\MenuController;
-use App\Http\Controllers\PermissionController;
-use App\Http\Controllers\RoleController;
-use App\Utils\SessionUtils;
-use Illuminate\Support\Facades\Route;
-use App\Http\Middleware\EnsureSessionIsValid;
+use App\Http\Controllers\MappingMenuPermissionController;
+use App\Http\Controllers\MappingRoleMenuPermissionController;
 
 Route::middleware([EnsureSessionIsValid::class])->group(function () {
 
@@ -133,6 +134,30 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
                 })->middleware('permissionIsValid:update');
 
                 Route::get('delete/{menu_id}', [MappingMenuPermissionController::class, 'delete'])->name('menus-permissions-delete')->middleware('permissionIsValid:delete');
+
+            });
+
+            Route::prefix('roles-menus-permissions')->group(function () {
+
+                Route::get('/', [MappingRoleMenuPermissionController::class, 'index'])->name('roles-menus-permissions')->middleware('permissionIsValid:view');
+
+                Route::prefix('add')->group(function () {
+
+                    Route::get('/', [MappingRoleMenuPermissionController::class, 'create'])->name('roles-menus-permissions-add');
+
+                    Route::post('/', [MappingRoleMenuPermissionController::class, 'store'])->name('roles-menus-permissions-add');
+
+                })->middleware('permissionIsValid:create');
+
+                Route::prefix('edit')->group(function () {
+
+                    Route::get('{role_id}/{menu_id}', [MappingRoleMenuPermissionController::class, 'edit'])->name('roles-menus-permissions-edit');
+
+                    Route::post('{role_id}/{menu_id}', [MappingRoleMenuPermissionController::class, 'update'])->name('roles-menus-permissions-edit');
+
+                })->middleware('permissionIsValid:update');
+
+                Route::get('delete/{role_id}/{menu_id}', [MappingRoleMenuPermissionController::class, 'delete'])->name('roles-menus-permissions-delete')->middleware('permissionIsValid:delete');
 
             });
 

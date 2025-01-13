@@ -22,6 +22,8 @@ use App\Services\Impl\MappingUserMenuServiceImpl;
 use App\Services\Impl\MappingUserRoleServiceImpl;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use App\Services\Impl\MappingMenuPermissionServiceImpl;
+use App\Services\Impl\MappingRoleMenuPermissionServiceImpl;
+use App\Services\MappingRoleMenuPermissionService;
 
 class UserServiceProvider extends ServiceProvider implements DeferrableProvider
 {
@@ -35,6 +37,7 @@ class UserServiceProvider extends ServiceProvider implements DeferrableProvider
         MappingRoleMenuService::class => MappingRoleMenuServiceImpl::class,
         MappingUserRoleService::class => MappingUserRoleServiceImpl::class,
         MappingUserMenuService::class => MappingUserMenuServiceImpl::class,
+        MappingRoleMenuPermissionService::class => MappingRoleMenuPermissionServiceImpl::class,
     ];
 
     public function provides()
@@ -49,6 +52,7 @@ class UserServiceProvider extends ServiceProvider implements DeferrableProvider
             MappingRoleMenuService::class,
             MappingUserRoleService::class,
             MappingUserMenuService::class,
+            MappingRoleMenuPermissionService::class,
         ];
     }
 
