@@ -36,7 +36,7 @@ class Sidebar extends Component
 
         foreach ($menus as $item) {
             $link         = implode('/', $segments);
-            $isActive     = $link == $item['link'] || $link == $this->findLink($link, $item['children']);
+            $isActive     = str_starts_with($link, $item['link']) || $link == $this->findLink($link, $item['children']);
             $bgSelectMenu = $isActive ? 'bg-gray-200' : '';
 
             $icon = '';
@@ -77,7 +77,7 @@ class Sidebar extends Component
 
     private function findLink($path, $menus) {
         foreach ($menus as $menu) {
-            if (isset($menu['link']) && $menu['link'] === ltrim($path, '/')) {
+            if (isset($menu['link']) && str_starts_with(ltrim($path, '/'), $menu['link'])) {
                 return true;
             }
             if (isset($menu['children']) && is_array($menu['children'])) {
