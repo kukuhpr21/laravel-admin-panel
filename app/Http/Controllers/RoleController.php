@@ -20,12 +20,12 @@ class RoleController extends Controller
     }
     public function index(RolesDataTable $dataTable)
     {
-        return $dataTable->render('pages.app.roles.list');
+        return $dataTable->render('pages.app.settings.roles.list');
     }
 
     public function create()
     {
-        return view('pages.app.roles.create');
+        return view('pages.app.settings.roles.create');
     }
 
     public function store(StoreRoleRequest $request)
@@ -44,7 +44,7 @@ class RoleController extends Controller
         $response = $this->roleService->findOne($id);
         $data     = json_decode($response['data']);
         $data->id = CryptUtils::enc($data->id);
-        return view('pages.app.roles.edit', compact('data'));
+        return view('pages.app.settings.roles.edit', compact('data'));
     }
 
     public function update($id, StoreRoleRequest $request)

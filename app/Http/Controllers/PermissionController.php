@@ -21,12 +21,12 @@ class PermissionController extends Controller
     }
     public function index(PermissionDataTable $dataTable)
     {
-        return $dataTable->render('pages.app.permissions.list');
+        return $dataTable->render('pages.app.settings.permissions.list');
     }
 
     public function create()
     {
-        return view('pages.app.permissions.create');
+        return view('pages.app.settings.permissions.create');
     }
 
     public function store(StorePermissionRequest $request)
@@ -45,7 +45,7 @@ class PermissionController extends Controller
         $response = $this->permissionService->findOne($id);
         $data     = json_decode($response['data']);
         $data->id = CryptUtils::enc($data->id);
-        return view('pages.app.permissions.edit', compact('data'));
+        return view('pages.app.settings.permissions.edit', compact('data'));
     }
 
     public function update($id, StorePermissionRequest $request)

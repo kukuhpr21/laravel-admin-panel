@@ -31,25 +31,32 @@ class MenuSeeder extends Seeder
 
         $subMenuSettings = [
             [
+                'name' => 'Status',
+                'link' => 'settings/statuses',
+                'link_alias' => 'statuses',
+                'parent' => $menuSettings->id,
+                'order' => 1,
+            ],
+            [
                 'name' => 'Role',
                 'link' => 'settings/roles',
                 'link_alias' => 'roles',
                 'parent' => $menuSettings->id,
-                'order' => 1,
+                'order' => 2,
             ],
             [
                 'name' => 'Menu',
                 'link' => 'settings/menus',
                 'link_alias' => 'menus',
                 'parent' => $menuSettings->id,
-                'order' => 2,
+                'order' => 3,
             ],
             [
                 'name' => 'Permission',
                 'link' => 'settings/permissions',
                 'link_alias' => 'permissions',
                 'parent' => $menuSettings->id,
-                'order' => 3,
+                'order' => 4,
             ],
         ];
 
@@ -58,7 +65,7 @@ class MenuSeeder extends Seeder
         $menumapping = Menu::create([
             'name' => 'Mapping',
             'parent' => $menuSettings->id,
-            'order' => 4,
+            'order' => 5,
         ]);
 
         $subMenuMapping = [
@@ -70,33 +77,12 @@ class MenuSeeder extends Seeder
                 'order' => 1,
             ],
             [
-                'name' => 'Menu Permission',
-                'link' => 'settings/mapping/menus-permissions',
-                'link_alias' => 'menus-permissions',
-                'parent' => $menumapping->id,
-                'order' => 2,
-            ],
-            [
-                'name' => 'Role Menu',
-                'link' => 'settings/mapping/roles-menus',
-                'link_alias' => 'roles-menus',
-                'parent' => $menumapping->id,
-                'order' => 3,
-            ],
-            [
                 'name' => 'User Role',
                 'link' => 'settings/mapping/users-roles',
                 'link_alias' => 'users-roles',
                 'parent' => $menumapping->id,
-                'order' => 4,
+                'order' => 2,
             ],
-            [
-                'name' => 'User Menu',
-                'link' => 'settings/mapping/users-menus',
-                'link_alias' => 'users-menus',
-                'parent' => $menumapping->id,
-                'order' => 5,
-            ]
         ];
 
         Menu::insert($subMenuMapping);

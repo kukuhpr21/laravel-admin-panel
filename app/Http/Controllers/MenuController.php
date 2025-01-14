@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Utils\ArrayUtils;
 use App\Utils\CryptUtils;
 use App\Utils\ResponseUtils;
-use Illuminate\Http\Request;
 use App\Services\MenuService;
 use App\DataTables\MenusDataTable;
 use App\Http\Requests\MenuPostRequest;
@@ -25,14 +24,14 @@ class MenuController extends Controller
     public function index(MenusDataTable $dataTable)
     {
         $menus    = self::getTreeMenuHtml();
-        return $dataTable->render('pages.app.menus.list', compact('menus'));
+        return $dataTable->render('pages.app.settings.menus.list', compact('menus'));
     }
 
     public function create()
     {
         $parents = self::getParents();
         $menus   = self::getTreeMenuHtml();
-        return view('pages.app.menus.create', compact('parents', 'menus'));
+        return view('pages.app.settings.menus.create', compact('parents', 'menus'));
     }
 
     public function store(MenuPostRequest $request)
@@ -53,7 +52,7 @@ class MenuController extends Controller
         $data->id = CryptUtils::enc($data->id);
         $parents  = self::getParents();
         $menus    = self::getTreeMenuHtml();
-        return view('pages.app.menus.edit', compact('data', 'parents', 'menus'));
+        return view('pages.app.settings.menus.edit', compact('data', 'parents', 'menus'));
     }
 
     public function update($id, MenuPostRequest $request)

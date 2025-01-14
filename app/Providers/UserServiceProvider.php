@@ -6,18 +6,20 @@ use App\Services\AuthService;
 use App\Services\MenuService;
 use App\Services\RoleService;
 use App\Services\UserService;
+use App\Services\StatusService;
 use App\Services\PermissionService;
 use App\Services\Impl\AuthServiceImpl;
 use App\Services\Impl\MenuServiceImpl;
 use App\Services\Impl\RoleServiceImpl;
 use App\Services\Impl\UserServiceImpl;
 use Illuminate\Support\ServiceProvider;
+use App\Services\Impl\StatusServiceImpl;
 use App\Services\MappingUserRoleService;
 use App\Services\Impl\PermissionServiceImpl;
 use App\Services\Impl\MappingUserRoleServiceImpl;
+use App\Services\MappingRoleMenuPermissionService;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use App\Services\Impl\MappingRoleMenuPermissionServiceImpl;
-use App\Services\MappingRoleMenuPermissionService;
 
 class UserServiceProvider extends ServiceProvider implements DeferrableProvider
 {
@@ -29,6 +31,7 @@ class UserServiceProvider extends ServiceProvider implements DeferrableProvider
         PermissionService::class => PermissionServiceImpl::class,
         MappingUserRoleService::class => MappingUserRoleServiceImpl::class,
         MappingRoleMenuPermissionService::class => MappingRoleMenuPermissionServiceImpl::class,
+        StatusService::class => StatusServiceImpl::class,
     ];
 
     public function provides()
@@ -41,6 +44,7 @@ class UserServiceProvider extends ServiceProvider implements DeferrableProvider
             PermissionService::class,
             MappingUserRoleService::class,
             MappingRoleMenuPermissionService::class,
+            StatusService::class,
         ];
     }
 

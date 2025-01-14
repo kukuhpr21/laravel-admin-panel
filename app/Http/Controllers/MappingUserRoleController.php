@@ -34,7 +34,7 @@ class MappingUserRoleController extends Controller
 
     public function index(UserHasRolesDataTable $dataTable)
     {
-        return $dataTable->render('pages.app.mappings.usersroles.list');
+        return $dataTable->render('pages.app.settings.mappings.usersroles.list');
     }
 
     public function create()
@@ -63,7 +63,7 @@ class MappingUserRoleController extends Controller
 
         ResponseUtils::showToasts($responses);
 
-        return view('pages.app.mappings.usersroles.create',
+        return view('pages.app.settings.mappings.usersroles.create',
         compact(
             'users',
             'roles',
@@ -113,7 +113,7 @@ class MappingUserRoleController extends Controller
 
         ResponseUtils::showToasts($responses);
 
-        return view('pages.app.mappings.usersroles.edit', compact(
+        return view('pages.app.settings.mappings.usersroles.edit', compact(
             'roles',
             'sizeRole',
             'rolesSelected',

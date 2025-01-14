@@ -12,6 +12,8 @@ class Status extends Model
     protected $keyType = "string";
     public $timestamps = false;
     public $incrementing = false;
+    protected $hidden = ['pivot'];
+    protected $guarded = [];
 
     public function users(): BelongsTo
     {

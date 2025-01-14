@@ -35,7 +35,7 @@ class MappingRoleMenuPermissionController extends Controller
 
     public function index(RoleHasMenuHasPermissionDataTable $dataTable)
     {
-        return $dataTable->render('pages.app.mappings.rolesmenuspermissions.list');
+        return $dataTable->render('pages.app.settings.mappings.rolesmenuspermissions.list');
     }
 
     public function create()
@@ -72,7 +72,7 @@ class MappingRoleMenuPermissionController extends Controller
 
         ResponseUtils::showToasts($responses);
 
-        return view('pages.app.mappings.rolesmenuspermissions.create',
+        return view('pages.app.settings.mappings.rolesmenuspermissions.create',
         compact(
             'roles',
             'menus',
@@ -132,7 +132,7 @@ class MappingRoleMenuPermissionController extends Controller
 
         ResponseUtils::showToasts($responses);
 
-        return view('pages.app.mappings.rolesmenuspermissions.edit', compact(
+        return view('pages.app.settings.mappings.rolesmenuspermissions.edit', compact(
             'permissions',
             'sizePermission',
             'permissionsSelected',

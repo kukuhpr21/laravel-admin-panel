@@ -20,10 +20,8 @@ class RoleHasMenuHasPermissionSeeder extends Seeder
         $menu = Menu::where('name', 'Menu')->first();
         $permission = Menu::where('name', 'Permission')->first();
         $roleWithMenuWithPermission = Menu::where('name', 'Role Menu Permission')->first();
-        $menuWithPermission = Menu::where('name', 'Menu Permission')->first();
-        $roleWithMenu = Menu::where('name', 'Role Menu')->first();
         $userWithRole = Menu::where('name', 'User Role')->first();
-        $userWithMenu = Menu::where('name', 'User Menu')->first();
+        $status = Menu::where('name', 'Status')->first();
 
         $rolemenupermission = [
             [
@@ -33,6 +31,26 @@ class RoleHasMenuHasPermissionSeeder extends Seeder
             ],
             [
                 'role_id' => 'super_admin',
+                'menu_id' => $status->id,
+                'permission_id' => 'view',
+            ],
+            [
+                'role_id' => 'super_admin',
+                'menu_id' => $status->id,
+                'permission_id' => 'create',
+            ],
+            [
+                'role_id' => 'super_admin',
+                'menu_id' => $status->id,
+                'permission_id' => 'update',
+            ],
+            [
+                'role_id' => 'super_admin',
+                'menu_id' => $status->id,
+                'permission_id' => 'delete',
+            ],
+            [
+                'role_id' => 'super_admin',
                 'menu_id' => $role->id,
                 'permission_id' => 'view',
             ],
@@ -109,66 +127,6 @@ class RoleHasMenuHasPermissionSeeder extends Seeder
             [
                 'role_id' => 'super_admin',
                 'menu_id' => $roleWithMenuWithPermission->id,
-                'permission_id' => 'delete',
-            ],
-            [
-                'role_id' => 'super_admin',
-                'menu_id' => $menuWithPermission->id,
-                'permission_id' => 'view',
-            ],
-            [
-                'role_id' => 'super_admin',
-                'menu_id' => $menuWithPermission->id,
-                'permission_id' => 'create',
-            ],
-            [
-                'role_id' => 'super_admin',
-                'menu_id' => $menuWithPermission->id,
-                'permission_id' => 'update',
-            ],
-            [
-                'role_id' => 'super_admin',
-                'menu_id' => $menuWithPermission->id,
-                'permission_id' => 'delete',
-            ],
-            [
-                'role_id' => 'super_admin',
-                'menu_id' => $roleWithMenu->id,
-                'permission_id' => 'view',
-            ],
-            [
-                'role_id' => 'super_admin',
-                'menu_id' => $roleWithMenu->id,
-                'permission_id' => 'create',
-            ],
-            [
-                'role_id' => 'super_admin',
-                'menu_id' => $roleWithMenu->id,
-                'permission_id' => 'update',
-            ],
-            [
-                'role_id' => 'super_admin',
-                'menu_id' => $roleWithMenu->id,
-                'permission_id' => 'delete',
-            ],
-            [
-                'role_id' => 'super_admin',
-                'menu_id' => $userWithMenu->id,
-                'permission_id' => 'view',
-            ],
-            [
-                'role_id' => 'super_admin',
-                'menu_id' => $userWithMenu->id,
-                'permission_id' => 'create',
-            ],
-            [
-                'role_id' => 'super_admin',
-                'menu_id' => $userWithMenu->id,
-                'permission_id' => 'update',
-            ],
-            [
-                'role_id' => 'super_admin',
-                'menu_id' => $userWithMenu->id,
                 'permission_id' => 'delete',
             ],
             [
