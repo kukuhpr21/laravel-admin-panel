@@ -10,7 +10,6 @@ use App\Services\AuthService;
 use App\Services\MenuService;
 use Illuminate\Support\Facades\Hash;
 use App\DataTransferObjects\Auth\LoginPostDto;
-use App\Models\UserHasMenu;
 use Illuminate\Support\Facades\DB;
 
 class AuthServiceImpl implements AuthService

@@ -4,13 +4,11 @@ namespace App\Services\Impl;
 
 use Exception;
 use App\Models\Menu;
-use App\Models\RoleHasMenu;
-use App\Models\UserHasMenu;
+use App\Models\UserHasRole;
 use App\Utils\ResponseUtils;
 use App\Services\MenuService;
-use App\Models\MenuHasPermission;
+use App\Models\RoleHasMenuHasPermission;
 use App\DataTransferObjects\Menu\MenuPostDto;
-use App\Models\UserHasRole;
 
 class MenuServiceImpl implements MenuService
 {
@@ -173,10 +171,8 @@ class MenuServiceImpl implements MenuService
 
     private function menuIsNotUsed(string $menuID): bool
     {
-        $menuHasPermission = MenuHasPermission::where('menu_id', $menuID)->first();
-        $roleHasMenu = RoleHasMenu::where('menu_id', $menuID)->first();
-        $userHasMenu = UserHasMenu::where('menu_id', $menuID)->first();
-        return !$menuHasPermission && !$roleHasMenu && !$userHasMenu;
+        $roleHasMenuHasPermission = RoleHasMenuHasPermission::where('menu_id', $menuID)->first();
+        return !$roleHasMenuHasPermission;
     }
 
     private function buildTreeMenu(array $menus, int $parent = 0): array

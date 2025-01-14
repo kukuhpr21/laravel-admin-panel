@@ -6,8 +6,8 @@ use Exception;
 use App\Models\Permission;
 use App\Utils\ResponseUtils;
 use App\Services\PermissionService;
+use App\Models\RoleHasMenuHasPermission;
 use App\DataTransferObjects\Permission\StorePermissionDto;
-use App\Models\MenuHasPermission;
 
 class PermissionServiceImpl implements PermissionService
 {
@@ -133,7 +133,7 @@ class PermissionServiceImpl implements PermissionService
 
     private function permissionIsNotUsed(string $permissionID): bool
     {
-        $data = MenuHasPermission::where('permission_id', $permissionID)->first();
+        $data = RoleHasMenuHasPermission::where('permission_id', $permissionID)->first();
         return !$data;
     }
 }

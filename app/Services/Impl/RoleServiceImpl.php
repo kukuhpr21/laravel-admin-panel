@@ -7,7 +7,7 @@ use App\Models\Role;
 use App\Utils\ResponseUtils;
 use App\Services\RoleService;
 use App\DataTransferObjects\Role\StoreRoleDto;
-use App\Models\RoleHasMenu;
+use App\Models\RoleHasMenuHasPermission;
 use App\Models\UserHasRole;
 
 class RoleServiceImpl implements RoleService
@@ -134,8 +134,8 @@ class RoleServiceImpl implements RoleService
 
     private function roleIsNotUsed(string $roleID): bool
     {
-        $roleHasMenu = RoleHasMenu::where('role_id', $roleID)->first();
+        $roleHasMenuHasPermission = RoleHasMenuHasPermission::where('role_id', $roleID)->first();
         $userHasRole = UserHasRole::where('role_id', $roleID)->first();
-        return !$roleHasMenu && !$userHasRole;
+        return !$roleHasMenuHasPermission && !$userHasRole;
     }
 }
