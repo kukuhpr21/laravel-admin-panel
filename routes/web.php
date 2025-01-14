@@ -8,10 +8,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Middleware\EnsureSessionIsValid;
 use App\Http\Controllers\PermissionController;
-use App\Http\Controllers\MappingRoleMenuController;
-use App\Http\Controllers\MappingUserMenuController;
 use App\Http\Controllers\MappingUserRoleController;
-use App\Http\Controllers\MappingMenuPermissionController;
 use App\Http\Controllers\MappingRoleMenuPermissionController;
 
 Route::middleware([EnsureSessionIsValid::class])->group(function () {
@@ -113,30 +110,6 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
 
         Route::prefix('mapping')->group(function () {
 
-            Route::prefix('menus-permissions')->group(function () {
-
-                Route::get('/', [MappingMenuPermissionController::class, 'index'])->name('menus-permissions')->middleware('permissionIsValid:view');
-
-                Route::prefix('add')->group(function () {
-
-                    Route::get('/', [MappingMenuPermissionController::class, 'create'])->name('menus-permissions-add');
-
-                    Route::post('/', [MappingMenuPermissionController::class, 'store'])->name('menus-permissions-add');
-
-                })->middleware('permissionIsValid:create');
-
-                Route::prefix('edit')->group(function () {
-
-                    Route::get('{menu_id}', [MappingMenuPermissionController::class, 'edit'])->name('menus-permissions-edit');
-
-                    Route::post('{menu_id}', [MappingMenuPermissionController::class, 'update'])->name('menus-permissions-edit');
-
-                })->middleware('permissionIsValid:update');
-
-                Route::get('delete/{menu_id}', [MappingMenuPermissionController::class, 'delete'])->name('menus-permissions-delete')->middleware('permissionIsValid:delete');
-
-            });
-
             Route::prefix('roles-menus-permissions')->group(function () {
 
                 Route::get('/', [MappingRoleMenuPermissionController::class, 'index'])->name('roles-menus-permissions')->middleware('permissionIsValid:view');
@@ -161,30 +134,6 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
 
             });
 
-            Route::prefix('roles-menus')->group(function () {
-
-                Route::get('/', [MappingRoleMenuController::class, 'index'])->name('roles-menus')->middleware('permissionIsValid:view');
-
-                Route::prefix('add')->group(function () {
-
-                    Route::get('/', [MappingRoleMenuController::class, 'create'])->name('roles-menus-add');
-
-                    Route::post('/', [MappingRoleMenuController::class, 'store'])->name('roles-menus-add');
-
-                })->middleware('permissionIsValid:create');
-
-                Route::prefix('edit')->group(function () {
-
-                    Route::get('{role_id}', [MappingRoleMenuController::class, 'edit'])->name('roles-menus-edit');
-
-                    Route::post('{role_id}', [MappingRoleMenuController::class, 'update'])->name('roles-menus-edit');
-
-                })->middleware('permissionIsValid:update');
-
-                Route::get('delete/{role_id}', [MappingRoleMenuController::class, 'delete'])->name('roles-menus-delete')->middleware('permissionIsValid:delete');
-
-            });
-
             Route::prefix('users-roles')->group(function () {
 
                 Route::get('/', [MappingUserRoleController::class, 'index'])->name('users-roles')->middleware('permissionIsValid:view');
@@ -206,30 +155,6 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
                 })->middleware('permissionIsValid:update');
 
                 Route::get('delete/{user_id}', [MappingUserRoleController::class, 'delete'])->name('users-roles-delete')->middleware('permissionIsValid:delete');
-
-            });
-
-            Route::prefix('users-menus')->group(function () {
-
-                Route::get('/', [MappingUserMenuController::class, 'index'])->name('users-menus')->middleware('permissionIsValid:view');
-
-                Route::prefix('add')->group(function () {
-
-                    Route::get('/', [MappingUserMenuController::class, 'create'])->name('users-menus-add');
-
-                    Route::post('/', [MappingUserMenuController::class, 'store'])->name('users-menus-add');
-
-                })->middleware('permissionIsValid:create');
-
-                Route::prefix('edit')->group(function () {
-
-                    Route::get('{user_id}', [MappingUserMenuController::class, 'edit'])->name('users-menus-edit');
-
-                    Route::post('{user_id}', [MappingUserMenuController::class, 'update'])->name('users-menus-edit');
-
-                })->middleware('permissionIsValid:update');
-
-                Route::get('delete/{user_id}', [MappingUserMenuController::class, 'delete'])->name('users-menus-delete')->middleware('permissionIsValid:delete');
 
             });
 
