@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Utils\ArrayUtils;
+use App\Utils\CryptUtils;
 use App\Utils\ResponseUtils;
 use App\Services\RoleService;
 use App\DataTables\RolesDataTable;
 use App\Http\Requests\StoreRoleRequest;
 use App\DataTransferObjects\Role\StoreRoleDto;
-use App\Utils\CryptUtils;
 
 class RoleController extends Controller
 {
     use ResponseUtils;
+    use ArrayUtils;
 
     private RoleService $roleService;
 
@@ -25,7 +27,8 @@ class RoleController extends Controller
 
     public function create()
     {
-        return view('pages.app.settings.roles.create');
+        $roles = self::getRoles();
+        return view('pages.app.settings.roles.create', compact('roles'));
     }
 
     public function store(StoreRoleRequest $request)
@@ -44,7 +47,8 @@ class RoleController extends Controller
         $response = $this->roleService->findOne($id);
         $data     = json_decode($response['data']);
         $data->id = CryptUtils::enc($data->id);
-        return view('pages.app.settings.roles.edit', compact('data'));
+        $roles    = self::getRoles();
+        return view('pages.app.settings.roles.edit', compact('data', 'roles'));
     }
 
     public function update($id, StoreRoleRequest $request)
@@ -65,5 +69,18 @@ class RoleController extends Controller
         $response = $this->roleService->delete($id);
         ResponseUtils::showToast($response);
         return redirect()->route('roles');
+    }
+
+    private function getRoles()
+    {
+        $map            = ['id' => 'value', 'name' => 'text'];
+        $allRole        = json_decode($this->roleService->findAll()['data']);
+        $roles          = [];
+        $role_transform = ArrayUtils::transform($allRole, $map);
+
+        foreach ($role_transform as $item) {
+            array_push($roles, $item);
+        }
+        return $roles;
     }
 }

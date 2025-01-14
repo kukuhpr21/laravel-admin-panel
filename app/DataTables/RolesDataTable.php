@@ -65,6 +65,7 @@ class RolesDataTable extends DataTable
         return [
             Column::computed('DT_RowIndex', '#'),
             Column::make('name'),
+            Column::make('list_role_available'),
             Column::computed('action')
         ];
     }
