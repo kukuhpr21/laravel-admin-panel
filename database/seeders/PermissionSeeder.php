@@ -30,6 +30,10 @@ class PermissionSeeder extends Seeder
                 'id' => 'delete',
                 'name' => 'Delete',
             ],
+            [
+                'id' => 'change_status',
+                'name' => 'Change Status',
+            ],
         ];
         Permission::insert($permissions);
     }

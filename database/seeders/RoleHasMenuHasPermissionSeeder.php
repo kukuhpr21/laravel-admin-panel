@@ -22,12 +22,58 @@ class RoleHasMenuHasPermissionSeeder extends Seeder
         $roleWithMenuWithPermission = Menu::where('name', 'Role Menu Permission')->first();
         $userWithRole = Menu::where('name', 'User Role')->first();
         $status = Menu::where('name', 'Status')->first();
+        $user = Menu::where('name', 'User')->first();
 
         $rolemenupermission = [
+            [
+                'role_id' => 'admin',
+                'menu_id' => $dashboard->id,
+                'permission_id' => 'view'
+            ],
+            [
+                'role_id' => 'admin',
+                'menu_id' => $user->id,
+                'permission_id' => 'view'
+            ],
+            [
+                'role_id' => 'admin',
+                'menu_id' => $user->id,
+                'permission_id' => 'create'
+            ],
+            [
+                'role_id' => 'admin',
+                'menu_id' => $user->id,
+                'permission_id' => 'update'
+            ],
+            [
+                'role_id' => 'admin',
+                'menu_id' => $user->id,
+                'permission_id' => 'change_status'
+            ],
             [
                 'role_id' => 'super_admin',
                 'menu_id' => $dashboard->id,
                 'permission_id' => 'view'
+            ],
+            [
+                'role_id' => 'super_admin',
+                'menu_id' => $user->id,
+                'permission_id' => 'view'
+            ],
+            [
+                'role_id' => 'super_admin',
+                'menu_id' => $user->id,
+                'permission_id' => 'create'
+            ],
+            [
+                'role_id' => 'super_admin',
+                'menu_id' => $user->id,
+                'permission_id' => 'update'
+            ],
+            [
+                'role_id' => 'super_admin',
+                'menu_id' => $user->id,
+                'permission_id' => 'change_status'
             ],
             [
                 'role_id' => 'super_admin',

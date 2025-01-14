@@ -22,6 +22,15 @@ class MenuSeeder extends Seeder
             'order' => 1,
         ]);
 
+        Menu::create([
+            'name' => 'User',
+            'icon' => 'ri-user-line',
+            'link' => 'users',
+            'link_alias' => 'users',
+            'parent' => 0,
+            'order' => 2,
+        ]);
+
         $menuSettings = Menu::create([
             'name' => 'Settings',
             'icon' => 'ri-tools-line',

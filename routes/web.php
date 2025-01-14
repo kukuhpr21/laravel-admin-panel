@@ -11,6 +11,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\MappingUserRoleController;
 use App\Http\Controllers\MappingRoleMenuPermissionController;
 use App\Http\Controllers\StatusController;
+use App\Http\Controllers\UserController;
 
 Route::middleware([EnsureSessionIsValid::class])->group(function () {
 
@@ -33,6 +34,30 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
     });
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('permissionIsValid:view');
+
+    Route::prefix('users')->group(function () {
+
+        Route::get('/', [UserController::class, 'index'])->name('users')->middleware('permissionIsValid:view');
+
+        Route::prefix('add')->group(function () {
+
+            Route::get('/', [UserController::class, 'create'])->name('users-add')->middleware('permissionIsValid:create');
+
+            Route::post('/', [UserController::class, 'store'])->name('users-add')->middleware('permissionIsValid:create');
+
+        });
+
+        Route::prefix('edit')->middleware('permissionIsValid:update')->group(function () {
+
+            Route::get('{id}', [UserController::class, 'edit'])->name('users-edit')->middleware('permissionIsValid:update');
+
+            Route::post('{id}', [UserController::class, 'update'])->name('users-edit')->middleware('permissionIsValid:update');
+
+        });
+
+        Route::get('change-status/{id}', [UserController::class, 'changeStatus'])->name('users-change-status')->middleware('permissionIsValid:change_status');
+
+    });
 
     Route::prefix('settings')->group(function () {
 

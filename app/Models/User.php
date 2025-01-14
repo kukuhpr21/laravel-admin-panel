@@ -13,9 +13,10 @@ class User extends Authenticatable
     protected $keyType = "string";
     public $timestamps = true;
     public $incrementing = false;
-
+    protected $guarded = [];
     protected $hidden = [
         'password',
+        'pivot',
     ];
 
     protected function casts(): array

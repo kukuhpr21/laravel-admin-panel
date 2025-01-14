@@ -15,6 +15,7 @@ return new class extends Migration
             $table->engine = 'InnoDB';
             $table->string('id', 50)->primary();
             $table->string('name', 50);
+            $table->text('list_role_available',)->nullable();
         });
     }
 
