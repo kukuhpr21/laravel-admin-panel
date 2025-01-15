@@ -13,6 +13,7 @@ $colorClasses = match ($color) {
     'gray' => "bg-gray-500 text-white hover:bg-gray-600 disabled:hover:bg-gray-500",
     'red' => "bg-red-500 text-white hover:bg-red-600 disabled:hover:bg-red-500",
     'yellow' => "bg-yellow-500 text-white hover:bg-yellow-600 disabled:hover:bg-yellow-500",
+    'teal' => "bg-teal-500 text-white hover:bg-teal-600 disabled:hover:bg-teal-500",
     default => "bg-blue-500 text-white hover:bg-blue-600 disabled:hover:bg-blue-500",
 };
 

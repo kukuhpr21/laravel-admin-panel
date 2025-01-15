@@ -14,6 +14,7 @@ use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Illuminate\Support\Facades\Log;
 
 class UserDataTable extends DataTable
 {
@@ -50,12 +51,25 @@ class UserDataTable extends DataTable
      */
     public function query(UserHasRole $model): QueryBuilder
     {
-        return $model->newQuery()
+        $query = $model->newQuery()
         ->addSelect('user_has_roles.user_id as user_id', 'users.name as name', 'users.email', 'users.created_at', 'users.updated_at', 'statuses.name as status', DB::raw('GROUP_CONCAT(roles.name ORDER BY roles.name ASC) as role'))
         ->leftJoin('users', 'users.id', '=', 'user_has_roles.user_id')
         ->leftJoin('statuses', 'statuses.id', '=', 'users.status_id')
-        ->leftJoin('roles', 'roles.id', '=', 'user_has_roles.role_id')
-        ->groupBy('user_id');
+        ->leftJoin('roles', 'roles.id', '=', 'user_has_roles.role_id');
+
+        // filter
+        if (request()->has('status') && request()->status != 'all') {
+            // Log::info('status : '.request()->status);
+            $query->where('statuses.id', 'like','%'.request()->status.'%');
+        }
+        if (request()->has('role') && request()->status != 'all') {
+            // Log::info('role : '.request()->role);
+            $query->where('roles.id', 'like','%'.request()->role.'%');
+        }
+
+        $query->groupBy('user_id');
+
+        return $this->applyScopes($query);
     }
 
     /**

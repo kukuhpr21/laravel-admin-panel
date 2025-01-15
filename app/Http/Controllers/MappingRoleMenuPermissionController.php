@@ -13,8 +13,6 @@ use App\DataTables\RoleHasMenuHasPermissionDataTable;
 use App\Http\Requests\StoreMappingRoleMenuPermissionRequest;
 use App\Http\Requests\UpdateMappingRoleMenuPermissionRequest;
 use App\DataTransferObjects\Mapping\RoleMenuPermission\RoleMenuPermissionDto;
-use App\Models\Session;
-use App\Utils\SessionUtils;
 
 class MappingRoleMenuPermissionController extends Controller
 {
