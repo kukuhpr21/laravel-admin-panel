@@ -7,7 +7,8 @@ use App\Http\Requests\StoreRoleRequest;
 class StoreRoleDto
 {
     public function __construct(
-        public readonly string $name
+        public readonly string $name,
+        public readonly string $list_role_availabel
     ) {
     }
 
@@ -15,6 +16,7 @@ class StoreRoleDto
     {
         return new self(
             name: $request->validated('name'),
+            list_role_availabel: $request->validated('list_role_availabel'),
         );
     }
 }
