@@ -25,7 +25,7 @@ class StoreRoleRequest extends FormRequest
     {
         return [
             'name' => ['required', 'max:50'],
-            'list_role_availabel' => ['nullable', 'string'],
+            'list_role_available' => ['nullable', 'array'],
         ];
     }
 }

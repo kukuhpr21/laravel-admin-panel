@@ -43,19 +43,22 @@ class RoleController extends Controller
 
     public function edit($id)
     {
-        $id       = CryptUtils::dec($id);
-        $response = $this->roleService->findOne($id);
-        $data     = json_decode($response['data']);
-        $data->id = CryptUtils::enc($data->id);
-        $roles    = self::getRoles();
+        $id                        = CryptUtils::dec($id);
+        $response                  = $this->roleService->findOne($id);
+        $data                      = json_decode($response['data']);
+        $data->id                  = CryptUtils::enc($data->id);
+        $data->list_role_available = self::transformListRoleAvailableToSelect2($data->list_role_available);
+        $roles                     = self::getRoles();
         return view('pages.app.settings.roles.edit', compact('data', 'roles'));
     }
 
     public function update($id, StoreRoleRequest $request)
     {
         $id       = CryptUtils::dec($id);
-        $name     = StoreRoleDto::fromRequest($request)->name;
-        $response = $this->roleService->update($id, $name);
+        $request     = StoreRoleDto::fromRequest($request);
+        $name     = $request->name;
+        $listRoleAvailable = $request->list_role_available;
+        $response = $this->roleService->update($id, $name, $listRoleAvailable);
         ResponseUtils::showToast($response);
         if (ResponseUtils::isSuccess($response)) {
             return redirect()->route('roles');
@@ -82,5 +85,16 @@ class RoleController extends Controller
             array_push($roles, $item);
         }
         return $roles;
+    }
+
+    private function transformListRoleAvailableToSelect2($listRoleAvailable)
+    {
+        $listRoleAvailable = explode(',', $listRoleAvailable);
+        $roles = [];
+        foreach ($listRoleAvailable as $item) {
+            $data = ['id' => $item];
+            array_push($roles, $data);
+        }
+        return json_decode(json_encode($roles));;
     }
 }

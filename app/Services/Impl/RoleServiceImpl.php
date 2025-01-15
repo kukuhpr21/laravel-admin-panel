@@ -19,7 +19,8 @@ class RoleServiceImpl implements RoleService
         try {
             $role = Role::create([
                 'id' => self::getID($dto->name),
-                'name' => $dto->name
+                'name' => $dto->name,
+                'list_role_available' => implode(',', $dto->list_role_available),
             ]);
 
             if ($role) {
@@ -71,15 +72,12 @@ class RoleServiceImpl implements RoleService
         }
     }
 
-    public function update(string $id, string $newName)
+    public function update(string $id, string $newName, array $listRoleAvailable)
     {
         try {
             $newID = self::getID($newName);
-            $role = Role::where(
-                'id',
-                $newID
-                )
-                ->first();
+            $listRoleAvailable = implode(',', $listRoleAvailable);
+            $role = Role::where(['id' => $id, 'list_role_available' => $listRoleAvailable])->first();
 
             if (!$role) {
                 if ($this->roleIsNotUsed($id)) {
@@ -90,7 +88,8 @@ class RoleServiceImpl implements RoleService
 
                         $result = Role::create([
                             'id' => $newID,
-                            'name' => $newName
+                            'name' => $newName,
+                            'list_role_available' => $listRoleAvailable,
                         ]);
 
                         if ($result) {
