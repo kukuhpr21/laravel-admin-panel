@@ -35,14 +35,14 @@ class EnsureSessionIsValid
                 if ($isMultiRole) {
 
                     if ($request->path() != 'choose-role') {
-
                         return redirect()->route('choose-role');
                     }
+                } else {
+                    $sessionUtils->save('role', json_encode($tempRole[0]));
+                    $sessionUtils->delete('temp_role');
+                    return $next($request);
                 }
 
-                $sessionUtils->save('role', json_encode($tempRole[0]));
-                $sessionUtils->delete('temp_role');
-                return $next($request);
             }
 
             return $next($request);
