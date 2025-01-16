@@ -27,9 +27,13 @@ return Application::configure(basePath: dirname(__DIR__))
             }
 
             $messages = [
-                404 => 'Page Not Found',
-                500 => 'Server Error',
+                400 => 'Bad Request',
+                401 => 'Unauthorized',
+                402 => 'Payment Required',
                 403 => 'Forbidden',
+                404 => 'Page Not Found',
+                405 => 'Method Not Allowed',
+                500 => 'Server Error',
             ];
 
             $message = $messages[$statusCode] ?? 'An unexpected error occurred';

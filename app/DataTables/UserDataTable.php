@@ -2,15 +2,11 @@
 
 namespace App\DataTables;
 
-use App\Models\User;
 use App\Utils\CryptUtils;
 use App\Models\UserHasRole;
-use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\EloquentDataTable;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
@@ -23,6 +19,15 @@ class UserDataTable extends DataTable
      *
      * @param QueryBuilder $query Results from query() method.
      */
+
+    private string $filter_status;
+    private string $filter_role;
+
+    public function __construct(string $filter_status = '', string $filter_role = '') {
+        $this->filter_status = $filter_status;
+        $this->filter_role = $filter_role;
+    }
+
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
@@ -56,20 +61,23 @@ class UserDataTable extends DataTable
         ->leftJoin('users', 'users.id', '=', 'user_has_roles.user_id')
         ->leftJoin('statuses', 'statuses.id', '=', 'users.status_id')
         ->leftJoin('roles', 'roles.id', '=', 'user_has_roles.role_id');
+        // Log::info('request : '.json_encode($this->attributes));
+        // Log::info('request : '.json_encode($this->request()->post()));
 
         // filter
         if (request()->has('status') && request()->status != 'all') {
-            // Log::info('status : '.request()->status);
-            $query->where('statuses.id', 'like','%'.request()->status.'%');
+            $query->where('statuses.id', request()->status);
         }
+
         if (request()->has('role') && request()->status != 'all') {
-            // Log::info('role : '.request()->role);
-            $query->where('roles.id', 'like','%'.request()->role.'%');
+            $query->where('roles.id', request()->role);
         }
 
         $query->groupBy('user_id');
 
         return $this->applyScopes($query);
+        // dd($query->toRawSql());
+        // return $query;
     }
 
     /**
@@ -82,6 +90,13 @@ class UserDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->columns($this->getColumns())
                     ->minifiedAjax()
+                    ->postAjax([
+                        'url' => route('users'),
+                        'data' => 'function(d) {
+                            d.status ="'.$this->filter_status.'";
+                            d.role = "'.$this->filter_role.'";
+                        }'
+                    ])
                     ->orderBy(1)
                     ->selectStyleSingle();
     }

@@ -20,22 +20,18 @@ class UserController extends Controller
         $this->statusService = $statusService;
         $this->roleService = $roleService;
     }
-    public function index(Request $request, UserDataTable $dataTable)
-    {
-        //Log::info('xxxx'.request()->role);
-        $dataTable->ajax()->setData($request->all());
-        // $dataTable->dataTable()->filter(function ($query) {
-        //     if (request()->has('status') && request()->status != 'all') {
 
-        //         $query->where('statuses.id', request()->status);
-        //     }
-        //     if (request()->has('role') && request()->status != 'all') {
-        //         $query->where('roles.id', request()->role);
-        //     }
-        // });
+    public function index(Request $request)
+    {
+
         $statuses = self::listFilterStatus();
         $roles = self::listFilterRole();
+        $status = $request->post() ? $request->get('status') : 'all';
+        $role   = $request->post() ? $request->get('role') : 'all';
+
+        $dataTable = new UserDataTable($status, $role);
         return $dataTable->render('pages.app.users.list', compact('statuses', 'roles'));
+
     }
 
     private function listFilterStatus()
