@@ -40,7 +40,9 @@ class AuthController extends Controller
     {
         $sessionUtils = new SessionUtils();
         $maps         = ['id' => 'value', 'name' => 'text'];
-        $tempRole     = $this->parsingTempRole(json_decode($sessionUtils->get('temp_role')));
+        $tempRole     = $sessionUtils->get('temp_role');
+        $tempRole     = json_decode($tempRole);
+        $tempRole     = $this->parsingTempRole($tempRole);
         $roles        = ArrayUtils::transform($tempRole, $maps);
         return view('pages.guest.choose-role', compact('roles'));
     }
