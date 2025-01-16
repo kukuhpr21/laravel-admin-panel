@@ -61,23 +61,19 @@ class UserDataTable extends DataTable
         ->leftJoin('users', 'users.id', '=', 'user_has_roles.user_id')
         ->leftJoin('statuses', 'statuses.id', '=', 'users.status_id')
         ->leftJoin('roles', 'roles.id', '=', 'user_has_roles.role_id');
-        // Log::info('request : '.json_encode($this->attributes));
-        // Log::info('request : '.json_encode($this->request()->post()));
 
         // filter
         if (request()->has('status') && request()->status != 'all') {
             $query->where('statuses.id', request()->status);
         }
 
-        if (request()->has('role') && request()->status != 'all') {
-            $query->where('roles.id', request()->role);
+        if (request()->has('role') && request()->role != 'all') {
+            $query->having('role', 'like','%'.request()->role.'%');
         }
 
         $query->groupBy('user_id');
 
         return $this->applyScopes($query);
-        // dd($query->toRawSql());
-        // return $query;
     }
 
     /**

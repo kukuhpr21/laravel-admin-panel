@@ -30,7 +30,7 @@ class UserController extends Controller
         $role   = $request->post() ? $request->get('role') : 'all';
 
         $dataTable = new UserDataTable($status, $role);
-        return $dataTable->render('pages.app.users.list', compact('statuses', 'roles'));
+        return $dataTable->render('pages.app.users.list', compact('status', 'statuses', 'role', 'roles'));
 
     }
 
