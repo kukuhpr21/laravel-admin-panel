@@ -16,8 +16,10 @@
         "vite": "^5.0"
     },
     "dependencies": {
+        "@popperjs/core": "^2.11.8",
         "@preline/accordion": "^2.6.0",
         "@preline/tree-view": "^2.6.0",
+        "air-datepicker": "^3.5.3",
         "chart.js": "^4.4.6",
         "jquery": "^3.7.1",
         "leaflet": "^1.9.4",
