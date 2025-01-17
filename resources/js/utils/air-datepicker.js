@@ -1,4 +1,4 @@
-import {AirDatepicker, AirDatepickerOptions} from 'air-datepicker';
+import AirDatepicker from 'air-datepicker';
 import 'air-datepicker/air-datepicker.css';
 import {createPopper} from '@popperjs/core';
 import localeEn from 'air-datepicker/locale/en';
