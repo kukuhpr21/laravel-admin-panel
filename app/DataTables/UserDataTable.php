@@ -22,10 +22,12 @@ class UserDataTable extends DataTable
 
     private string $filter_status;
     private string $filter_role;
+    private string $filter_created_at;
 
-    public function __construct(string $filter_status = '', string $filter_role = '') {
+    public function __construct(string $filter_status = '', string $filter_role = '', string $filter_created_at = '') {
         $this->filter_status = $filter_status;
         $this->filter_role = $filter_role;
+        $this->filter_created_at = $filter_created_at;
     }
 
     public function dataTable(QueryBuilder $query): EloquentDataTable
@@ -71,6 +73,10 @@ class UserDataTable extends DataTable
             $query->having('role', 'like','%'.request()->role.'%');
         }
 
+        if (request()->has('created_at') && !empty(request()->created_at)) {
+            $query->whereDate('created_at', request()->created_at);
+        }
+
         $query->groupBy('user_id');
 
         return $this->applyScopes($query);
@@ -91,6 +97,7 @@ class UserDataTable extends DataTable
                         'data' => 'function(d) {
                             d.status ="'.$this->filter_status.'";
                             d.role = "'.$this->filter_role.'";
+                            d.created_at = "'.$this->filter_created_at.'";
                         }'
                     ])
                     ->orderBy(1)

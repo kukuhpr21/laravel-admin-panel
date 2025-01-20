@@ -7,7 +7,7 @@
         <div id="section_filter" class="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <x-select name="Status" :data="$statuses" :valueSelected="$status"/>
             <x-select name="Role" :data="$roles" :valueSelected="$role"/>
-            <x-input type="date" name="Created At"/>
+            <x-input type="date" name="Created At" :value="$createdAt"/>
         </div>
         <div class="flex w-full justify-end">
             <x-button type="submit" color="teal" size="md">Filter</x-button>

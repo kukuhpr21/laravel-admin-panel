@@ -24,13 +24,14 @@ class UserController extends Controller
     public function index(Request $request)
     {
 
-        $statuses = self::listFilterStatus();
-        $roles = self::listFilterRole();
-        $status = $request->post() ? $request->get('status') : 'all';
-        $role   = $request->post() ? $request->get('role') : 'all';
+        $statuses    = self::listFilterStatus();
+        $roles       = self::listFilterRole();
+        $status      = $request->post() && $request->has('status') && !empty($request->get('status')) ? $request->get('status') : 'all';
+        $role        = $request->post() && $request->has('role') && !empty($request->get('role')) ? $request->get('role') : 'all';
+        $createdAt   = $request->post() && $request->has('created_at') && !empty($request->get('created_at'))? $request->get('created_at') : '';
 
-        $dataTable = new UserDataTable($status, $role);
-        return $dataTable->render('pages.app.users.list', compact('status', 'statuses', 'role', 'roles'));
+        $dataTable = new UserDataTable($status, $role, $createdAt);
+        return $dataTable->render('pages.app.users.list', compact('status', 'statuses', 'role', 'roles', 'createdAt'));
 
     }
 
