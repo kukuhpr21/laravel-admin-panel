@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Utils\ArrayUtils;
+use App\Utils\SessionUtils;
 use Illuminate\Http\Request;
 use App\Services\RoleService;
 use App\Services\StatusService;
 use App\DataTables\UserDataTable;
+use App\Http\Requests\StoreUserRequest;
 use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
@@ -35,6 +37,17 @@ class UserController extends Controller
 
     }
 
+    public function create()
+    {
+        $roles        = self::listRoleAvailable();
+        return view('pages.app.users.create', compact('roles'));
+    }
+
+    public function store(StoreUserRequest $request)
+    {
+
+    }
+
     private function listFilterStatus()
     {
         $map = ['id' => 'value', 'name' => 'text'];
@@ -54,6 +67,29 @@ class UserController extends Controller
         $result = [];
         array_push($result, ['value' => 'all', 'text' => 'Semua Role']);
         $data_transform = ArrayUtils::transformToSelect2(json_decode($this->roleService->findAll()['data']), $map);
+
+        foreach ($data_transform as $item) {
+            array_push($result, $item);
+        }
+        return $result;
+    }
+
+    private function listRoleAvailable()
+    {
+        $sessionUtils = new SessionUtils();
+        $map          = ['id' => 'value', 'name' => 'text'];
+        $result       = [];
+        $roleRaw        = $sessionUtils->get('role');
+        $roleRaw        = json_decode($roleRaw, true)['list_role_available'];
+        $roleRaw        = explode(',', $roleRaw);
+
+        $roles = [];
+
+        foreach ($roleRaw as $item) {
+            array_push($roles, ['id' => $item, 'name' => ucwords(str_replace("_", " ", $item))]);
+        }
+
+        $data_transform = ArrayUtils::transformToSelect2($roles, $map);
 
         foreach ($data_transform as $item) {
             array_push($result, $item);

@@ -14,6 +14,7 @@ class StoreUserDto
         public readonly string $password,
         public readonly string $created_at,
         public readonly string $updated_at,
+        public readonly string $roles,
     ) {
     }
 
@@ -21,12 +22,13 @@ class StoreUserDto
     {
         return new self(
             id: '',
-            status_id: $request->validated('status_id'),
+            status_id: '',
             name: $request->validated('name'),
             email: $request->validated('email'),
-            password: $request->validated('password'),
+            password: '',
             created_at: '',
-            updated_at: ''
+            updated_at: '',
+            roles: $request->validated('roles'),
         );
     }
 }

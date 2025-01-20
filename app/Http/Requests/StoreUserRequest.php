@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Utils\SessionUtils;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreUserRequest extends FormRequest
@@ -11,7 +12,8 @@ class StoreUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        $sessionUtils = new SessionUtils();
+        return $sessionUtils->isExist();
     }
 
     /**
@@ -22,7 +24,9 @@ class StoreUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name'  => ['required', 'max:100'],
+            'email' => ['required', 'email', 'max:100', 'unique:users,email'],
+            'role'  => ['required'],
         ];
     }
 }
