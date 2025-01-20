@@ -11,6 +11,7 @@ export const initAirDatepickerSingle = (el, dateFormat = 'yyyy-MM-dd', ) => {
         buttons: ['today', 'clear'],
         locale: localeEn,
         isMobile: true,
+        autoClose: true,
         position({$datepicker, $target, $pointer, done}) {
             let popper = createPopper($target, $datepicker, {
                 placement: 'top',

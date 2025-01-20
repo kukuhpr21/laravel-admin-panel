@@ -46,7 +46,7 @@
 
             <button type="button" data-hs-toggle-password='{
                 "target": "#hs-toggle-password"
-                }' class="border border-slate-300 bg-{{$color}}-50 hover:bg-slate-100 hover:drop-shadow-xl focus:ring-0 w-1/5 flex items-center justify-center z-20 px-3 my-3 cursor-pointer text-gray-400 rounded-2xl focus:outline-none">
+                }' class="border border-slate-300 bg-{{$color}}-50 hover:bg-slate-100 hover:drop-shadow-xl focus:ring-0 w-1/5 flex items-center justify-center z-20 px-3 cursor-pointer text-gray-400 rounded-2xl focus:outline-none">
                 <x-icon-toggle-password/>
             </button>
         </div>
