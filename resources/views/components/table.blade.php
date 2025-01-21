@@ -12,7 +12,7 @@
             <x-button color="gray" size="md" :buttonLink="true" :link="$routeButtonAdd">{{ $buttonAddText }}</x-button>
         </div>
     @endif
-
+    {{ $slot }}
     {{ $data->table() }}
 </x-card>
 @push('head')
