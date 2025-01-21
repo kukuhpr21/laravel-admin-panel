@@ -18,10 +18,11 @@ class UserServiceImpl implements UserService
     private string $passwordDefault;
     private string $userStatusDefault;
 
-    // public function __construct() {
-    //     $this->passwordDefault = env('DEFAULT_PASSWORD');
-    //     $this->userStatusDefault = env('DEFAULT_USER_STATUS');
-    // }
+    public function __construct() {
+        $this->passwordDefault = env('DEFAULT_PASSWORD');
+        $this->userStatusDefault = env('DEFAULT_USER_STATUS');
+    }
+
     public function store(StoreUserDto $dto)
     {
         try {
@@ -30,10 +31,10 @@ class UserServiceImpl implements UserService
             $id = (string) Str::uuid();
             $user = DB::table('users')->insert([
                 'id' => $id,
-                'status_id' => env('DEFAULT_USER_STATUS'),
+                'status_id' => $this->userStatusDefault,
                 'name' => $dto->name,
                 'email' => $dto->email,
-                'password' => Hash::make(env('DEFAULT_PASSWORD')),
+                'password' => Hash::make($this->passwordDefault),
                 'created_at' => Carbon::now(),
             ]);
 
@@ -56,7 +57,7 @@ class UserServiceImpl implements UserService
 
                 DB::commit();
                 return ResponseUtils::success(
-                    message: 'Success create status'
+                    message: 'Success create user'
                 );
             } else {
                 DB::rollBack();
