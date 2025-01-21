@@ -3,22 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Utils\ArrayUtils;
+use App\Utils\ResponseUtils;
 use App\Utils\SessionUtils;
 use Illuminate\Http\Request;
 use App\Services\RoleService;
 use App\Services\StatusService;
 use App\DataTables\UserDataTable;
+use App\DataTransferObjects\User\StoreUserDto;
 use App\Http\Requests\StoreUserRequest;
+use App\Services\UserService;
 use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
+    use ResponseUtils;
     use ArrayUtils;
 
+    private UserService $userService;
     private StatusService $statusService;
     private RoleService $roleService;
 
-    public function __construct(StatusService $statusService, RoleService $roleService) {
+    public function __construct(UserService $userService, StatusService $statusService, RoleService $roleService) {
+        $this->userService = $userService;
         $this->statusService = $statusService;
         $this->roleService = $roleService;
     }
@@ -45,7 +51,12 @@ class UserController extends Controller
 
     public function store(StoreUserRequest $request)
     {
-
+        $response = $this->userService->store(StoreUserDto::fromRequest($request));
+        ResponseUtils::showToast($response);
+        if (ResponseUtils::isSuccess($response)) {
+            return redirect()->route('users');
+        }
+        return redirect()->back();
     }
 
     private function listFilterStatus()

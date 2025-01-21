@@ -80,25 +80,38 @@ class RoleServiceImpl implements RoleService
             $role = Role::where(['id' => $id, 'list_role_available' => $listRoleAvailable])->first();
 
             if (!$role) {
-                if ($this->roleIsNotUsed($id)) {
+                if ($id == $newID) {
+                    $result = Role::where('id', $newID)->update([
+                        'name' => $newName,
+                        'list_role_available' => $listRoleAvailable,
+                    ]);
 
-                    $oldRoleIsDeleted = Role::where('id', $id)->delete();
-
-                    if ($oldRoleIsDeleted) {
-
-                        $result = Role::create([
-                            'id' => $newID,
-                            'name' => $newName,
-                            'list_role_available' => $listRoleAvailable,
-                        ]);
-
-                        if ($result) {
-                            return ResponseUtils::success('Success updating role', $result);
-                        }
+                    if ($result) {
+                        return ResponseUtils::success('Success updating role', $result);
                     }
                     return ResponseUtils::failed('Failed updating role', "failed delete role in method update role");
+                } else {
+
+                    if ($this->roleIsNotUsed($id)) {
+
+                        $oldRoleIsDeleted = Role::where('id', $id)->delete();
+
+                        if ($oldRoleIsDeleted) {
+
+                            $result = Role::create([
+                                'id' => $newID,
+                                'name' => $newName,
+                                'list_role_available' => $listRoleAvailable,
+                            ]);
+
+                            if ($result) {
+                                return ResponseUtils::success('Success updating role', $result);
+                            }
+                        }
+                        return ResponseUtils::failed('Failed updating role', "failed delete role in method update role");
+                    }
+                    return ResponseUtils::warning('Role has been used');
                 }
-                return ResponseUtils::warning('Role has been used');
             }
 
             return ResponseUtils::warning('No data change');

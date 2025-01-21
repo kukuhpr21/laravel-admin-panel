@@ -5,10 +5,8 @@ namespace Database\Seeders;
 use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Support\Str;
-use App\Utils\ConstantUtils;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use PHPUnit\TextUI\Configuration\Constant;
 
 class UserSeeder extends Seeder
 {
@@ -17,12 +15,13 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $passwordDefault = ConstantUtils::DEFAULT_PASSWORD;
+        $passwordDefault = env('DEFAULT_PASSWORD');
+        $userStatusDefault = env('DEFAULT_USER_STATUS');
 
         User::insert([
             [
                 'id' => (string) Str::uuid(),
-                'status_id' => 'active',
+                'status_id' => $userStatusDefault,
                 'name' => 'The Super Admin',
                 'email' => 'superadmin@gmail.com',
                 'password' => Hash::make($passwordDefault),

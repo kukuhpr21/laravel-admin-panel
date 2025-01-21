@@ -14,7 +14,7 @@ class StoreUserDto
         public readonly string $password,
         public readonly string $created_at,
         public readonly string $updated_at,
-        public readonly string $roles,
+        public readonly array $roles,
     ) {
     }
 
