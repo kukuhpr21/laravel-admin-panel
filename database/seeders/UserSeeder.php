@@ -16,12 +16,11 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $passwordDefault = env('DEFAULT_PASSWORD');
-        $userStatusDefault = env('DEFAULT_USER_STATUS');
 
         User::insert([
             [
                 'id' => (string) Str::uuid(),
-                'status_id' => $userStatusDefault,
+                'status_id' => 'active',
                 'name' => 'The Super Admin',
                 'email' => 'superadmin@gmail.com',
                 'password' => Hash::make($passwordDefault),
