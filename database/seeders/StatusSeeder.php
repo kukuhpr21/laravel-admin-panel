@@ -13,14 +13,29 @@ class StatusSeeder extends Seeder
      */
     public function run(): void
     {
-        Status::create([
-            'id' => 'active',
-            'name' => 'Active'
-        ]);
+        $statuses = [
+            [
+                'id' => 'registered',
+                'name' => 'Registered'
+            ],
+            [
+                'id' => 'changed_password',
+                'name' => 'Changed Password'
+            ],
+            [
+                'id' => 'active',
+                'name' => 'Active'
+            ],
+            [
+                'id' => 'inactive',
+                'name' => 'Inactive'
+            ],
+            [
+                'id' => 'deleted',
+                'name' => 'Deleted'
+            ],
+        ];
 
-        Status::create( [
-            'id' => 'inactive',
-            'name' => 'Inactive'
-        ]);
+        Status::create( $statuses );
     }
 }
