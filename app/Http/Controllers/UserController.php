@@ -3,16 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Utils\ArrayUtils;
-use App\Utils\ResponseUtils;
+use App\Utils\CryptUtils;
 use App\Utils\SessionUtils;
+use App\Utils\ResponseUtils;
 use Illuminate\Http\Request;
 use App\Services\RoleService;
+use App\Services\UserService;
 use App\Services\StatusService;
 use App\DataTables\UserDataTable;
-use App\DataTransferObjects\User\StoreUserDto;
-use App\Http\Requests\StoreUserRequest;
-use App\Services\UserService;
 use Illuminate\Support\Facades\Log;
+use App\Http\Requests\StoreUserRequest;
+use App\DataTransferObjects\User\StoreUserDto;
 
 class UserController extends Controller
 {
@@ -59,6 +60,23 @@ class UserController extends Controller
         return redirect()->back();
     }
 
+    public function edit($id)
+    {
+        $idDecrypt = CryptUtils::dec($id);
+        $response  = $this->userService->findOne($idDecrypt);
+
+        if (!ResponseUtils::isSuccess($response)) {
+            return abort(404);
+        }
+
+        $data = json_decode($response['data']);
+
+    }
+
+    public function update()
+    {
+
+    }
     private function listFilterStatus()
     {
         $map = ['id' => 'value', 'name' => 'text'];
