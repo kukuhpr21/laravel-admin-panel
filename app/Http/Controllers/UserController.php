@@ -45,7 +45,7 @@ class UserController extends Controller
 
     public function create()
     {
-        $roles        = self::listRoleAvailable();
+        $roles = self::listRoleAvailable();
         return view('pages.app.users.create', compact('roles'));
     }
 
