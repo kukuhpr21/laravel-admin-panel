@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enum\StatusEnum;
 use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Support\Str;
@@ -20,7 +21,7 @@ class UserSeeder extends Seeder
         User::insert([
             [
                 'id' => (string) Str::uuid(),
-                'status_id' => 'active',
+                'status_id' => StatusEnum::ACTIVE,
                 'name' => 'The Super Admin',
                 'email' => 'superadmin@gmail.com',
                 'password' => Hash::make($passwordDefault),
@@ -29,7 +30,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'id' => (string) Str::uuid(),
-                'status_id' => 'active',
+                'status_id' => StatusEnum::ACTIVE,
                 'name' => 'The Admin',
                 'email' => 'admin@gmail.com',
                 'password' => Hash::make($passwordDefault),
