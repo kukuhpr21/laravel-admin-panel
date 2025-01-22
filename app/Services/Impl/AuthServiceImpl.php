@@ -10,6 +10,7 @@ use App\Services\AuthService;
 use App\Services\MenuService;
 use Illuminate\Support\Facades\Hash;
 use App\DataTransferObjects\Auth\LoginPostDto;
+use App\Enum\StatusEnum;
 use Illuminate\Support\Facades\DB;
 
 class AuthServiceImpl implements AuthService
@@ -29,7 +30,9 @@ class AuthServiceImpl implements AuthService
         try {
             // find user by email
             $user = User::with('roles')
-                    ->where('email', $dto->email)
+                    ->where([
+                        'email' => $dto->email,
+                        'status_id' => StatusEnum::ACTIVE])
                     ->first();
 
             if ($user) {
@@ -56,6 +59,8 @@ class AuthServiceImpl implements AuthService
                 return ResponseUtils::failed('Invalid email or password');
 
             }
+
+            return ResponseUtils::failed('Invalid email or password');
         } catch(Exception $e) {
             $errorMessage = $e->getMessage();
             return ResponseUtils::internalServerError('Failed login : '.$errorMessage);
