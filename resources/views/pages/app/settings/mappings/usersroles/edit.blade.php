@@ -3,7 +3,9 @@
 @section('content')
 <x-page title="Edit Mapping User Role" :back="true" routeBack="{{ route('users-roles') }}">
     <x-form routeName="{{ route('users-roles-edit', ['user_id' => $user_id]) }}" class="sm:w-1/2" shadow="drop-shadow-md">
-        <x-label :name="'User : '.$userName"/>
+        <x-card color="slate" type="custom" title="User" size="sm">
+            <x-label :name="$userName"/>
+        </x-card>
 
         @if ($sizeRole > 0)
             <x-select name="Roles" :data="$roles" :multiple="true" :valueSelected="$rolesSelected"/>
