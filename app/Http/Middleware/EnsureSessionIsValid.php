@@ -3,8 +3,9 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Http\Request;
+use App\Utils\CacheUtils;
 use App\Utils\SessionUtils;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class EnsureSessionIsValid
@@ -38,8 +39,13 @@ class EnsureSessionIsValid
                         return redirect()->route('choose-role');
                     }
                 } else {
-                    $sessionUtils->save('role', json_encode($tempRole[0]));
+                    $role = json_encode($tempRole[0]);
+                    $sessionUtils->save('role', $role);
                     $sessionUtils->delete('temp_role');
+
+                    $userID = $sessionUtils->get('id');
+                    CacheUtils::put("role", $userID, $role);
+
                     return $next($request);
                 }
 

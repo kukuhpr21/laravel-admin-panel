@@ -7,8 +7,9 @@ use App\Utils\SessionUtils;
 use App\Utils\ResponseUtils;
 use App\Services\AuthService;
 use App\Http\Requests\LoginRequest;
-use App\DataTransferObjects\Auth\LoginPostDto;
 use App\Http\Requests\ChooseRolePostRequest;
+use App\DataTransferObjects\Auth\LoginPostDto;
+use App\Utils\CacheUtils;
 
 class AuthController extends Controller
 {
@@ -57,8 +58,11 @@ class AuthController extends Controller
 
             foreach ($tempRoleDecode as $item) {
                 if ($item['id'] == $request['role']) {
-                    $sessionUtils->save('role', json_encode($item));
+                    $role = json_encode($item);
+                    $userID = $sessionUtils->get('id');
+                    $sessionUtils->save('role', $role);
                     $sessionUtils->delete('temp_role');
+                    CacheUtils::put("role", $userID, $role);
                     break;
                 }
             }

@@ -16,8 +16,9 @@ class PermissionCheckUtils
         $link       = $splitValue[0];
         $permission = $splitValue[1];
 
-        $sessionUtils = new SessionUtils();
-        $menuPermissions = $sessionUtils->get('menuPermissions');
+        $sessionUtils    = new SessionUtils();
+        $userID          = $sessionUtils->get('id');
+        $menuPermissions = CacheUtils::get('menuPermissions', $userID);
         $menuPermissions = json_decode($menuPermissions);
 
         return !empty(array_filter($menuPermissions, function ($item) use ($link, $permission) {

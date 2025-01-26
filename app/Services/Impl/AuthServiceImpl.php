@@ -11,6 +11,7 @@ use App\Services\MenuService;
 use Illuminate\Support\Facades\Hash;
 use App\DataTransferObjects\Auth\LoginPostDto;
 use App\Enum\StatusEnum;
+use App\Utils\CacheUtils;
 use Illuminate\Support\Facades\DB;
 
 class AuthServiceImpl implements AuthService
@@ -69,12 +70,19 @@ class AuthServiceImpl implements AuthService
 
     private function saveProfileToSession($user, $menus, $menuPermissions): void
     {
+        $menus           = json_encode($menus);
+        $menuPermissions = json_encode($menuPermissions);
+        $ttl             = 86400;
+
         $this->sessionUtils->save('id', $user->id);
         $this->sessionUtils->save('name', $user->name);
         $this->sessionUtils->save('email', $user->email);
         $this->sessionUtils->save('temp_role', $user->roles);
-        $this->sessionUtils->save('menus', json_encode($menus));
-        $this->sessionUtils->save('menuPermissions', json_encode($menuPermissions));
+        $this->sessionUtils->save('menus', $menus);
+        $this->sessionUtils->save('menuPermissions', $menuPermissions);
+
+        CacheUtils::put("menus", $user->id, $menus);
+        CacheUtils::put("menuPermissions", $user->id, $menuPermissions);
     }
 
     private function getMenuPermissionByUser($useID)

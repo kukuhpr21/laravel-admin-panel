@@ -5,6 +5,7 @@ namespace App\View\Components;
 use Closure;
 use App\Utils\SessionUtils;
 use App\Services\MenuService;
+use App\Utils\CacheUtils;
 use Illuminate\View\Component;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Log;
@@ -24,7 +25,8 @@ class Sidebar extends Component
     public function render(): View|Closure|string
     {
         $sessionUtils = new SessionUtils();
-        $menus        = $sessionUtils->get('menus');
+        $userID       = $sessionUtils->get('id');
+        $menus        = CacheUtils::get('menus',$userID);
         $menusDecode  = json_decode($menus, true);
         $menus        = $this->makeHTMLSiderbar($menusDecode, request()->segments());
         return view('components.sidebar', compact('menus'));

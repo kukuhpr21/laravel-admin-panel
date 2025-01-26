@@ -12,6 +12,7 @@ use App\Http\Controllers\MappingUserRoleController;
 use App\Http\Controllers\MappingRoleMenuPermissionController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\UserController;
+use App\Utils\CacheUtils;
 
 Route::middleware([EnsureSessionIsValid::class])->group(function () {
 
@@ -222,6 +223,8 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
 
     Route::get('/logout', function () {
         $sessionUtils = new SessionUtils();
+        $userID = $sessionUtils->get('id');
+        CacheUtils::deleteWithTags($userID);
         $sessionUtils->deleteMain();
         return redirect()->route('login');
     })->name('logout');

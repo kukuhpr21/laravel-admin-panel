@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Utils\ArrayUtils;
+use App\Utils\CacheUtils;
 use App\Utils\CryptUtils;
 use App\Utils\SessionUtils;
 use App\Utils\ResponseUtils;
@@ -163,11 +164,13 @@ class UserController extends Controller
     private function listRoleAvailable()
     {
         $sessionUtils = new SessionUtils();
+        $userID       = $sessionUtils->get('id');
+        $cacheRole    = CacheUtils::get('role',$userID);
         $map          = ['id' => 'value', 'name' => 'text'];
         $result       = [];
-        $roleRaw        = $sessionUtils->get('role');
-        $roleRaw        = json_decode($roleRaw, true)['list_role_available'];
-        $roleRaw        = explode(',', $roleRaw);
+        $roleRaw      = $cacheRole ?? $sessionUtils->get('role');
+        $roleRaw      = json_decode($roleRaw, true)['list_role_available'];
+        $roleRaw      = explode(',', $roleRaw);
 
         $roles = [];
 
