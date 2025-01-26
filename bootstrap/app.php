@@ -6,6 +6,7 @@ use Illuminate\Foundation\Application;
 use App\Http\Middleware\EnsurePermissionIsValid;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -19,28 +20,32 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias(['permissionIsValid' => EnsurePermissionIsValid::class]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
+        // dd($exceptions);
         $exceptions->render(function (Throwable $e, Request $request) {
-            if ($e instanceof HttpExceptionInterface) {
-                $statusCode = $e->getStatusCode();
-            } else {
-                $statusCode = 500; // Default for non-HTTP exceptions
+            if (!$e instanceof ValidationException) {
+
+                if ($e instanceof HttpExceptionInterface) {
+                    $statusCode = $e->getStatusCode();
+                } else {
+                    $statusCode = 500; // Default for non-HTTP exceptions
+                }
+
+                $messages = [
+                    400 => 'Bad Request',
+                    401 => 'Unauthorized',
+                    402 => 'Payment Required',
+                    403 => 'Forbidden',
+                    404 => 'Page Not Found',
+                    405 => 'Method Not Allowed',
+                    500 => 'Server Error',
+                ];
+
+                $message = $messages[$statusCode] ?? 'An unexpected error occurred';
+
+                return response()->view('errors.error', [
+                    'code' => $statusCode,
+                    'message' => $message,
+                ], $statusCode);
             }
-
-            $messages = [
-                400 => 'Bad Request',
-                401 => 'Unauthorized',
-                402 => 'Payment Required',
-                403 => 'Forbidden',
-                404 => 'Page Not Found',
-                405 => 'Method Not Allowed',
-                500 => 'Server Error',
-            ];
-
-            $message = $messages[$statusCode] ?? 'An unexpected error occurred';
-
-            return response()->view('errors.error', [
-                'code' => $statusCode,
-                'message' => $message,
-            ], $statusCode);
         });
     })->create();
