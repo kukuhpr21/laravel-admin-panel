@@ -3,9 +3,10 @@
 namespace App\DataTransferObjects\User;
 
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateStatusUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 
-class StoreUserDto
+class UserDto
 {
     public function __construct(
         public readonly string $id,
@@ -44,6 +45,19 @@ class StoreUserDto
             created_at: '',
             updated_at: '',
             roles: $request->validated('roles'),
+        );
+    }
+    public static function fromRequestChangeStatus(UpdateStatusUserRequest $request, $id)
+    {
+        return new self(
+            id: $id,
+            status_id: $request->validated('status'),
+            name: '',
+            email: '',
+            password: '',
+            created_at: '',
+            updated_at: '',
+            roles: [],
         );
     }
 }

@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Utils\SessionUtils;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateMappingMenuPermissionRequest extends FormRequest
+class UpdateStatusUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class UpdateMappingMenuPermissionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'permissions' => 'required',
+            'status' => ['required'],
         ];
     }
 }

@@ -10,7 +10,7 @@ use App\Utils\ResponseUtils;
 use App\Services\UserService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use App\DataTransferObjects\User\StoreUserDto;
+use App\DataTransferObjects\User\UserDto;
 
 class UserServiceImpl implements UserService
 {
@@ -23,7 +23,7 @@ class UserServiceImpl implements UserService
         $this->userStatusDefault = env('DEFAULT_USER_STATUS');
     }
 
-    public function store(StoreUserDto $dto)
+    public function store(UserDto $dto)
     {
         try {
             DB::beginTransaction();
@@ -69,7 +69,7 @@ class UserServiceImpl implements UserService
         }
     }
 
-    function update(StoreUserDto $dto)
+    function update(UserDto $dto)
     {
         try {
             DB::beginTransaction();
@@ -113,6 +113,28 @@ class UserServiceImpl implements UserService
             return ResponseUtils::internalServerError('Failed update user : '.$errorMessage);
         }
     }
+
+    public function changeStatus(UserDto $dto)
+    {
+        try {
+            $user = User::where('id', $dto->id)->update([
+                'status_id' => $dto->status_id,
+                'updated_at' => Carbon::now(),
+            ]);
+
+            if ($user) {
+                return ResponseUtils::success(
+                    message: 'Success change status user'
+                );
+            } else {
+                return ResponseUtils::failed('Failed change status user');
+            }
+        } catch(Exception $e) {
+            $errorMessage = $e->getMessage();
+            return ResponseUtils::internalServerError('Failed change status user : '.$errorMessage);
+        }
+    }
+
     public function findOne(string $id)
     {
         try {

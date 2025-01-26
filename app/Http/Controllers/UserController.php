@@ -11,10 +11,10 @@ use App\Services\RoleService;
 use App\Services\UserService;
 use App\Services\StatusService;
 use App\DataTables\UserDataTable;
-use Illuminate\Support\Facades\Log;
 use App\Http\Requests\StoreUserRequest;
-use App\DataTransferObjects\User\StoreUserDto;
 use App\Http\Requests\UpdateUserRequest;
+use App\DataTransferObjects\User\UserDto;
+use App\Http\Requests\UpdateStatusUserRequest;
 
 class UserController extends Controller
 {
@@ -53,7 +53,7 @@ class UserController extends Controller
 
     public function store(StoreUserRequest $request)
     {
-        $response = $this->userService->store(StoreUserDto::fromRequest($request));
+        $response = $this->userService->store(UserDto::fromRequest($request));
         ResponseUtils::showToast($response);
         if (ResponseUtils::isSuccess($response)) {
             return redirect()->route('users');
@@ -93,13 +93,49 @@ class UserController extends Controller
             }
 
             $data     = json_decode($response['data']);
-            $response = $this->userService->update(StoreUserDto::fromRequestUpdate($request, $idDecrypt, $data->status_id));
+            $response = $this->userService->update(UserDto::fromRequestUpdate($request, $idDecrypt, $data->status_id));
             ResponseUtils::showToast($response);
             if (ResponseUtils::isSuccess($response)) {
                 return redirect()->route('users');
             }
             return redirect()->back();
         }
+    }
+
+    public function changeStatus($id)
+    {
+        $idDecrypt = CryptUtils::dec($id);
+        $response  = $this->userService->findOne($idDecrypt);
+
+        if (!ResponseUtils::isSuccess($response)) {
+            return abort(404);
+        }
+
+        $data     = json_decode($response['data']);
+        $data->id = CryptUtils::enc($data->id);
+        $statuses = self::listFilterStatus();
+        return view('pages.app.users.change-status', compact(
+            'data',
+            'statuses'
+        ));
+    }
+
+    public function doChangeStatus(UpdateStatusUserRequest $request, $id)
+    {
+        $idDecrypt = CryptUtils::dec($id);
+        $response  = $this->userService->findOne($idDecrypt);
+
+        if (!ResponseUtils::isSuccess($response)) {
+            return abort(404);
+        }
+
+        $data     = json_decode($response['data']);
+        $response = $this->userService->changeStatus(UserDto::fromRequestChangeStatus($request, $data->id));
+        ResponseUtils::showToast($response);
+        if (ResponseUtils::isSuccess($response)) {
+            return redirect()->route('users');
+        }
+        return redirect()->back();
     }
 
     private function listFilterStatus()
