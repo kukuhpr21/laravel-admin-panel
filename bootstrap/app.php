@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Foundation\Application;
 use App\Http\Middleware\EnsurePermissionIsValid;
 use Illuminate\Foundation\Configuration\Exceptions;
