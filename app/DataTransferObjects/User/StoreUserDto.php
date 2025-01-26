@@ -3,6 +3,7 @@
 namespace App\DataTransferObjects\User;
 
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 
 class StoreUserDto
 {
@@ -23,6 +24,20 @@ class StoreUserDto
         return new self(
             id: '',
             status_id: '',
+            name: $request->validated('name'),
+            email: $request->validated('email'),
+            password: '',
+            created_at: '',
+            updated_at: '',
+            roles: $request->validated('roles'),
+        );
+    }
+
+    public static function fromRequestUpdate(UpdateUserRequest $request, $id, $status)
+    {
+        return new self(
+            id: $id,
+            status_id: $status,
             name: $request->validated('name'),
             email: $request->validated('email'),
             password: '',

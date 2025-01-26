@@ -14,6 +14,7 @@ use App\DataTables\UserDataTable;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\StoreUserRequest;
 use App\DataTransferObjects\User\StoreUserDto;
+use App\Http\Requests\UpdateUserRequest;
 
 class UserController extends Controller
 {
@@ -69,14 +70,38 @@ class UserController extends Controller
             return abort(404);
         }
 
-        $data = json_decode($response['data']);
+        $data          = json_decode($response['data']);
+        $data->id      = CryptUtils::enc($data->id);
+        $rolesSelected = $this->getRoleSelected($idDecrypt);
+        $roles         = self::listRoleAvailable();
 
+        return view('pages.app.users.edit', compact(
+            'data',
+            'rolesSelected',
+            'roles'));
     }
 
-    public function update()
+    public function update(UpdateUserRequest $request, $id)
     {
+        if ($request->validated()) {
 
+            // dd($request);
+            $idDecrypt = CryptUtils::dec($id);
+            $response  = $this->userService->findOne($idDecrypt);
+            if (!ResponseUtils::isSuccess($response)) {
+                return abort(404);
+            }
+
+            $data     = json_decode($response['data']);
+            $response = $this->userService->update(StoreUserDto::fromRequestUpdate($request, $idDecrypt, $data->status_id));
+            ResponseUtils::showToast($response);
+            if (ResponseUtils::isSuccess($response)) {
+                return redirect()->route('users');
+            }
+            // return redirect()->back();
+        }
     }
+
     private function listFilterStatus()
     {
         $map = ['id' => 'value', 'name' => 'text'];
@@ -122,6 +147,17 @@ class UserController extends Controller
 
         foreach ($data_transform as $item) {
             array_push($result, $item);
+        }
+        return $result;
+    }
+
+    private function getRoleSelected($userID)
+    {
+        $roles = json_decode($this->roleService->findRolesByUser($userID)['data']);
+        $result = [];
+
+        foreach ($roles as $item) {
+            array_push($result, json_decode(json_encode(['id' => $item->role_id])));
         }
         return $result;
     }

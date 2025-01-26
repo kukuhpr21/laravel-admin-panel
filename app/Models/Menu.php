@@ -14,14 +14,4 @@ class Menu extends Model
     public $incrementing = true;
     protected $hidden = ['pivot'];
     protected $guarded = [];
-
-    public function roles(): BelongsToMany
-    {
-        return $this->belongsToMany(Role::class)->using(RoleHasMenu::class);
-    }
-
-    public function users(): BelongsToMany
-    {
-        return $this->belongsToMany(User::class)->using(UserHasMenu::class);
-    }
 }

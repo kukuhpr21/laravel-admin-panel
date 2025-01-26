@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class UserHasRole extends Pivot
@@ -12,4 +13,9 @@ class UserHasRole extends Pivot
     public $timestamps = false;
     public $incrementing = false;
     protected $hidden = ['pivot'];
+
+    public function role(): BelongsTo
+    {
+        return $this->belongsTo(Role::class);
+    }
 }

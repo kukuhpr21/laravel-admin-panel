@@ -69,6 +69,50 @@ class UserServiceImpl implements UserService
         }
     }
 
+    function update(StoreUserDto $dto)
+    {
+        try {
+            DB::beginTransaction();
+
+            $user = DB::table('users')->where('id', $dto->id)->update([
+                'status_id' => $dto->status_id,
+                'name' => $dto->name,
+                'email' => $dto->email,
+                'updated_at' => Carbon::now(),
+            ]);
+
+            if ($user) {
+
+                DB::table('user_has_roles')->where('user_id', $dto->id)->delete();
+
+                $dataUserRoles = [];
+
+                foreach ($dto->roles as $role) {
+                    array_push($dataUserRoles, [
+                        'user_id' => $dto->id,
+                        'role_id' => $role,
+                    ]);
+                }
+                $userRoles = DB::table('user_has_roles')->insert($dataUserRoles);
+
+                if (!$userRoles) {
+                    DB::rollBack();
+                    return ResponseUtils::failed('Failed update user');
+                }
+
+                DB::commit();
+                return ResponseUtils::success(
+                    message: 'Success update user'
+                );
+            } else {
+                DB::rollBack();
+                return ResponseUtils::failed('Failed update user');
+            }
+        } catch(Exception $e) {
+            $errorMessage = $e->getMessage();
+            return ResponseUtils::internalServerError('Failed update user : '.$errorMessage);
+        }
+    }
     public function findOne(string $id)
     {
         try {

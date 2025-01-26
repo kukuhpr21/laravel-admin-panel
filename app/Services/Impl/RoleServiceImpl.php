@@ -72,6 +72,25 @@ class RoleServiceImpl implements RoleService
         }
     }
 
+    public function findRolesByUser(string $id)
+    {
+        try {
+            $roles = UserHasRole::with('role')
+                ->select('role_id')
+                ->where('user_id', $id)
+                ->get();
+            if ($roles) {
+                return ResponseUtils::success('Roles is exist', $roles);
+            } else {
+                return ResponseUtils::failed('Roles not found', ['id' => $id]);
+            }
+
+        } catch(Exception $e) {
+            $errorMessage = $e->getMessage();
+            return ResponseUtils::internalServerError('Failed find roles by user : '.$errorMessage);
+        }
+    }
+
     public function update(string $id, string $newName, array $listRoleAvailable)
     {
         try {
