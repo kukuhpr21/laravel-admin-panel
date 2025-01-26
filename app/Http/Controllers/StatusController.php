@@ -42,6 +42,11 @@ class StatusController extends Controller
     {
         $id       = CryptUtils::dec($id);
         $response = $this->statusService->findOne($id);
+
+        if (!ResponseUtils::isSuccess($response)) {
+            return abort(404);
+        }
+
         $data     = json_decode($response['data']);
         $data->id = CryptUtils::enc($data->id);
         return view('pages.app.settings.statuses.edit', compact('data'));

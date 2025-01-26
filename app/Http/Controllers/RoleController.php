@@ -45,6 +45,11 @@ class RoleController extends Controller
     {
         $id                        = CryptUtils::dec($id);
         $response                  = $this->roleService->findOne($id);
+
+        if (!ResponseUtils::isSuccess($response)) {
+            return abort(404);
+        }
+
         $data                      = json_decode($response['data']);
         $data->id                  = CryptUtils::enc($data->id);
         $data->list_role_available = self::transformListRoleAvailableToSelect2($data->list_role_available);

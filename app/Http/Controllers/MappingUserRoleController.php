@@ -88,6 +88,11 @@ class MappingUserRoleController extends Controller
     {
         $userID       = CryptUtils::dec($user_id);
         $user         = $this->userService->findOne($userID);
+
+        if (!ResponseUtils::isSuccess($user)) {
+            return abort(404);
+        }
+
         $response     = $this->mappingUserRoleService->findAllRoleByUser($userID);
         $roleResponse = $this->roleService->findAll();
 

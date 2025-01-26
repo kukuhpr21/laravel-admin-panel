@@ -99,6 +99,11 @@ class MappingRoleMenuPermissionController extends Controller
         $menuID             = CryptUtils::dec($menu_id);
         $role               = $this->roleService->findOne($roleID);
         $menu               = $this->menuService->findOne((int) $menuID);
+
+        if (!ResponseUtils::isSuccess($role) && !ResponseUtils::isSuccess($menu)) {
+            return abort(404);
+        }
+
         $response           = $this->mappingRoleMenuPermissionService->findAllPermissionByRoleAndMenu($roleID, $menuID);
         $permissionResponse = $this->permissionService->findAll();
 

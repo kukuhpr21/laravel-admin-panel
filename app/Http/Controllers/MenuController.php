@@ -48,6 +48,11 @@ class MenuController extends Controller
     {
         $id       = CryptUtils::dec($id);
         $response = $this->menuService->findOne($id);
+
+        if (!ResponseUtils::isSuccess($response)) {
+            return abort(404);
+        }
+
         $data     = json_decode($response['data']);
         $data->id = CryptUtils::enc($data->id);
         $parents  = self::getParents();

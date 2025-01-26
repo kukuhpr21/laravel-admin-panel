@@ -83,23 +83,19 @@ class UserController extends Controller
 
     public function update(UpdateUserRequest $request, $id)
     {
-        if ($request->validated()) {
-
-            // dd($request);
-            $idDecrypt = CryptUtils::dec($id);
-            $response  = $this->userService->findOne($idDecrypt);
-            if (!ResponseUtils::isSuccess($response)) {
-                return abort(404);
-            }
-
-            $data     = json_decode($response['data']);
-            $response = $this->userService->update(UserDto::fromRequestUpdate($request, $idDecrypt, $data->status_id));
-            ResponseUtils::showToast($response);
-            if (ResponseUtils::isSuccess($response)) {
-                return redirect()->route('users');
-            }
-            return redirect()->back();
+        $idDecrypt = CryptUtils::dec($id);
+        $response  = $this->userService->findOne($idDecrypt);
+        if (!ResponseUtils::isSuccess($response)) {
+            return abort(404);
         }
+
+        $data     = json_decode($response['data']);
+        $response = $this->userService->update(UserDto::fromRequestUpdate($request, $idDecrypt, $data->status_id));
+        ResponseUtils::showToast($response);
+        if (ResponseUtils::isSuccess($response)) {
+            return redirect()->route('users');
+        }
+        return redirect()->back();
     }
 
     public function changeStatus($id)

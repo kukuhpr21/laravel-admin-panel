@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Utils\CryptUtils;
 use App\Utils\ResponseUtils;
-use Illuminate\Http\Request;
 use App\Services\PermissionService;
 use App\DataTables\PermissionDataTable;
 use App\Http\Requests\StorePermissionRequest;
@@ -43,6 +42,11 @@ class PermissionController extends Controller
     {
         $id       = CryptUtils::dec($id);
         $response = $this->permissionService->findOne($id);
+
+        if (!ResponseUtils::isSuccess($response)) {
+            return abort(404);
+        }
+
         $data     = json_decode($response['data']);
         $data->id = CryptUtils::enc($data->id);
         return view('pages.app.settings.permissions.edit', compact('data'));
