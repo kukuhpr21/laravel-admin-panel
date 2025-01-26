@@ -40,6 +40,7 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
 
         Route::get('/', [UserController::class, 'index'])->name('users')->middleware('permissionIsValid:view');
         Route::post('/', [UserController::class, 'index'])->name('users')->middleware('permissionIsValid:view');
+        Route::get('profile', [UserController::class, 'profile'])->name('users-profile')->middleware('permissionIsValid:view');
 
         Route::prefix('add')->group(function () {
 
