@@ -98,7 +98,7 @@ class UserController extends Controller
             if (ResponseUtils::isSuccess($response)) {
                 return redirect()->route('users');
             }
-            // return redirect()->back();
+            return redirect()->back();
         }
     }
 
