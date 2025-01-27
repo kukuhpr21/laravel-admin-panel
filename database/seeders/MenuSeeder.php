@@ -31,6 +31,14 @@ class MenuSeeder extends Seeder
             'order' => 2,
         ]);
 
+        Menu::create([
+            'name' => 'Profile',
+            'link' => 'profile',
+            'link_alias' => 'profile',
+            'parent' => 0,
+            'order' => 0,
+        ]);
+
         $menuSettings = Menu::create([
             'name' => 'Settings',
             'icon' => 'ri-tools-line',

@@ -135,15 +135,6 @@ class UserController extends Controller
         return redirect()->back();
     }
 
-    public function profile()
-    {
-        $sessionUtils = new SessionUtils();
-        $response     = $this->userService->findOne($sessionUtils->get('id'));
-        $data         = json_decode($response['data']);
-        $data->id     = CryptUtils::enc($data->id);
-        return view('pages.app.users.profile', compact('data'));
-    }
-
     private function listFilterStatus()
     {
         $map = ['id' => 'value', 'name' => 'text'];

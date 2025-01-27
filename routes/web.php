@@ -10,6 +10,7 @@ use App\Http\Middleware\EnsureSessionIsValid;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\MappingUserRoleController;
 use App\Http\Controllers\MappingRoleMenuPermissionController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\UserController;
 use App\Utils\CacheUtils;
@@ -36,11 +37,16 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('permissionIsValid:view');
 
+    Route::prefix( 'profile')->group(function () {
+        Route::get('/', [ProfileController::class, 'profile'])->name('profile')->middleware('permissionIsValid:view');
+        Route::post('change-profile/{id}', [ProfileController::class, 'changeProfile'])->name('change-profile')->middleware('permissionIsValid:change_profile');
+        Route::post('change-password/{id}', [ProfileController::class, 'changePassword'])->name('change-password')->middleware('permissionIsValid:change_password');
+    });
+
     Route::prefix('users')->group(function () {
 
         Route::get('/', [UserController::class, 'index'])->name('users')->middleware('permissionIsValid:view');
         Route::post('/', [UserController::class, 'index'])->name('users')->middleware('permissionIsValid:view');
-        Route::get('profile', [UserController::class, 'profile'])->name('users-profile')->middleware('permissionIsValid:view');
 
         Route::prefix('add')->group(function () {
 

@@ -34,6 +34,14 @@ class PermissionSeeder extends Seeder
                 'id' => 'change_status',
                 'name' => 'Change Status',
             ],
+            [
+                'id' => 'change_profile',
+                'name' => 'Change Profile',
+            ],
+            [
+                'id' => 'change_password',
+                'name' => 'Change Password',
+            ],
         ];
         Permission::insert($permissions);
     }

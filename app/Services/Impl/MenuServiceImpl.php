@@ -191,7 +191,9 @@ class MenuServiceImpl implements MenuService
                     $element['children'] = $children;
                 }
 
-                $tree[] = $element;
+                if ($element['order'] != 0) {
+                    $tree[] = $element;
+                }
             }
         }
 
