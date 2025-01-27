@@ -17,7 +17,6 @@ class ProfileController extends Controller
 {
 
     use ResponseUtils;
-    use ToastUtils;
 
     private UserService $userService;
     private ProfileService $profileService;
@@ -33,7 +32,6 @@ class ProfileController extends Controller
         $response     = $this->userService->findOne($this->sessionUtils->get('id'));
         $data         = json_decode($response['data']);
         $data->id     = CryptUtils::enc($data->id);
-        ToastUtils::successToast('Failed change password, do not use default password');
         return view('pages.app.profile.index', compact('data'));
     }
 
