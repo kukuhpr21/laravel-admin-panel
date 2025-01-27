@@ -36,7 +36,7 @@
 
         <div class="flex items-center gap-2 pt-3">
 
-            <span {{ $attributes->merge(['class' => "inline-flex justify-center items-center size-[46px] rounded-full text-white {$bgIcon}"])}}>
+            <span {{ $attributes->merge(['class' => "inline-flex justify-center items-center rounded-md px-1 py-2 text-white {$bgIcon}"])}}>
                 {!! $icon !!}
             </span>
 
