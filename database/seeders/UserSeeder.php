@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
         User::insert([
             [
                 'id' => (string) Str::uuid(),
-                'status_id' => StatusEnum::ACTIVE,
+                'status_id' => StatusEnum::ACTIVE->value,
                 'name' => 'The Super Admin',
                 'email' => 'superadmin@gmail.com',
                 'password' => Hash::make($passwordDefault),
@@ -30,7 +30,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'id' => (string) Str::uuid(),
-                'status_id' => StatusEnum::ACTIVE,
+                'status_id' => StatusEnum::ACTIVE->value,
                 'name' => 'The Admin',
                 'email' => 'admin@gmail.com',
                 'password' => Hash::make($passwordDefault),

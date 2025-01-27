@@ -21,7 +21,7 @@ class ProfileServiceImpl implements ProfileService
         try {
             $user = User::where([
                 'id' => $dto->id,
-                'status_id' => StatusEnum::ACTIVE
+                'status_id' => StatusEnum::ACTIVE->value
                 ])->update([
                 'name' => $dto->name,
                 'email' => $dto->email,
@@ -54,7 +54,7 @@ class ProfileServiceImpl implements ProfileService
                 } else {
                     $user = User::where([
                         'id' => $dto->id,
-                        'status_id' => StatusEnum::ACTIVE
+                        'status_id' => StatusEnum::ACTIVE->value
                         ])->update([
                         'password' => Hash::make($dto->new_password),
                         'updated_at' => Carbon::now(),

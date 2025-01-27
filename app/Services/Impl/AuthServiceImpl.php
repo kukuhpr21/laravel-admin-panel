@@ -35,7 +35,7 @@ class AuthServiceImpl implements AuthService
             $user = User::with('roles')
                     ->where([
                         'email' => $dto->email,
-                        'status_id' => StatusEnum::ACTIVE])
+                        'status_id' => StatusEnum::ACTIVE->value])
                     ->first();
 
             if ($user) {
