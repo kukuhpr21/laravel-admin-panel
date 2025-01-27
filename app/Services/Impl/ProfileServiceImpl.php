@@ -47,8 +47,6 @@ class ProfileServiceImpl implements ProfileService
     public function changePassword(ProfileDto $dto)
     {
         try {
-
-
             if ($dto->new_password == $dto->confirm_password) {
 
                 if (!strcasecmp($dto->new_password, env('DEFAULT_PASSWORD')) ) {
