@@ -17,7 +17,7 @@ class EnsureSessionIsValid
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $unprotectedPath = ['login'];
+        $unprotectedPath = ['login', 'change-password'];
         $sessionUtils = new SessionUtils();
 
         if ($sessionUtils->isExist()) {

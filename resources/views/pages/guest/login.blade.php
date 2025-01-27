@@ -8,5 +8,6 @@
     <x-input type="email" name="Email"/>
     <x-input type="password" name="Password" placeholder=". . . . . ."/>
     <x-button type="submit" color="gray" size="lg" :full="true">Log In</x-button>
+    <a href="{{ route('auth-change-password') }}" class="flex w-full justify-center font-semibold text-slate-600 bg-transparent hover:bg-blue-100 hover:rounded-lg hover:drop-shadow-lg p-5">Change Password</a>
 </x-form>
 @endsection

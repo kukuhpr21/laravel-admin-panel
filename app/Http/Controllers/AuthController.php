@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTransferObjects\Auth\ChangePasswordDto;
 use App\Utils\ArrayUtils;
 use App\Utils\SessionUtils;
 use App\Utils\ResponseUtils;
@@ -9,6 +10,7 @@ use App\Services\AuthService;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\ChooseRolePostRequest;
 use App\DataTransferObjects\Auth\LoginPostDto;
+use App\Http\Requests\AuthChangePasswordRequest;
 use App\Utils\CacheUtils;
 
 class AuthController extends Controller
@@ -34,7 +36,22 @@ class AuthController extends Controller
         if (ResponseUtils::isSuccess($response)) {
             return redirect()->route('dashboard');
         }
-        return redirect()->back();
+        return redirect()->back()->withInput();
+    }
+
+    public function changePassword()
+    {
+        return view('pages.guest.change-password');
+    }
+
+    public function doChangePassword(AuthChangePasswordRequest $request)
+    {
+        $response = $this->authService->changePassword(ChangePasswordDto::fromRequest($request));
+        ResponseUtils::showToast($response);
+        if (ResponseUtils::isSuccess($response)) {
+            return redirect()->route('login');
+        }
+        return redirect()->back()->withInput();
     }
 
     public function chooseRole()

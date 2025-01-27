@@ -3,16 +3,18 @@
 namespace App\Services\Impl;
 
 use Exception;
+use Carbon\Carbon;
 use App\Models\User;
+use App\Enum\StatusEnum;
+use App\Utils\CacheUtils;
 use App\Utils\SessionUtils;
 use App\Utils\ResponseUtils;
 use App\Services\AuthService;
 use App\Services\MenuService;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\DataTransferObjects\Auth\LoginPostDto;
-use App\Enum\StatusEnum;
-use App\Utils\CacheUtils;
-use Illuminate\Support\Facades\DB;
+use App\DataTransferObjects\Auth\ChangePasswordDto;
 
 class AuthServiceImpl implements AuthService
 {
@@ -37,34 +39,89 @@ class AuthServiceImpl implements AuthService
                     ->first();
 
             if ($user) {
-                // checking password
-                $passwordMatch = Hash::check($dto->password, $user->password);
+                if (!strcasecmp($dto->password, env('DEFAULT_PASSWORD')) ) {
+                    return ResponseUtils::failed('Invalid email or password, please change password');
+                } else {
 
-                if ($passwordMatch) {
-                    // build tree menu
-                    $menus = $this->menuService->findAllByUser($user->id);
+                    // checking password
+                    $passwordMatch = Hash::check($dto->password, $user->password);
 
-                    // get menu permission
-                     $menuPermissions = $this->getMenuPermissionByUser($user->id);
+                    if ($passwordMatch) {
+                        // build tree menu
+                        $menus = $this->menuService->findAllByUser($user->id);
 
-                    if (ResponseUtils::isSuccess($menus)) {
+                        // get menu permission
+                         $menuPermissions = $this->getMenuPermissionByUser($user->id);
 
-                        $this->saveProfileToSession($user, $menus['data'], $menuPermissions);
+                        if (ResponseUtils::isSuccess($menus)) {
 
-                        return ResponseUtils::success('Login success');
+                            $this->saveProfileToSession($user, $menus['data'], $menuPermissions);
+
+                            return ResponseUtils::success('Login success');
+                        }
+
+                        return ResponseUtils::failed('Login failed', `Not yet prepare data for email $dto->email`);
                     }
 
-                    return ResponseUtils::failed('Login failed', `Not yet prepare data for email $dto->email`);
+                    return ResponseUtils::failed('Invalid email or password');
                 }
-
-                return ResponseUtils::failed('Invalid email or password');
-
             }
 
             return ResponseUtils::failed('Invalid email or password');
         } catch(Exception $e) {
             $errorMessage = $e->getMessage();
             return ResponseUtils::internalServerError('Failed login : '.$errorMessage);
+        }
+    }
+
+    public function changePassword(ChangePasswordDto $dto)
+    {
+        try {
+            if ($dto->new_password == $dto->confirm_password) {
+                // find user by email
+                $user = User::with('roles')
+                        ->where([
+                            'email' => $dto->email,
+                            ])
+                        ->first();
+
+                if ($user) {
+                    if (!strcasecmp($dto->new_password, env('DEFAULT_PASSWORD')) ) {
+                        return ResponseUtils::failed('Failed change password, do not use default password');
+                    } else {
+                        $status = $user->status_id;
+
+                        if ($status == StatusEnum::INACTIVE->value || $status == StatusEnum::DELETED->value) {
+                            return ResponseUtils::failed('Invalid email');
+                        } else {
+                            $status = ($status == StatusEnum::REGISTERED->value) ? StatusEnum::CHANGED_PASSWORD->value : $status;
+
+                            $user = User::where([
+                                'email' => $dto->email,
+                                ])->update([
+                                'password' => Hash::make($dto->new_password),
+                                'status_id' => $status,
+                                'updated_at' => Carbon::now(),
+                            ]);
+
+                            if ($user) {
+                                return ResponseUtils::success(
+                                    message: 'Success change password'
+                                );
+                            } else {
+                                return ResponseUtils::failed('Failed change password');
+                            }
+                        }
+                    }
+                }
+                return ResponseUtils::failed('Invalid email');
+            } else {
+                return ResponseUtils::failed('Password not match');
+            }
+
+        } catch(Exception $e) {
+            $errorMessage = $e->getMessage();
+            return ResponseUtils::internalServerError('Failed change password : '.$errorMessage);
         }
     }
 
