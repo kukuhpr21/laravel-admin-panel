@@ -17,7 +17,7 @@ class RoleSeeder extends Seeder
             [
                 'id' => 'super_admin',
                 'name' => 'Super Admin',
-                'list_role_available' => 'admin',
+                'list_role_available' => 'super_admin,admin',
             ],
             [
                 'id' => 'admin',

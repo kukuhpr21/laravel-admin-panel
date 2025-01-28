@@ -25,11 +25,13 @@ class UserController extends Controller
     private UserService $userService;
     private StatusService $statusService;
     private RoleService $roleService;
+    private SessionUtils $sessionUtils;
 
     public function __construct(UserService $userService, StatusService $statusService, RoleService $roleService) {
         $this->userService = $userService;
         $this->statusService = $statusService;
         $this->roleService = $roleService;
+        $this->sessionUtils = new SessionUtils();
     }
 
     public function index(Request $request)
@@ -150,10 +152,23 @@ class UserController extends Controller
 
     private function listFilterRole()
     {
-        $map = ['id' => 'value', 'name' => 'text'];
+        $map    = ['id' => 'value', 'name' => 'text'];
         $result = [];
+
+        $cacheRole         = json_decode(CacheUtils::get('role', $this->sessionUtils->get('id')));
+        $listRoleAvailable = explode(',', $cacheRole->list_role_available);
+        $roles             = [];
+
+        foreach ($listRoleAvailable as $item) {
+            $name = explode("_", $item);
+            $name = implode(' ', $name);
+            $name = ucwords($name);
+            array_push($roles, ['id' => $item, 'name' => $name]);
+        }
+
         array_push($result, ['value' => 'all', 'text' => 'Semua Role']);
-        $data_transform = ArrayUtils::transformToSelect2(json_decode($this->roleService->findAll()['data']), $map);
+
+        $data_transform = ArrayUtils::transformToSelect2($roles, $map);
 
         foreach ($data_transform as $item) {
             array_push($result, $item);
