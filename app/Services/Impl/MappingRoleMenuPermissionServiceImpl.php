@@ -7,6 +7,7 @@ use App\Utils\ResponseUtils;
 use App\Models\RoleHasMenuHasPermission;
 use App\Services\MappingRoleMenuPermissionService;
 use App\DataTransferObjects\Mapping\RoleMenuPermission\RoleMenuPermissionDto;
+use App\Utils\CacheUtils;
 
 class MappingRoleMenuPermissionServiceImpl implements MappingRoleMenuPermissionService
 {
@@ -25,6 +26,7 @@ class MappingRoleMenuPermissionServiceImpl implements MappingRoleMenuPermissionS
             ->get();
 
             if ($menuPermission) {
+                CacheUtils::deleteWithTags([$roleID]);
                 return ResponseUtils::success(
                     message: 'Success find all role menu permission',
                     data: $menuPermission,
@@ -64,6 +66,7 @@ class MappingRoleMenuPermissionServiceImpl implements MappingRoleMenuPermissionS
             $result = RoleHasMenuHasPermission::insertOrIgnore($data);
 
             if ($result) {
+                CacheUtils::deleteWithTags([$dto->role]);
                 return ResponseUtils::success(
                     message: 'Success mapping role menu permission',
                     data: $result,
@@ -109,6 +112,7 @@ class MappingRoleMenuPermissionServiceImpl implements MappingRoleMenuPermissionS
             $result = RoleHasMenuHasPermission::insertOrIgnore($data);
 
             if ($result) {
+                CacheUtils::deleteWithTags([$roleID]);
                 return ResponseUtils::success(
                     message: 'Success update mapping role menu permission',
                     data: $result,
@@ -134,6 +138,7 @@ class MappingRoleMenuPermissionServiceImpl implements MappingRoleMenuPermissionS
                 ])->delete();
 
             if ($result) {
+                CacheUtils::deleteWithTags([$roleID]);
                 return ResponseUtils::success('Success delete mapping role menu permission');
             }
 

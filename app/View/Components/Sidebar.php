@@ -12,11 +12,13 @@ use Illuminate\Support\Facades\Log;
 
 class Sidebar extends Component
 {
+    private MenuService $menuService;
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public function __construct(MenuService $menuService)
     {
+        $this->menuService = $menuService;
     }
 
     /**
@@ -24,15 +26,27 @@ class Sidebar extends Component
      */
     public function render(): View|Closure|string
     {
-        $sessionUtils = new SessionUtils();
-        $userID       = $sessionUtils->get('id');
-        $menus        = CacheUtils::get('menus',$userID);
-        $menusDecode  = json_decode($menus, true);
-        $menus        = $this->makeHTMLSiderbar($menusDecode, request()->segments());
+        $menusDecode  = self::getMenus();
+        $menus        = self::makeHTMLSiderbar($menusDecode, request()->segments());
         return view('components.sidebar', compact('menus'));
     }
 
-    public function makeHTMLSiderbar(array $menus, array $segments): string
+    private function getMenus()
+    {
+        $sessionUtils = new SessionUtils();
+        $userID       = $sessionUtils->get('id');
+        $role         = json_decode(CacheUtils::get('role', [$userID]))->id;
+        $menus        = CacheUtils::get('menus', [$role]);
+
+        if (!$menus) {
+            $menus = $this->menuService->findAllByUser($userID)['data'];
+            CacheUtils::put('menus', [$role], $menus);
+        }
+
+        return json_decode(json_encode($menus), true);;
+    }
+
+    private function makeHTMLSiderbar(array $menus, array $segments): string
     {
         $tree = '';
 

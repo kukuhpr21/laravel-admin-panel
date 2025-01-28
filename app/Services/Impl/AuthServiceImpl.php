@@ -47,20 +47,8 @@ class AuthServiceImpl implements AuthService
                     $passwordMatch = Hash::check($dto->password, $user->password);
 
                     if ($passwordMatch) {
-                        // build tree menu
-                        $menus = $this->menuService->findAllByUser($user->id);
-
-                        // get menu permission
-                         $menuPermissions = $this->getMenuPermissionByUser($user->id);
-
-                        if (ResponseUtils::isSuccess($menus)) {
-
-                            $this->saveProfileToSession($user, $menus['data'], $menuPermissions);
-
-                            return ResponseUtils::success('Login success');
-                        }
-
-                        return ResponseUtils::failed('Login failed', `Not yet prepare data for email $dto->email`);
+                        $this->saveProfileToSession($user);
+                        return ResponseUtils::success('Login success');
                     }
 
                     return ResponseUtils::failed('Invalid email or password');
@@ -125,41 +113,11 @@ class AuthServiceImpl implements AuthService
         }
     }
 
-    private function saveProfileToSession($user, $menus, $menuPermissions): void
+    private function saveProfileToSession($user): void
     {
-        $menus           = json_encode($menus);
-        $menuPermissions = json_encode($menuPermissions);
-        $ttl             = 86400;
-
         $this->sessionUtils->save('id', $user->id);
         $this->sessionUtils->save('name', $user->name);
         $this->sessionUtils->save('email', $user->email);
         $this->sessionUtils->save('temp_role', $user->roles);
-        $this->sessionUtils->save('menus', $menus);
-        $this->sessionUtils->save('menuPermissions', $menuPermissions);
-
-        CacheUtils::put("menus", $user->id, $menus);
-        CacheUtils::put("menuPermissions", $user->id, $menuPermissions);
-    }
-
-    private function getMenuPermissionByUser($useID)
-    {
-        $response = DB::table('user_has_roles')
-                ->select('menus.link', DB::raw('GROUP_CONCAT(role_has_menu_has_permission.permission_id ORDER BY role_has_menu_has_permission.permission_id ASC) as permissions'))
-                ->leftJoin('role_has_menu_has_permission', 'role_has_menu_has_permission.role_id', '=', 'user_has_roles.role_id')
-                ->leftJoin('menus', 'menus.id', '=', 'role_has_menu_has_permission.menu_id')
-                ->where('user_has_roles.user_id', $useID)
-                ->where('menus.link', '!=', '#')
-                ->groupBy('user_has_roles.user_id', 'role_has_menu_has_permission.role_id', 'role_has_menu_has_permission.menu_id')
-                ->get()->toArray();
-
-        $result = [];
-
-        foreach ($response as $item) {
-            $data['link'] = $item->link;
-            $data['permissions'] = explode(',', $item->permissions);
-            array_push($result, $data);
-        }
-        return $result;
     }
 }

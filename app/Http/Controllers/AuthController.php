@@ -79,7 +79,7 @@ class AuthController extends Controller
                     $userID = $sessionUtils->get('id');
                     $sessionUtils->save('role', $role);
                     $sessionUtils->delete('temp_role');
-                    CacheUtils::put("role", $userID, $role);
+                    CacheUtils::put("role", [$userID], $role);
                     break;
                 }
             }

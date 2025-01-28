@@ -44,7 +44,7 @@ class EnsureSessionIsValid
                     $sessionUtils->delete('temp_role');
 
                     $userID = $sessionUtils->get('id');
-                    CacheUtils::put("role", $userID, $role);
+                    CacheUtils::put("role",[ $userID], $role);
 
                     return $next($request);
                 }

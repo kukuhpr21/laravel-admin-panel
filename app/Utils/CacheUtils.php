@@ -6,23 +6,23 @@ use Illuminate\Support\Facades\Cache;
 
 class CacheUtils
 {
-    public static function put($key, $id, $value)
+    public static function put($key, $tags, $value)
     {
         $ttl   = 86400;
         $value = CryptUtils::enc($value);
-        Cache::tags($id)->put($key, $value, $ttl);
+        Cache::tags($tags)->put($key, $value, $ttl);
     }
 
-    public static function get($key, $id)
+    public static function get($key, $tags)
     {
-        $result = Cache::get($key, null);
+        $result = Cache::tags($tags)->get($key, null);
 
         if (!empty($result)) {
             return CryptUtils::dec($result);
         } else {
             $sessionUtils = new SessionUtils();
             $resultSession = $sessionUtils->get($key);
-            self::put($key, $id, $resultSession);
+            self::put($key, $tags, $resultSession);
             return $resultSession;
         }
     }
