@@ -77,7 +77,7 @@ class UserDataTable extends DataTable
         }
 
         if (request()->has('role') && request()->role != 'all') {
-            $query->having('role', 'like','%'.request()->role.'%');
+            $query->where('roles.id',request()->role);
         } else {
             if (!empty($this->listRoleAvailable)) {
                 $query->whereIn('roles.id', $this->listRoleAvailable);
