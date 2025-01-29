@@ -14,7 +14,9 @@
 - configure database and other in file .env
 - php artisan migrate:fresh
 - php artisan db:seed
-- php artisan serve
+- php artisan key:generate
+- php artisan serve 
+- npm run dev
 - change password before login
 - login using email : <superadmin@gmail.com>
 
