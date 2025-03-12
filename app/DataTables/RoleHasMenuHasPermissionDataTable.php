@@ -5,6 +5,7 @@ namespace App\DataTables;
 use App\Utils\CryptUtils;
 use Yajra\DataTables\Html\Column;
 use Illuminate\Support\Facades\DB;
+use App\Utils\PermissionCheckUtils;
 use Yajra\DataTables\EloquentDataTable;
 use App\Models\RoleHasMenuHasPermission;
 use Yajra\DataTables\Services\DataTable;
@@ -22,16 +23,37 @@ class RoleHasMenuHasPermissionDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
         ->addIndexColumn()
+        ->filterColumn('role', function($query, $keyword) {
+            $query->whereRaw("LOWER(roles.name) LIKE ?", ["%{$keyword}%"]);
+        })
+        ->filterColumn('menu', function($query, $keyword) {
+            $query->whereRaw("LOWER(menus.name) LIKE ?", ["%{$keyword}%"]);
+        })
+        ->filterColumn('permission', function($query, $keyword) {
+            $query->whereRaw("LOWER(permissions.name) LIKE ?", ["%{$keyword}%"]);
+        })
         ->addColumn('action', function($row) {
             $roleID       = CryptUtils::enc($row->role_id);
             $menuID       = CryptUtils::enc($row->menu_id);
             $linkEdit     = route('roles-menus-permissions-edit', ['role_id' => $roleID, 'menu_id' => $menuID]);
             $linkDelete   = route('roles-menus-permissions-delete', ['role_id' => $roleID, 'menu_id' => $menuID]);
             $actionDelete = "modal.showModalConfirm('Delete Mapping Role Menu Permission', 'Permission pada role  $row->role dan menu $row->menu akan dihapus ?', 'Delete', '$linkDelete')";
+
+            $btnEdit   = "";
+            $btnDelete = "";
+
+            $path  = $this->request->path();
+            if (PermissionCheckUtils::execute($path.'.update')) {
+                $btnEdit = '<a href="'.$linkEdit.'" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent hover:bg-slate-200 hover:rounded-lg p-3 focus:outline-none disabled:opacity-50 disabled:pointer-events-none text-green-600 hover:text-green-800 focus:text-green-800">Edit</a>';
+            }
+
+            if (PermissionCheckUtils::execute($path.'.delete')) {
+                $btnDelete = '<button type="button" onclick="'.$actionDelete.'" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent hover:bg-slate-200 hover:rounded-lg p-3 focus:outline-none disabled:opacity-50 disabled:pointer-events-none text-red-600 hover:text-red-800 focus:text-red-800">Delete</button>';
+            }
+
             return '
                 <div class="flex flex-row gap-2">
-                    <a href="'.$linkEdit.'" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent hover:bg-slate-200 hover:rounded-lg p-3 focus:outline-none disabled:opacity-50 disabled:pointer-events-none text-green-600 hover:text-green-800 focus:text-green-800">Edit</a>
-                    <button type="button" onclick="'.$actionDelete.'" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent hover:bg-slate-200 hover:rounded-lg p-3 focus:outline-none disabled:opacity-50 disabled:pointer-events-none text-red-600 hover:text-red-800 focus:text-red-800">Delete</button>
+                    '.$btnEdit.$btnDelete.'
                 </div>
             ';
         })

@@ -2,17 +2,18 @@
 
 namespace App\DataTables;
 
+use App\Utils\CacheUtils;
 use App\Utils\CryptUtils;
 use App\Models\UserHasRole;
-use App\Utils\CacheUtils;
 use App\Utils\SessionUtils;
 use Yajra\DataTables\Html\Column;
 use Illuminate\Support\Facades\DB;
+use App\Utils\PermissionCheckUtils;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
-use Illuminate\Support\Facades\Log;
 
 class UserDataTable extends DataTable
 {
@@ -41,6 +42,24 @@ class UserDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
         ->addIndexColumn()
+        ->filterColumn('name', function($query, $keyword) {
+            $query->whereRaw("LOWER(users.name) LIKE ?", ["%{$keyword}%"]);
+        })
+        ->filterColumn('email', function($query, $keyword) {
+            $query->whereRaw("LOWER(users.email) LIKE ?", ["%{$keyword}%"]);
+        })
+        ->filterColumn('role', function($query, $keyword) {
+            $query->whereRaw("LOWER(roles.name) LIKE ?", ["%{$keyword}%"]);
+        })
+        ->filterColumn('created_at', function($query, $keyword) {
+            $query->whereRaw("LOWER(users.created_at) LIKE ?", ["%{$keyword}%"]);
+        })
+        ->filterColumn('updated_at', function($query, $keyword) {
+            $query->whereRaw("LOWER(users.updated_at) LIKE ?", ["%{$keyword}%"]);
+        })
+        ->filterColumn('status', function($query, $keyword) {
+            $query->whereRaw("LOWER(statuses.name) LIKE ?", ["%{$keyword}%"]);
+        })
         ->addColumn('status', function($row) {
             $status = $row->status;
             $bg  = ($status == 'Active') ? 'bg-teal-600' : 'bg-red-600';
@@ -50,10 +69,22 @@ class UserDataTable extends DataTable
             $userID       = CryptUtils::enc($row->user_id);
             $linkEdit     = route('users-edit', ['id' => $userID]);
             $linkChangeStatus   = route('users-change-status', ['id' => $userID]);
+
+            $btnEdit   = "";
+            $btnDelete = "";
+
+            $path  = $this->request->path();
+            if (PermissionCheckUtils::execute($path.'.update')) {
+                $btnEdit = '<a href="'.$linkEdit.'" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent hover:bg-slate-200 hover:rounded-lg p-3 focus:outline-none disabled:opacity-50 disabled:pointer-events-none text-green-600 hover:text-green-800 focus:text-green-800">Edit</a>';
+            }
+
+            if (PermissionCheckUtils::execute($path.'.delete')) {
+                $btnDelete = '<a href="'.$linkChangeStatus.'" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent hover:bg-slate-200 hover:rounded-lg p-3 focus:outline-none disabled:opacity-50 disabled:pointer-events-none text-blue-600 hover:text-blue-800 focus:text-green-800">Change Status</a>';
+            }
+
             return '
                 <div class="flex flex-row gap-2">
-                    <a href="'.$linkEdit.'" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent hover:bg-slate-200 hover:rounded-lg p-3 focus:outline-none disabled:opacity-50 disabled:pointer-events-none text-green-600 hover:text-green-800 focus:text-green-800">Edit</a>
-                    <a href="'.$linkChangeStatus.'" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent hover:bg-slate-200 hover:rounded-lg p-3 focus:outline-none disabled:opacity-50 disabled:pointer-events-none text-blue-600 hover:text-blue-800 focus:text-green-800">Change Status</a>
+                    '.$btnEdit.$btnDelete.'
                 </div>
             ';
         })
