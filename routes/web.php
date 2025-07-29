@@ -20,7 +20,7 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
     Route::prefix('login')->group(function () {
 
         Route::get('/', [AuthController::class, 'login'])->name('login');
-        Route::post('/', [AuthController::class, 'doLogin'])->name('logout');
+        Route::post('/', [AuthController::class, 'doLogin'])->name('login');
     });
 
     Route::prefix('change-password')->group(function () {
@@ -28,7 +28,7 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
         Route::post('/', [AuthController::class, 'doChangePassword'])->name('auth-change-password');
     });
 
-    Route::get('/logout', [AuthController::class, 'doLogout'])->name('login');
+    Route::get('/logout', [AuthController::class, 'doLogout'])->name('logout');
 
     Route::prefix('choose-role')->group(function () {
 
